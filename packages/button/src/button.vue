@@ -10,7 +10,7 @@
       <div v-if="lAnimation == 'loading'"></div>
       <div v-if="lAnimation == 'loading'"></div>
     </div>
-    <slot> </slot>
+    {{ val }}
   </button>
 </template>
 
@@ -19,6 +19,11 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "cd-button",
   props: {
+    //文字
+    val: {
+      type: String,
+      default: "按钮",
+    },
     //大小高
     size: {
       type: Number,
@@ -123,7 +128,8 @@ export default defineComponent({
 .cd-button {
   word-break: break-all;
   box-sizing: border-box;
-  margin: 0;
+  padding: 0px;
+  margin: 0px;
   padding-left: 10px;
   padding-right: 10px;
   width: v-bind(widthData + "px");

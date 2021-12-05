@@ -1,9 +1,11 @@
 import { App } from 'vue'
 import CdButton from './button'
 import CdBorder from './border'
+import CdIcon from './icon'
+import CdRow from './row'
 
 // 所有组件列表
-const components = [CdButton, CdBorder]
+const components = [CdButton, CdBorder, CdIcon, CdRow]
 
 // 定义 install 方法， App 作为参数
 const install = (app: App): void => {
@@ -13,7 +15,9 @@ const install = (app: App): void => {
 
 export {
     CdButton,
-    CdBorder
+    CdBorder,
+    CdIcon,
+    CdRow
 }
 
 export default {

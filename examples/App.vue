@@ -1,8 +1,14 @@
 <template>
-  <div>按钮组件</div>
-  <cd-button> 按钮</cd-button>
-  <div>边框</div>
-  <cd-border>边框 </cd-border>
+  <cd-button> </cd-button>
+  <cd-border> </cd-border>
+  <cd-icon name="icon-ce" :size="60">asdsa</cd-icon>
+  <hr />
+  <hr />
+  <hr />
+  <cd-row>
+    <div class="su">sadsa</div>
+    <div class="su">sadsa</div>
+  </cd-row>
 </template>
 
 <script lang="ts">
@@ -17,5 +23,8 @@ export default defineComponent({
 });
 </script>
 
-<style  scoped>
+<style >
+.su {
+  flex: 8;
+}
 </style>

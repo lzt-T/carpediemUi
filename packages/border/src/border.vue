@@ -45,6 +45,9 @@ export default {
 <style scoped>
 /* 第一种框 */
 .cd-border {
+  vertical-align: top;
+  margin: 0px;
+  padding: 0px;
   word-break: break-all;
   box-sizing: border-box;
   display: inline-block;
@@ -57,6 +60,9 @@ export default {
 }
 /* 第二种框 */
 .cd-border-one {
+  vertical-align: top;
+  margin: 0px;
+  padding: 0px;
   word-break: break-all;
   box-sizing: border-box;
   display: inline-block;
@@ -81,6 +87,9 @@ export default {
 
 /* 第三种 */
 .cd-border-two {
+  vertical-align: top;
+  margin: 0px;
+  padding: 0px;
   word-break: break-all;
   box-sizing: border-box;
   padding: v-bind(heightData/17 + "px");
@@ -136,6 +145,9 @@ export default {
 /* 第四种 */
 
 .cd-border-three {
+  vertical-align: top;
+  margin: 0px;
+  padding: 0px;
   word-break: break-all;
   box-sizing: border-box;
   display: inline-block;
@@ -178,6 +190,9 @@ export default {
 /* 第五种 */
 
 .cd-border-four {
+  vertical-align: top;
+  margin: 0px;
+  padding: 0px;
   word-break: break-all;
   box-sizing: border-box;
   display: inline-block;
