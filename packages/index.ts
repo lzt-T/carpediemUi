@@ -3,9 +3,10 @@ import CdButton from './button'
 import CdBorder from './border'
 import CdIcon from './icon'
 import CdRow from './row'
+import CdCol from './col'
 
 // 所有组件列表
-const components = [CdButton, CdBorder, CdIcon, CdRow]
+const components = [CdButton, CdBorder, CdIcon, CdRow, CdCol]
 
 // 定义 install 方法， App 作为参数
 const install = (app: App): void => {
@@ -17,7 +18,8 @@ export {
     CdButton,
     CdBorder,
     CdIcon,
-    CdRow
+    CdRow,
+    CdCol
 }
 
 export default {

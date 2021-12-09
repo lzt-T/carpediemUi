@@ -1,14 +1,15 @@
 <template>
   <cd-button> </cd-button>
   <cd-border> </cd-border>
-  <cd-icon name="icon-ce" :size="60">asdsa</cd-icon>
+
   <hr />
   <hr />
   <hr />
-  <cd-row>
-    <div class="su">sadsa</div>
-    <div class="su">sadsa</div>
-  </cd-row>
+  <div>
+    <cd-row>
+      <cd-col>qweqwe</cd-col>
+    </cd-row>
+  </div>
 </template>
 
 <script lang="ts">
@@ -24,7 +25,4 @@ export default defineComponent({
 </script>
 
 <style >
-.su {
-  flex: 8;
-}
 </style>

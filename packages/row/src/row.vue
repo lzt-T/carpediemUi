@@ -8,12 +8,57 @@
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "cd-row",
+  props: {
+    flexDirection: {
+      type: String,
+      default: "row",
+    },
+    gap: {
+      type: Number,
+      default: 0,
+    },
+    justify: {
+      type: String,
+      default: "flex-start",
+    },
+    align: {
+      type: String,
+      default: "flex-start",
+    },
+  },
+  setup(props) {
+    //主轴上的排列方式
+    let justifyData;
+    if (props.justify == "start") {
+      justifyData = "flex-start";
+    } else if (props.justify == "end") {
+      justifyData = "flex-end";
+    } else {
+      justifyData = props.justify;
+    }
+    //侧轴上的排列方式
+    let alignData;
+    if (props.align == "start") {
+      alignData = "flex-start";
+    } else if (props.align == "end") {
+      alignData = "flex-end";
+    } else {
+      alignData = props.align;
+    }
+    return {
+      justifyData,
+      alignData,
+    };
+  },
 });
 </script>
 
 <style scoped>
 .cd-row {
   display: flex;
-  background-color: aquamarine;
+  flex-direction: v-bind(flexDirection);
+  justify-content: v-bind(justifyData);
+  align-items: v-bind(alignData);
+  gap: v-bind(gap + "px");
 }
 </style>
