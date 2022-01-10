@@ -1,8 +1,8 @@
 <template>
   <cd-button val="asd"> </cd-button>
-  <!-- <cd-border> </cd-border>
-  <cd-border> </cd-border> -->
-  <cd-icon name="icon-ce" />
+  <cd-border> </cd-border>
+  <cd-border> </cd-border>
+
   <hr />
   <hr />
   <hr />
@@ -13,6 +13,8 @@
       <cd-col :span="8">qweqwe</cd-col>
     </cd-row>
   </div>
+  <hr />
+  <cd-icon name="icon-mute" />
 </template>
 
 <script lang="ts">
