@@ -32,11 +32,11 @@ export default defineComponent({
 <style scoped>
 @font-face {
   font-family: "cd"; /* Project id 2988922 */
-  src: url("//at.alicdn.com/t/font_2988922_bjsliiqkzuh.woff2?t=1638770412198")
+  src: url("//at.alicdn.com/t/font_2988922_6cyp0cmihen.woff2?t=1641788324916")
       format("woff2"),
-    url("//at.alicdn.com/t/font_2988922_bjsliiqkzuh.woff?t=1638770412198")
+    url("//at.alicdn.com/t/font_2988922_6cyp0cmihen.woff?t=1641788324916")
       format("woff"),
-    url("//at.alicdn.com/t/font_2988922_bjsliiqkzuh.ttf?t=1638770412198")
+    url("//at.alicdn.com/t/font_2988922_6cyp0cmihen.ttf?t=1641788324916")
       format("truetype");
 }
 
@@ -48,17 +48,7 @@ export default defineComponent({
 }
 
 .icon-ce:before {
-  content: "\e74a";
-  color: v-bind(color);
-  font-size: v-bind(size + "px");
-}
-.icon-c:before {
-  content: "\e6a1";
-  color: v-bind(color);
-  font-size: v-bind(size + "px");
-}
-.icon-ci:before {
-  content: "\e605";
+  content: "\e63d";
   color: v-bind(color);
   font-size: v-bind(size + "px");
 }

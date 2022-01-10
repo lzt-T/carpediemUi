@@ -1,3 +1,5 @@
+<!-- 边框   默认为行内块元素 -->
+<!-- 可以调节 高   宽   边框的款式-->
 <template>
   <div :class="borderStyle">
     <div v-if="borderStyle == 'cd-border-two'"></div>
@@ -28,7 +30,7 @@ export default {
     },
   },
   setup(props) {
-    console.log(props.borderStyle);
+    //调整边距用的
     let heightData = props.height;
     if (props.width > props.height) {
       heightData = props.height;
