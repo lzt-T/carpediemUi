@@ -21,7 +21,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    let type = `cd ${props.name}`;
+    let type = `cd icon-${props.name}`;
     return {
       type,
     };

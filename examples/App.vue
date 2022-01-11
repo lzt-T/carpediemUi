@@ -1,5 +1,6 @@
 <template>
-  <cd-button val="asd"> </cd-button>
+  <cd-button val="asd" :disabled="true"> </cd-button>
+  <cd-button val="asd" :disabled="false" :loading="true"> </cd-button>
   <cd-border> </cd-border>
   <cd-border> </cd-border>
 
@@ -14,7 +15,9 @@
     </cd-row>
   </div>
   <hr />
-  <cd-icon name="icon-mute" />
+  <cd-icon name="mute" />
+  <cd-link color="red" :disabled="true" :underline="true"> sda</cd-link>
+  <cd-link color="red" :disabled="false" :underline="false"> sda</cd-link>
 </template>
 
 <script lang="ts">

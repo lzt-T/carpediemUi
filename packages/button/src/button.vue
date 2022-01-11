@@ -1,5 +1,6 @@
 <template>
-  <button class="cd-button">
+  <!-- 只要处于禁用和加载状态的都不能触发点击事件-->
+  <button class="cd-button" :disabled="disabled || loading">
     <div :class="lAnimation" v-if="loading">
       <div></div>
       <div></div>
@@ -108,9 +109,14 @@ export default defineComponent({
       borderWidthData = 0;
       roundData = 0;
     }
-    //是否处于禁用状态
+    let opacityData = 1;
+    //是否处于禁用状态,只要处于在加载和禁止状态就都是0.75透明
     if (props.disabled == true) {
+      opacityData = 0.75;
       disabledData = "not-allowed";
+    }
+    if (props.loading == true) {
+      opacityData = 0.75;
     }
     return {
       roundData,
@@ -119,6 +125,7 @@ export default defineComponent({
       borderWidthData,
       widthData,
       disabledData,
+      opacityData,
     };
   },
 });
@@ -143,7 +150,7 @@ export default defineComponent({
   border-width: v-bind(borderWidthData + "px");
   border-radius: v-bind(roundData + "px");
   cursor: v-bind(disabledData);
-  opacity: v-bind("loading==false?1: 0.75");
+  opacity: v-bind(opacityData);
 }
 .cd-button:hover {
   opacity: 0.75;
