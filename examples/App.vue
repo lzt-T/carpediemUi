@@ -1,44 +1,127 @@
 <template>
-  <cd-button :disabled="true"
-    ><cd-icon name="fit" :size="10"></cd-icon> asdasdsa</cd-button
-  >
-  <cd-button val="asd" :disabled="false" :loading="true"> </cd-button>
-  <cd-border> </cd-border>
-  <cd-border> </cd-border>
+  <cd-button :disabled="false"
+    >阿
+    <cd-icon name="fit" :size="19"></cd-icon>
+  </cd-button>
 
-  <hr />
-  <hr />
-  <hr />
-  <div>
-    <cd-row :gap="50" textAlign="center">
-      <cd-col :span="4"> qweqwe</cd-col>
-      <cd-col :span="8">qweqwe</cd-col>
-      <cd-col :span="8">qweqwe</cd-col>
-    </cd-row>
-  </div>
-  <hr />
-  <cd-icon name="mute" />
-  <cd-icon name="fit"></cd-icon>
-  <cd-link color="red" :disabled="true" :underline="true"> sda</cd-link>
-  <cd-link color="red" :disabled="false" :underline="false"> sda</cd-link>
   <div class="su">
-    <cd-scrollbar @scroll="su">
-      <!-- <span v-for="(data, ind) in 20" :key="ind">{{ data }}</span> -->
-      <div v-for="(data, ind) in 20" :key="ind">{{ data }}</div>
-    </cd-scrollbar>
+    <cd-cascader
+      v-model="aa"
+      :option="data"
+      :size="200"
+      :showAllLevels="true"
+    ></cd-cascader>
+    <span>sad</span>
+  </div>
+
+  <span>asdasdasd</span>
+  <div>sadasdasd</div>
+  <div>sadasdasd</div>
+  <div>sadasdasd</div>
+  <div>sadasdasd</div>
+  <div>sadasdasd</div>
+  <div>sadasdasd</div>
+
+  <div class="su">
+    asdas
+    <cd-icon name="rightArrowTow" class="su1" :size="20"></cd-icon>
+  </div>
+
+  <div>
+    <span><div>asdasddasdasdsadasasdasasd</div></span>
+    <span>asda</span>
+    <span>asdsa</span>
   </div>
 </template>
 
 <script lang="ts">
-import { ref, onMounted, getCurrentInstance } from "vue";
+import { ref, onMounted, getCurrentInstance, watch, reactive } from "vue";
 export default {
   name: "App",
   setup() {
-    function su() {
-      console.log("asdasd");
-    }
+    let aa = ref();
+    let data = [
+      {
+        value: "爱上给大家看赶时间的",
+        children: [
+          {
+            value: "按数据的",
+          },
+          {
+            value: "aa2",
+            children: [
+              {
+                value: "aaa3",
+              },
+              {
+                value: "aaa4",
+                children: [
+                  {
+                    value: "aaa5",
+                  },
+                  {
+                    value: "aaa6",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        value: "bb",
+      },
+      {
+        value: "bb",
+      },
+      {
+        value: "bb",
+      },
+      {
+        value: "bb",
+      },
+      {
+        value: "bb",
+      },
+      {
+        value: "bb",
+      },
+      {
+        value: "bb",
+      },
+      {
+        value: "bb",
+      },
+      {
+        value: "bb",
+      },
+      {
+        value: "bb",
+      },
+      {
+        value: "bb",
+      },
+      {
+        value: "bb",
+      },
+      {
+        value: "bb",
+      },
+      {
+        value: "bb",
+      },
+    ];
+    watch(
+      aa,
+      (newval, oldval) => {
+        console.log(newval, oldval);
+      },
+      { immediate: true }
+    );
+
     return {
-      su,
+      aa,
+      data,
     };
   },
 };
@@ -46,7 +129,7 @@ export default {
 
 <style >
 .su {
-  width: 50px;
-  height: 280px;
+  position: relative;
+  font-size: 100px;
 }
 </style>

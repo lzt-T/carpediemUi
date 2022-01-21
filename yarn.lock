@@ -2518,6 +2518,17 @@
     "rollup-plugin-postcss" "^4.0.2"
     "vue" "^3.0.0"
 
+"carpediem-ui@^0.0.8":
+  "integrity" "sha512-9rb9HSBpv4BZWuf7UOi5VLIzsI+fsTv4kMlTXiOrLCai1P4nLWz2oyeNkX18KZYiXcfhGHAtjwr1+Us6xg2mzg=="
+  "resolved" "https://registry.npmjs.org/carpediem-ui/-/carpediem-ui-0.0.8.tgz"
+  "version" "0.0.8"
+  dependencies:
+    "babel-plugin-import" "^1.13.3"
+    "carpediem-ui" "^0.0.7"
+    "core-js" "^3.6.5"
+    "rollup-plugin-postcss" "^4.0.2"
+    "vue" "^3.0.0"
+
 "case-sensitive-paths-webpack-plugin@^2.3.0":
   "integrity" "sha1-22QGbGQi7tLgjMFLmGykN5bbxtQ="
   "resolved" "https://registry.nlark.com/case-sensitive-paths-webpack-plugin/download/case-sensitive-paths-webpack-plugin-2.4.0.tgz"

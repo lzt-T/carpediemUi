@@ -21,7 +21,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    let type = `cd icon-${props.name}`;
+    let type = "cd icon-" + props.name;
     return {
       type,
     };
@@ -30,6 +30,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
+/* 修改图标的样式 .su ::before { color: red !important;}    */
 @font-face {
   font-family: "cd"; /* Project id 2988922 */
   src: url("//at.alicdn.com/t/font_2988922_f6co8b1y7ki.woff2?t=1641806950215")
@@ -42,8 +43,12 @@ export default defineComponent({
 .cd {
   font-family: "cd" !important;
   font-style: normal;
+  font-size: v-bind(0 + "px");
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: transparent;
+  height: v-bind(size + "px");
+  width: v-bind(size + "px");
 }
 /* 适应箭头 */
 .icon-fit:before {
@@ -53,7 +58,7 @@ export default defineComponent({
 }
 /* 第一种上下左右箭头 */
 .icon-downArrow:before {
-  content: "\e63e;";
+  content: "\e63e";
   color: v-bind(color);
   font-size: v-bind(size + "px");
 }

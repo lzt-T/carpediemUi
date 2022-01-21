@@ -10,5 +10,7 @@ import NanditVue from '~/index'
 // import 'carpediem-ui/lib/index.css'
 
 const app = createApp(App)
+
 app.use(NanditVue)
+
 app.mount('#app')
