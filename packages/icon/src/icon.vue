@@ -29,7 +29,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style >
 /* 修改图标的样式 .su ::before { color: red !important;}    */
 @font-face {
   font-family: "cd"; /* Project id 2988922 */
