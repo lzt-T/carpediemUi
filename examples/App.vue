@@ -10,10 +10,20 @@
       label="ppasdasdasdasdsa"
       :size="40"
       :disabled="false"
-      :border="false"
-      :checked="false"
+      :border="true"
+      @onChange="su"
     >
     </cd-checkbox>
+
+    <cd-checkbox-group
+      v-model="bb"
+      :option="bb1"
+      @onChange="su"
+      :size="40"
+      :border="true"
+      :disabled="[false, true]"
+    >
+    </cd-checkbox-group>
   </div>
 </template>
 
@@ -23,12 +33,20 @@ export default {
   name: "App",
   setup() {
     let aa = ref(true);
-    watch(aa, (newval, oldval) => {
-      console.log("新的值", newval);
-    });
+    // watch(aa, (newval, oldval) => {
+    //   console.log("新的值", newval);
+    // });
+    function su(data: any) {
+      console.log(data);
+    }
 
+    let bb = ref(["a"]);
+    let bb1 = ref(["a", "b", "c"]);
     return {
       aa,
+      su,
+      bb,
+      bb1,
     };
   },
 };

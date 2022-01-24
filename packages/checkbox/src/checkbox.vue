@@ -32,15 +32,19 @@ import { computed, ref, watch } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "cd-checkbox",
-  emits: ["update:modelValue"],
+  emits: ["update:modelValue", "onChange"],
   props: {
     modelValue: {
       type: Boolean,
       default: false,
     },
+    index: {
+      type: Number,
+      default: 0,
+    },
     size: {
       type: Number,
-      default: 20,
+      default: 30,
     },
     label: {
       type: String,
@@ -50,10 +54,6 @@ export default defineComponent({
       default: false,
     },
     border: {
-      type: Boolean,
-      default: false,
-    },
-    checked: {
       type: Boolean,
       default: false,
     },
@@ -69,7 +69,6 @@ export default defineComponent({
     // 选中还是没有选中
     let checkData = ref();
     checkData.value = props.modelValue;
-    checkData.value = props.checked;
     // 设置图标的颜色
     let selectIconColor = ref();
     setSelectIconColor();
@@ -103,12 +102,15 @@ export default defineComponent({
         contextColor.value = "#C0C4CC";
       }
     }
-    // 设置选中还是不选中
+    // 设置选中还是不选中(点击字的时候)
     function setCheckData() {
       if (props.disabled == false) {
         checkData.value = !checkData.value;
         setContextColor();
       }
+    }
+    function onChange(data: any) {
+      context.emit("onChange", data);
     }
     // 防止双击选中
     function onSelectstart(event: any) {
@@ -117,10 +119,14 @@ export default defineComponent({
     function setModelValue(data: any) {
       context.emit("update:modelValue", data);
     }
+
+    //点击框的时候
     watch(
       checkData,
       (newval, oldval) => {
         setModelValue(newval);
+        setContextColor();
+        onChange({ value: checkData.value, index: props.index });
       },
       { immediate: true }
     );

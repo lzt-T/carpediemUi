@@ -8,9 +8,10 @@ import CdLink from './link'
 import CdScrollbar from './scrollbar'
 import CdCascader from './cascader'
 import CdCheckbox from './checkbox'
+import CdCheckboxGroup from './checkboxgroup'
 
 // 所有组件列表
-const components = [CdButton, CdBorder, CdIcon, CdRow, CdCol, CdLink, CdScrollbar, CdCascader, CdCheckbox]
+const components = [CdButton, CdBorder, CdIcon, CdRow, CdCol, CdLink, CdScrollbar, CdCascader, CdCheckbox, CdCheckboxGroup]
 
 // 定义 install 方法， App 作为参数
 const install = (app: App): void => {
@@ -27,7 +28,8 @@ export {
     CdLink,
     CdScrollbar,
     CdCascader,
-    CdCheckbox
+    CdCheckbox,
+    CdCheckboxGroup
 }
 
 export default {
