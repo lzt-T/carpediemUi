@@ -21,7 +21,8 @@
       @onChange="su"
       :size="40"
       :border="true"
-      :disabled="[false, true]"
+      :min="1"
+      :max="2"
     >
     </cd-checkbox-group>
   </div>
@@ -32,16 +33,19 @@ import { ref, onMounted, getCurrentInstance, watch, reactive } from "vue";
 export default {
   name: "App",
   setup() {
-    let aa = ref(true);
-    // watch(aa, (newval, oldval) => {
-    //   console.log("新的值", newval);
-    // });
+    let aa = ref(false);
+    watch(aa, (newval, oldval) => {
+      console.log("新的值", newval);
+    });
     function su(data: any) {
       console.log(data);
     }
 
-    let bb = ref(["a"]);
+    let bb = ref(["b"]);
     let bb1 = ref(["a", "b", "c"]);
+    watch(bb, (newval, oldval) => {
+      console.log(newval);
+    });
     return {
       aa,
       su,

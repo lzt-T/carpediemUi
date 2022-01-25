@@ -38,10 +38,6 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    index: {
-      type: Number,
-      default: 0,
-    },
     size: {
       type: Number,
       default: 30,
@@ -71,7 +67,6 @@ export default defineComponent({
     checkData.value = props.modelValue;
     // 设置图标的颜色
     let selectIconColor = ref();
-    setSelectIconColor();
     function setSelectIconColor() {
       if (props.disabled) {
         selectIconColor.value = "#cdd2d8";
@@ -81,7 +76,6 @@ export default defineComponent({
     }
     // 设置图标的背景颜色
     let selectIconBackground = ref();
-    setSelectIconBackground();
     function setSelectIconBackground() {
       if (props.disabled) {
         selectIconBackground.value = "#edf2fc";
@@ -91,7 +85,6 @@ export default defineComponent({
     }
     // 设置字体内容的颜色
     let contextColor = ref("");
-    setContextColor();
     function setContextColor() {
       if (checkData.value == true) {
         contextColor.value = "#409eff";
@@ -120,13 +113,24 @@ export default defineComponent({
       context.emit("update:modelValue", data);
     }
 
+    watch(
+      () => {
+        return props.disabled;
+      },
+      (newval, oldval) => {
+        setSelectIconColor();
+        setSelectIconBackground();
+        setContextColor();
+      },
+      { immediate: true }
+    );
     //点击框的时候
     watch(
       checkData,
       (newval, oldval) => {
         setModelValue(newval);
         setContextColor();
-        onChange({ value: checkData.value, index: props.index });
+        onChange(checkData.value);
       },
       { immediate: true }
     );
@@ -148,7 +152,7 @@ export default defineComponent({
   box-sizing: border-box;
   display: inline-block;
   padding: v-bind(sizeData/10 + "px");
-  cursor: pointer;
+  cursor: v-bind("disabled==true?'not-allowed':'pointer'");
 }
 .cd-checkbox-frame-border {
   border: 1px solid #c0c4cc;
@@ -167,11 +171,13 @@ export default defineComponent({
   border-radius: 2px;
   vertical-align: middle;
   padding: 0;
+  cursor: v-bind("disabled==true?'not-allowed':'pointer'");
 }
 .cd-checkbox-background-color {
   background-color: #edf2fc;
 }
 .cd-checkbox:checked::before {
+  cursor: v-bind("disabled==true?'not-allowed':'pointer'");
   -webkit-appearance: none;
   box-sizing: border-box;
   position: absolute;
