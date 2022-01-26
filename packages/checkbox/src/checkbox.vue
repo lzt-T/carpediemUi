@@ -40,7 +40,7 @@ export default defineComponent({
     },
     size: {
       type: Number,
-      default: 30,
+      default: 50,
     },
     label: {
       type: String,
@@ -57,11 +57,12 @@ export default defineComponent({
   setup(props, context) {
     //   设置大小
     let sizeData = ref();
-    if (props.size <= 30) {
-      sizeData.value = 30;
+    if (props.size <= 50) {
+      sizeData.value = 50;
     } else {
       sizeData.value = props.size;
     }
+
     // 选中还是没有选中
     let checkData = ref();
     checkData.value = props.modelValue;
@@ -149,10 +150,13 @@ export default defineComponent({
 
 <style scoped>
 .cd-checkbox-frame {
+  height: v-bind(sizeData / 2+ "px");
+  line-height: v-bind(sizeData / 2+ "px");
   box-sizing: border-box;
   display: inline-block;
-  padding: v-bind(sizeData/10 + "px");
   cursor: v-bind("disabled==true?'not-allowed':'pointer'");
+  padding-left: 5px;
+  padding-right: 5px;
 }
 .cd-checkbox-frame-border {
   border: 1px solid #c0c4cc;
@@ -165,13 +169,13 @@ export default defineComponent({
 .cd-checkbox {
   -webkit-appearance: none;
   box-sizing: border-box;
-  height: v-bind(sizeData/2.7 + "px");
-  width: v-bind(sizeData/2.7 + "px");
+  height: v-bind(sizeData/3 + "px");
+  width: v-bind(sizeData/3 + "px");
+  margin: 0px;
   border: 1px solid #c0c4cc;
   border-radius: 2px;
-  vertical-align: middle;
-  padding: 0;
   cursor: v-bind("disabled==true?'not-allowed':'pointer'");
+  margin-top: v-bind(sizeData/2.1/2-sizeData/3/2 + "px");
 }
 .cd-checkbox-background-color {
   background-color: #edf2fc;
@@ -184,17 +188,21 @@ export default defineComponent({
   content: "\e657";
   background-color: v-bind(selectIconBackground);
   border-radius: 2px;
-  height: v-bind(sizeData/2.7 + "px");
-  width: v-bind(sizeData/2.7 + "px");
-  line-height: v-bind(sizeData/2.7 + "px");
+  height: v-bind(sizeData/3 + "px");
+  width: v-bind(sizeData/3 + "px");
   text-align: center;
-  font-size: v-bind(sizeData/2.7 + "px");
+  font-size: v-bind(sizeData/3 + "px");
   color: v-bind(selectIconColor);
 }
 .cd-checkbox-context {
-  padding-left: 2px;
-  font-size: v-bind(sizeData/2.5 + "px");
-  line-height: v-bind(sizeData/2.5 + "px");
+  box-sizing: border-box;
+  display: inline-block;
+  height: v-bind(sizeData/3 + "px");
+  margin-top: v-bind(sizeData/2.1/2-sizeData/3/2 + "px");
+  padding-left: 3px;
+  font-size: v-bind(sizeData/3 + "px");
+  line-height: v-bind(sizeData/3 + "px");
+  vertical-align: top;
   color: v-bind(contextColor);
 }
 </style>

@@ -2,8 +2,8 @@
 <template>
   <div v-focus="{ isFocus }" @click.stop="setIsFocus" class="cd-cascader-frame">
     <input
+      type="text"
       class="cd-cascader"
-      :value="modelValue"
       :placeholder="placeholder"
       ref="info"
       disabled
@@ -38,14 +38,11 @@ export default defineComponent({
     cdIcon,
     selectBox,
   },
-  emits: ["update:modelValue"],
+  emits: ["update:modelValue", "onChange"],
   directives: {
     focus,
   },
   props: {
-    modelValue: {
-      type: String,
-    },
     placeholder: {
       type: String,
       default: "请选择",
@@ -98,6 +95,7 @@ export default defineComponent({
       }
     });
     function setInputValue(data: any) {
+      context.emit("onChange", data);
       context.emit("update:modelValue", data);
     }
     return {
@@ -115,10 +113,11 @@ export default defineComponent({
 .cd-cascader-frame {
   /* 锁定字的大小避免修改font-xize带来的影响 */
   position: relative;
-  font-size: v-bind(17+"px");
   display: inline-block;
   width: v-bind(size + "px");
   height: v-bind(size/6.8 + "px");
+  font-size: v-bind(sizeData/6.8 + "px");
+  line-height: v-bind(sizeData/6.8 + "px");
   border-radius: 5px;
   min-width: 150px;
   min-height: 22px;
@@ -135,7 +134,7 @@ export default defineComponent({
   min-height: 22px;
   border-radius: 5px;
   padding-left: 10px;
-  padding-right: v-bind(sizeData/12 + "px");
+  padding-right: v-bind(sizeData/10 + "px");
   border: 1.5px solid #dde0e7;
   box-sizing: border-box;
   font-size: v-bind(sizeData/15 + "px");
@@ -149,16 +148,17 @@ export default defineComponent({
 }
 .cd-cascader-icon {
   position: absolute;
-  top: v-bind(size/13.6-size/30 + "px");
   right: 4%;
 }
 /* 上拉和下拉的动画 */
 .cd-cascader-icon-down {
   transform: rotate(180deg);
+  transform-origin: 50% 100%;
   animation: down 0.3s ease-out;
 }
 .cd-cascader-icon-up {
   transform: rotate(0deg);
+  transform-origin: 50% 100%;
   animation: up 0.3s ease-out;
 }
 

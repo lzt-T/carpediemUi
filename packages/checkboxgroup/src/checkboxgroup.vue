@@ -1,6 +1,10 @@
 <template>
   <span class="cd-checkbox-group">
     <cd-checkbox
+      :class="{
+        'cd-checkboxgroup-checkbox': true,
+        'cd-checkboxgroup-checkbox-first': ind == 0,
+      }"
       v-for="(data, ind) in option"
       :key="data"
       v-model="isTrue[ind]"
@@ -27,11 +31,11 @@ export default defineComponent({
     },
     option: {
       type: Array,
-      default: [],
+      required: true,
     },
     size: {
       type: Number,
-      default: 30,
+      default: 50,
     },
     border: {
       type: Boolean,
@@ -45,6 +49,10 @@ export default defineComponent({
     },
     max: {
       type: Number,
+    },
+    marginLeft: {
+      type: Number,
+      default: 15,
     },
   },
   setup(props, context) {
@@ -82,8 +90,8 @@ export default defineComponent({
 
     // 设置大小
     let sizeData = ref();
-    if (props.size <= 30) {
-      sizeData.value = 30;
+    if (props.size <= 50) {
+      sizeData.value = 50;
     } else {
       sizeData.value = props.size;
     }
@@ -175,6 +183,16 @@ export default defineComponent({
 
 <style scoped>
 .cd-checkbox-group {
+  box-sizing: border-box;
   display: inline-block;
+  margin: 0;
+  height: v-bind(sizeData / 2+ "px");
+  line-height: v-bind(sizeData / 2+ "px");
+}
+.cd-checkboxgroup-checkbox {
+  margin-left: v-bind(marginLeft + "px");
+}
+.cd-checkboxgroup-checkbox-first {
+  margin-left: 0px;
 }
 </style>
