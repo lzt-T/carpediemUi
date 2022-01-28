@@ -1,6 +1,6 @@
 {
   "name": "carpediem-ui",
-  "version": "0.0.8",
+  "version": "0.0.10",
   "private": false,
   "description": "基于vue3前端组件库",
   "main": "lib/index.umd.min.js",
@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "babel-plugin-import": "^1.13.3",
-    "carpediem-ui": "^0.0.8",
+    "carpediem-ui": "^0.0.10",
     "core-js": "^3.6.5",
     "rollup-plugin-postcss": "^4.0.2",
     "vue": "^3.0.0"

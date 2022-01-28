@@ -2472,6 +2472,17 @@
   "resolved" "https://registry.npmmirror.com/caniuse-lite/download/caniuse-lite-1.0.30001267.tgz"
   "version" "1.0.30001267"
 
+"carpediem-ui@^0.0.10":
+  "integrity" "sha512-DSf4SxpBJ1nVStTnuGMrVvv8kENi5Y2Oqkh43wlLaJ8f/B169ucDNy4y/fS/JsXY+Vfgls0IsWq3MDhWWWpdDA=="
+  "resolved" "https://registry.npmjs.org/carpediem-ui/-/carpediem-ui-0.0.10.tgz"
+  "version" "0.0.10"
+  dependencies:
+    "babel-plugin-import" "^1.13.3"
+    "carpediem-ui" "^0.0.9"
+    "core-js" "^3.6.5"
+    "rollup-plugin-postcss" "^4.0.2"
+    "vue" "^3.0.0"
+
 "carpediem-ui@^0.0.3":
   "integrity" "sha512-Rsz9cOGKidXD7OotiTMNiVzH5rgfTNZE9VDgviBTTFn1AUisAxQMFQjJwWd34XUw2HHdLLR55yB5g7ZmzgbKOQ=="
   "resolved" "https://registry.npmjs.org/carpediem-ui/-/carpediem-ui-0.0.3.tgz"
@@ -2525,6 +2536,17 @@
   dependencies:
     "babel-plugin-import" "^1.13.3"
     "carpediem-ui" "^0.0.7"
+    "core-js" "^3.6.5"
+    "rollup-plugin-postcss" "^4.0.2"
+    "vue" "^3.0.0"
+
+"carpediem-ui@^0.0.9":
+  "integrity" "sha512-8tC0quRoQlTiLE3Ig6VGp6JQcItjcTpFpTkYXKF1rP+YYPSLExKQs6PxT1b0eYKQJvAACzDSM8JMyK97cbZbVA=="
+  "resolved" "https://registry.npmjs.org/carpediem-ui/-/carpediem-ui-0.0.9.tgz"
+  "version" "0.0.9"
+  dependencies:
+    "babel-plugin-import" "^1.13.3"
+    "carpediem-ui" "^0.0.8"
     "core-js" "^3.6.5"
     "rollup-plugin-postcss" "^4.0.2"
     "vue" "^3.0.0"

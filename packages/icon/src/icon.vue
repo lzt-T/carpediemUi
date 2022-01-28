@@ -33,11 +33,11 @@ export default defineComponent({
 /* 修改图标的样式 .su ::before { color: red !important;}    */
 @font-face {
   font-family: "cd"; /* Project id 2988922 */
-  src: url("//at.alicdn.com/t/font_2988922_f6co8b1y7ki.woff2?t=1641806950215")
+  src: url("//at.alicdn.com/t/font_2988922_r1qt1i9lji.woff2?t=1643190862161")
       format("woff2"),
-    url("//at.alicdn.com/t/font_2988922_f6co8b1y7ki.woff?t=1641806950215")
+    url("//at.alicdn.com/t/font_2988922_r1qt1i9lji.woff?t=1643190862161")
       format("woff"),
-    url("//at.alicdn.com/t/font_2988922_f6co8b1y7ki.ttf?t=1641806950215")
+    url("//at.alicdn.com/t/font_2988922_r1qt1i9lji.ttf?t=1643190862161")
       format("truetype");
 }
 .cd {
@@ -795,6 +795,12 @@ export default defineComponent({
 /* 地图 */
 .icon-map:before {
   content: "\e63e";
+  color: v-bind(color);
+  font-size: v-bind(size + "px");
+}
+/* 日历 */
+.icon-calendar:before {
+  content: "\e67c";
   color: v-bind(color);
   font-size: v-bind(size + "px");
 }
