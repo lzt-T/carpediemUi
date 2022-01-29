@@ -1,6 +1,5 @@
 <template>
   <div class="su">
-    <cd-button></cd-button>
     <cd-date-picker v-model="data" :height="32" :width="240"></cd-date-picker>
   </div>
 </template>

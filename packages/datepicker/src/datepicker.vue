@@ -16,7 +16,7 @@
       @focus="onFocus"
       @blur="onBlur"
     />
-    <calendar :height="heightData" :width="widthData"></calendar>
+    <calendar :height="heightData" :width="widthData" :type="type"></calendar>
   </span>
 </template>
 
@@ -38,6 +38,10 @@ export default defineComponent({
     width: {
       type: Number,
       default: 220,
+    },
+    type: {
+      type: String,
+      default: "day",
     },
   },
   setup(props, context) {
