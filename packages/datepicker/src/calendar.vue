@@ -1,7 +1,13 @@
 <template>
   <div :class="{ 'cd-calendar-frame-day': type == 'day' }">
-    <div v-if="type == 'day'">
-      <span class="cd cd-calendar-icon"></span>
+    <span class="cd cd-calendar-icon"></span>
+    <div
+      v-if="type == 'day'"
+      :class="{
+        'cd-calendar-popup': isShow,
+        'cd-calendar-pickup': isShow == false,
+      }"
+    >
       <div :class="{ 'cd-calendar-tag': true }">
         <span class="last-year cd" @click="changeYear(-1)"></span>
         <span
@@ -34,6 +40,8 @@
           v-for="data in lastMonthDays"
           :key="data"
           class="cd-calendar-dayWord cd-calendar-lastmonth"
+          @click="selectLastMonth(data)"
+          @selectstart="onSelectstart($event)"
           >{{ data }}</span
         >
         <span
@@ -41,18 +49,25 @@
           :key="data"
           :class="{
             'cd-calendar-dayWord': true,
-            'cd-calendar-currentmonth': true,
+            'cd-calendar-currentmonth':
+              yearData != selectDate[0] ||
+              monthData != selectDate[1] ||
+              data != dayData,
             'cd-calendar-select':
               yearData == selectDate[0] &&
               monthData == selectDate[1] &&
               data == dayData,
           }"
+          @click="selectCurrentDay(data)"
+          @selectstart="onSelectstart($event)"
           >{{ data }}</span
         >
         <span
           v-for="data in nextMonthDays"
           :key="data"
           class="cd-calendar-dayWord cd-calendar-nextmonth"
+          @click="selectNextMonth(data)"
+          @selectstart="onSelectstart($event)"
           >{{ data }}</span
         >
       </div>
@@ -61,8 +76,10 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, watch } from "vue";
+import { emit } from "process";
 export default {
+  emits: ["onSelectDate"],
   props: {
     height: {
       type: Number,
@@ -73,6 +90,21 @@ export default {
     type: {
       type: String,
       default: "day",
+    },
+    year: {
+      type: Number,
+    },
+    month: {
+      type: Number,
+    },
+    day: {
+      type: Number,
+    },
+    isChange: {
+      type: Boolean,
+    },
+    isShow: {
+      type: Boolean,
     },
   },
   setup(props, context) {
@@ -95,7 +127,8 @@ export default {
     let yearData = ref();
     let monthData = ref();
     let dayData = ref();
-    getCurrentDate();
+
+    // 获取当前日期
     function getCurrentDate() {
       let currentDate = new Date();
       yearData.value = currentDate.getFullYear();
@@ -103,11 +136,9 @@ export default {
       dayData.value = currentDate.getDate();
       selectDate.value.push(yearData.value, monthData.value);
     }
-    console.log(selectDate.value);
     function changeYear(num) {
       yearData.value += num;
       getCalendar();
-      dayData.value = undefined;
     }
     function changeMonth(num) {
       if (monthData.value + num > 12) {
@@ -120,7 +151,6 @@ export default {
         monthData.value += num;
       }
       getCalendar();
-      dayData.value = undefined;
     }
     function changeData(num) {
       dayData.value = num;
@@ -129,7 +159,7 @@ export default {
     let lastMonthDays = ref([]);
     let currentMonthhDays = ref([]);
     let nextMonthDays = ref([]);
-    getCalendar();
+    // 得到当前日历的界面数据
     function getCalendar() {
       lastMonthDays.value.length = 0;
       currentMonthhDays.value.length = 0;
@@ -165,7 +195,7 @@ export default {
       ) {
         lastMonthDays.value.unshift(i);
       }
-      // console.log(lastMonthDays.value);
+
       for (
         let i = 1;
         i <= (nextmonth - currentmonth) / (1000 * 60 * 60 * 24);
@@ -173,7 +203,7 @@ export default {
       ) {
         currentMonthhDays.value.push(i);
       }
-      // console.log(currentMonthhDays.value);
+
       for (
         let i = lastMonthDays.value.length + currentMonthhDays.value.length,
           j = 1;
@@ -182,7 +212,67 @@ export default {
       ) {
         nextMonthDays.value.push(j);
       }
-      // console.log(nextMonthDays.value);
+    }
+    watch(
+      () => props.isChange,
+      (newval, oldval) => {
+        if (newval == true && isNaN(props.year) != true) {
+          yearData.value = props.year;
+          monthData.value = props.month;
+          dayData.value = props.day;
+          selectDate.value = [yearData.value, monthData.value];
+          getCalendar();
+        } else if (newval == false && isNaN(props.year)) {
+          getCurrentDate();
+          getCalendar();
+        }
+      },
+      { immediate: true }
+    );
+    // 改变输入框中的字
+    function onSelectDate() {
+      context.emit("onSelectDate", {
+        year: yearData.value,
+        month: monthData.value,
+        day: dayData.value,
+      });
+    }
+    // 点击上一个月的日期
+    function selectLastMonth(data) {
+      if (monthData.value == 1) {
+        yearData.value -= 1;
+        monthData.value = 12;
+        dayData.value = data;
+        selectDate.value = [yearData.value, monthData.value];
+      } else {
+        monthData.value -= 1;
+        dayData.value = data;
+        selectDate.value = [yearData.value, monthData.value];
+      }
+      onSelectDate();
+      getCalendar();
+    }
+    function selectCurrentDay(data) {
+      dayData.value = data;
+      selectDate.value = [yearData.value, monthData.value];
+      onSelectDate();
+    }
+    function selectNextMonth(data) {
+      if (monthData.value == 12) {
+        yearData.value += 1;
+        monthData.value = 1;
+        dayData.value = data;
+        selectDate.value = [yearData.value, monthData.value];
+      } else {
+        monthData.value += 1;
+        dayData.value = data;
+        selectDate.value = [yearData.value, monthData.value];
+      }
+      getCalendar();
+      onSelectDate();
+    }
+    function onSelectstart(e) {
+      e.preventDefault();
     }
     return {
       yearData,
@@ -197,6 +287,10 @@ export default {
       currentMonthhDays,
       nextMonthDays,
       selectDate,
+      selectLastMonth,
+      selectCurrentDay,
+      selectNextMonth,
+      onSelectstart,
     };
   },
 };
@@ -207,7 +301,6 @@ export default {
   position: absolute;
   top: v-bind(height + 10 + "px");
   z-index: 1;
-  /* height: 200px; */
   width: 320px;
   border-radius: 5px;
   box-shadow: 0px 0px 12px 2px rgba(0, 0, 0, 0.1);
@@ -216,6 +309,31 @@ export default {
   position: absolute;
   top: -19px;
   left: 20px;
+}
+.cd-calendar-popup {
+  overflow: hidden;
+  animation: popup 0.3s linear;
+}
+@keyframes popup {
+  0% {
+    height: 0px;
+  }
+  100% {
+    height: 322px;
+  }
+}
+
+.cd-calendar-pickup {
+  overflow: hidden;
+  animation: pickup 0.3s linear;
+}
+@keyframes pickup {
+  0% {
+    height: 322px;
+  }
+  100% {
+    height: 0px;
+  }
 }
 .cd-calendar-icon::before {
   content: "\e637";

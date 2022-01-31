@@ -13,10 +13,23 @@
         'cd-datepicker-input-focusborder-err': isDateTrue == false,
       }"
       placeholder="请选择"
+      @click.stop=""
       @focus="onFocus"
       @blur="onBlur"
     />
-    <calendar :height="heightData" :width="widthData" :type="type"></calendar>
+    <calendar
+      :height="heightData"
+      :width="widthData"
+      :type="type"
+      :year="Number(yearData)"
+      :month="Number(monthData)"
+      :day="Number(dayData)"
+      :isChange="isChange"
+      :isShow="isShow"
+      v-show="isShowCopy"
+      @click.stop=""
+      @onSelectDate="onSelectDate"
+    ></calendar>
   </span>
 </template>
 
@@ -64,21 +77,29 @@ export default defineComponent({
 
     function onFocus() {
       isFocus.value = true;
+      isShow.value = true;
+      isShowCopy.value = true;
       window.addEventListener("keydown", pressBlank);
     }
     function onBlur() {
       isFocus.value = false;
       window.removeEventListener("keydown", pressBlank);
+      if (dateData.value == "" || dateData.value == undefined) {
+        isDateTrue.value = true;
+      }
     }
     function setModelValue() {
       context.emit("update:modelValue", dateData.value);
     }
+    let isShow = ref(false);
+    let isShowCopy = ref(false);
+    let isChange = ref(false);
     let dateData = ref();
     let isDateTrue = ref();
-    let yearData = ref();
-    let monthData = ref();
-    let dayData = ref();
-    // 判断日期的正确
+    let yearData = ref(undefined);
+    let monthData = ref(undefined);
+    let dayData = ref(undefined);
+    // 手动输入日期，并判断正确，再设置日期
     function pressBlank(e: any) {
       if (e.keyCode == 13) {
         let pattern =
@@ -89,16 +110,47 @@ export default defineComponent({
           monthData.value = dateDataArray[1];
           dayData.value = dateDataArray[2];
           isDateTrue.value = true;
+          isChange.value = true;
+          setTimeout(() => {
+            isChange.value = false;
+          }, 1);
+          isShow.value = false;
+          setTimeout(() => {
+            isShowCopy.value = false;
+          }, 280);
           setModelValue();
           info.value.blur();
         } else {
-          isDateTrue.value = false;
+          if (dateData.value == undefined || dateData.value == "") {
+            isShow.value = false;
+            setTimeout(() => {
+              isShowCopy.value = false;
+            }, 280);
+            info.value.blur();
+          } else {
+            isDateTrue.value = false;
+          }
         }
       }
     }
-
-    watch(dateData, (newval: any, oldval: any) => {});
-
+    window.addEventListener("click", (e) => {
+      e.stopPropagation();
+      isShow.value = false;
+      setTimeout(() => {
+        isShowCopy.value = false;
+      }, 280);
+    });
+    function onSelectDate(data: any) {
+      dateData.value = data.year + "-" + data.month + "-" + data.day;
+      yearData.value = data.year;
+      monthData.value = data.month;
+      dayData.value = data.day;
+      setModelValue();
+      isShow.value = false;
+      setTimeout(() => {
+        isShowCopy.value = false;
+      }, 280);
+    }
     return {
       heightData,
       widthData,
@@ -108,6 +160,13 @@ export default defineComponent({
       dateData,
       info,
       isDateTrue,
+      yearData,
+      monthData,
+      dayData,
+      isChange,
+      isShow,
+      isShowCopy,
+      onSelectDate,
     };
   },
 });
@@ -149,6 +208,9 @@ export default defineComponent({
 }
 .cd-datepicker-input-focusborder-err {
   border: 0.1px solid #ff4949;
+}
+.cd-datepicker-input-focusborder-err:hover {
+  border: 0.1px solid red;
 }
 .cd-datepicker-icon::before {
   margin: 5px;

@@ -25,9 +25,9 @@ export default {
 </script>
 
 <style >
-/* .su {
+.su {
   height: 300px;
   font-size: 300x;
   line-height: 300px;
-} */
+}
 </style>
