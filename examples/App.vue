@@ -1,6 +1,12 @@
 <template>
   <div class="su">
     <cd-date-picker v-model="data" :height="32" :width="240"></cd-date-picker>
+    <cd-date-picker
+      v-model="data"
+      :height="32"
+      :width="220"
+      type="daterange"
+    ></cd-date-picker>
   </div>
 </template>
 

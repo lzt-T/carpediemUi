@@ -1,8 +1,7 @@
 <template>
-  <div :class="{ 'cd-calendar-frame-day': type == 'day' }">
+  <div :class="{ 'cd-calendar-frame-day': true }">
     <span class="cd cd-calendar-icon"></span>
     <div
-      v-if="type == 'day'"
       :class="{
         'cd-calendar-popup': isShow,
         'cd-calendar-pickup': isShow == false,
@@ -105,6 +104,9 @@ export default {
     },
     isShow: {
       type: Boolean,
+    },
+    stage: {
+      type: String,
     },
   },
   setup(props, context) {
@@ -216,13 +218,13 @@ export default {
     watch(
       () => props.isChange,
       (newval, oldval) => {
-        if (newval == true && isNaN(props.year) != true) {
+        if (newval == true && props.year != 0) {
           yearData.value = props.year;
           monthData.value = props.month;
           dayData.value = props.day;
           selectDate.value = [yearData.value, monthData.value];
           getCalendar();
-        } else if (newval == false && isNaN(props.year)) {
+        } else if (newval == false && props.year == 0) {
           getCurrentDate();
           getCalendar();
         }
