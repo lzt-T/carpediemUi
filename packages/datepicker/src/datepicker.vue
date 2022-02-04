@@ -18,7 +18,7 @@
         cd: true,
         'cd-datepicker-input': true,
       }"
-      placeholder="请选择"
+      :placeholder="placeholder"
       @click.stop=""
       @focus="onFocus('middle')"
       @blur="onBlur"
@@ -35,7 +35,7 @@
           cd: true,
           'cd-datepicker-start': true,
         }"
-        placeholder="Start date"
+        :placeholder="startPlaceholder"
         @click.stop=""
         @focus="onFocus('start')"
         @blur="onBlur"
@@ -49,7 +49,7 @@
           cd: true,
           'cd-datepicker-end': true,
         }"
-        placeholder="End date"
+        :placeholder="endPlaceholder"
         @click.stop=""
         @focus="onFocus('end')"
         @blur="onBlur"
@@ -95,6 +95,18 @@ export default defineComponent({
     type: {
       type: String,
       default: "day",
+    },
+    placeholder: {
+      type: String,
+      default: "Pick a day",
+    },
+    startPlaceholder: {
+      type: String,
+      default: "Start date",
+    },
+    endPlaceholder: {
+      type: String,
+      default: "End date",
     },
   },
   setup(props, context) {

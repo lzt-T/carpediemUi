@@ -4,7 +4,7 @@
     <cd-date-picker
       v-model="data"
       :height="32"
-      :width="220"
+      :width="100"
       type="daterange"
     ></cd-date-picker>
   </div>
