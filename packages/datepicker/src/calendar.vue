@@ -71,6 +71,7 @@
         >
       </div>
     </div>
+    <div class="cd-calendar-time"></div>
   </div>
 </template>
 
@@ -136,7 +137,7 @@ export default {
       yearData.value = currentDate.getFullYear();
       monthData.value = currentDate.getMonth() + 1;
       dayData.value = currentDate.getDate();
-      selectDate.value.push(yearData.value, monthData.value);
+      selectDate.value = [yearData.value, monthData.value];
     }
     function changeYear(num) {
       yearData.value += num;
@@ -440,5 +441,8 @@ export default {
 }
 .cd-calendar-nextmonth {
   color: #c2c7ce;
+}
+.cd-calendar-time {
+  background-color: aqua;
 }
 </style>

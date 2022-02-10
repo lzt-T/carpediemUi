@@ -21,7 +21,7 @@
       :placeholder="placeholder"
       @click.stop=""
       @focus="onFocus('middle')"
-      @blur="onBlur"
+      @blur="onBlur('middle')"
     />
     <div
       v-if="type == 'daterange'"
@@ -38,7 +38,7 @@
         :placeholder="startPlaceholder"
         @click.stop=""
         @focus="onFocus('start')"
-        @blur="onBlur"
+        @blur="onBlur('start')"
       />
       <div class="cd-datepicker-start-to">to</div>
       <input
@@ -52,7 +52,7 @@
         :placeholder="endPlaceholder"
         @click.stop=""
         @focus="onFocus('end')"
-        @blur="onBlur"
+        @blur="onBlur('end')"
       />
     </div>
     <calendar
@@ -158,7 +158,7 @@ export default defineComponent({
       window.addEventListener("keydown", pressBlank);
     }
     //输入结束时
-    function onBlur() {
+    function onBlur(stageData: string) {
       isFocus.value = false;
       window.removeEventListener("keydown", pressBlank);
       if (dateData.value == "" && stage.value == "middle") {
@@ -169,6 +169,62 @@ export default defineComponent({
       }
       if (endDate.value == "" && stage.value == "end") {
         isEndtDate.value = true;
+      }
+
+      if (
+        (endDate.value != "" && stageData == "end") ||
+        (dateData.value != "" && stageData == "middle") ||
+        (startDate.value != "" && stageData == "start")
+      ) {
+        onBourcheck(stageData);
+      }
+    }
+    function onBourcheck(stageData: string) {
+      let checkData = [];
+      if (stageData == "middle") {
+        checkData = checkDate(dateData.value);
+      } else if (stageData == "start") {
+        checkData = checkDate(startDate.value);
+      } else if (stageData == "end") {
+        checkData = checkDate(endDate.value);
+      }
+      if (checkData[0]) {
+        yearData.value = checkData[1][0];
+        monthData.value = checkData[1][1];
+        dayData.value = checkData[1][2];
+        if (stageData == "middle") {
+          isDateTrue.value = true;
+        } else if (stageData == "start") {
+          isStartDate.value = true;
+        } else if (stageData == "end") {
+          isEndtDate.value = true;
+        }
+        isChange.value = true;
+        setTimeout(() => {
+          isChange.value = false;
+        }, 1);
+        if (startDate.value != "" && endDate.value != "") {
+          let startTimeMs = +new Date(startDate.value);
+          let endTimeMs = +new Date(endDate.value);
+          if (startTimeMs > endTimeMs) {
+            [startDate.value, endDate.value] = [endDate.value, startDate.value];
+          }
+        }
+        if (stage.value == "middle") {
+          setModelValue();
+        } else {
+          if (isStartDate.value == true && isEndtDate.value == true) {
+            setModelValue();
+          }
+        }
+      } else {
+        if (stageData == "middle") {
+          isDateTrue.value = false;
+        } else if (stageData == "start") {
+          isStartDate.value = false;
+        } else if (stageData == "end") {
+          isEndtDate.value = false;
+        }
       }
     }
     function setModelValue() {
@@ -188,8 +244,8 @@ export default defineComponent({
     let startDate = ref("");
     let endDate = ref("");
     let isDateTrue = ref();
-    let isStartDate = ref();
-    let isEndtDate = ref();
+    let isStartDate = ref(true);
+    let isEndtDate = ref(true);
     // 手动输入日期，并判断正确，再设置日期
     function checkDate(dateData: any) {
       let isSure = false;
@@ -273,7 +329,6 @@ export default defineComponent({
               setModelValue();
             }
           }
-
           if (stage.value == "middle") {
             info.value.blur();
           } else if (stage.value == "start") {
@@ -393,7 +448,7 @@ export default defineComponent({
   border: 1px solid #e7e9ee;
   border-radius: 2px;
   height: v-bind(heightData + "px");
-  width: v-bind("type=='day'?widthData+'px':widthData*1.5+'px'");
+  width: v-bind("type=='day'?widthData+'px':widthData*1.8+'px'");
   line-height: v-bind(heightData + "px");
 }
 .cd-datepicker-frame-border {
@@ -439,7 +494,7 @@ export default defineComponent({
   border: 0px;
   height: v-bind(heightData + "px");
   font-size: v-bind(heightData/2 + "px");
-  width: v-bind("(widthData*1.5-41)*0.5 +'px'");
+  width: v-bind("(widthData*1.8-41)*0.5 +'px'");
   text-align: center;
   outline: none;
   color: #6f6970;
@@ -452,7 +507,7 @@ export default defineComponent({
   box-sizing: border-box;
   border: 0px;
   height: v-bind(heightData + "px");
-  width: v-bind("(widthData*1.5-41)*0.5 +'px'");
+  width: v-bind("(widthData*1.8-41)*0.5 +'px'");
   text-align: center;
   outline: none;
   color: #6f6970;
