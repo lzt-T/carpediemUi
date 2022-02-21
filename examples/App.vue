@@ -1,12 +1,30 @@
 <template>
   <div class="su">
-    <cd-date-picker v-model="data" :height="32" :width="240"></cd-date-picker>
-    <cd-date-picker
+    asdsa
+    <!-- <cd-icon name="fit"></cd-icon> -->
+    <!-- <cd-date-picker /> -->
+    <cd-input
       v-model="data"
+      type="text"
+      :maxLength="99999"
+      :minLength="2"
+      :showWordLinit="true"
+      placeholder="输入"
+      :clearable="true"
+      :disabled="false"
       :height="32"
-      :width="100"
-      type="daterange"
-    ></cd-date-picker>
+      :width="240"
+      prefixIcon="fit"
+      suffixIcon="fit"
+      :rows="2"
+      :autosize="false"
+      name="asd"
+      @focus="onFocus"
+      @blur="onBlur"
+      @change="onChange"
+      @input="onInput"
+      @clear="onClear"
+    />
   </div>
 </template>
 
@@ -16,15 +34,29 @@ export default {
   name: "App",
   setup() {
     let data = ref();
-    function change(data: any) {
-      console.log(data);
+    // watch(data, (newval, oldval) => {
+    //   console.log(newval);
+    // });
+    function onFocus(e: any) {
+      console.log(1, e);
     }
-    watch(data, (newval, oldval) => {
-      console.log(newval);
-    });
+    function onBlur(e: any) {
+      console.log(2, e);
+    }
+    function onChange(e: any) {
+      console.log(3, e);
+    }
+    function onInput(e: any) {
+      console.log(4, e);
+    }
+    function onClear() {}
     return {
-      change,
       data,
+      onFocus,
+      onBlur,
+      onChange,
+      onInput,
+      onClear,
     };
   },
 };
@@ -32,8 +64,8 @@ export default {
 
 <style >
 .su {
-  height: 300px;
-  font-size: 300x;
-  line-height: 300px;
+  height: 100px;
+  font-size: 100px;
+  line-height: 100px;
 }
 </style>

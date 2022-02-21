@@ -71,7 +71,6 @@
         >
       </div>
     </div>
-    <div class="cd-calendar-time"></div>
   </div>
 </template>
 
@@ -304,6 +303,7 @@ export default {
   position: absolute;
   top: v-bind(height + 10 + "px");
   z-index: 1;
+  background-color: white;
   width: 320px;
   border-radius: 5px;
   box-shadow: 0px 0px 12px 2px rgba(0, 0, 0, 0.1);
@@ -441,8 +441,5 @@ export default {
 }
 .cd-calendar-nextmonth {
   color: #c2c7ce;
-}
-.cd-calendar-time {
-  background-color: aqua;
 }
 </style>
