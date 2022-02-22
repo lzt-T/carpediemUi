@@ -27,6 +27,7 @@
         @focus="onFocus"
         @blur="onBlur"
         :disabled="disabled"
+        :name="name"
       />
       <span
         v-show="showWordLinit == true && maxLength !== undefined"
@@ -56,15 +57,21 @@
     ></cd-icon>
   </div>
 
-  <textarea
-    v-if="type == 'textarea'"
-    :rows="rows"
-    :maxlength="maxLength"
-    :minlength="minLength"
-    class="cd-textarea"
-    :disabled="disabled"
-    :placeholder="placeholder"
-  ></textarea>
+  <div :class="{ 'cd-textarea-frame': true }" v-if="type == 'textarea'">
+    <textarea
+      ref="textarea"
+      :value="modelValue"
+      @input="$emit('update:modelValue', $event.target.value)"
+      :rows="rows"
+      :maxlength="maxLength"
+      :minlength="minLength"
+      :class="{ 'cd-textarea': true, 'cd-textarea-focus': isFocus }"
+      :disabled="disabled"
+      :placeholder="placeholder"
+      @focus="onTextareaFocus"
+      @blur="onTextareaFocusBlur"
+    ></textarea>
+  </div>
 </template>
 
 <script lang="ts">
@@ -96,7 +103,6 @@ export default defineComponent({
     },
     rows: {
       type: Number,
-      default: 1,
     },
     name: {
       type: String,
@@ -126,14 +132,29 @@ export default defineComponent({
       default: false,
     },
     autosize: {
-      type: Boolean,
-      default: false,
+      type: Object,
+    },
+    resize: {
+      type: String,
+      default: "both",
+    },
+    fontSize: {
+      type: Number,
+      default: 17,
     },
   },
   setup(props, context) {
     let info = ref();
     let wordLimit = ref();
     let clearIcon = ref();
+    let textarea = ref();
+    //textarea的字体大小
+    let fontSizeData = ref();
+    if (props.fontSize >= 12) {
+      fontSizeData.value = props.fontSize;
+    } else {
+      fontSizeData.value = 12;
+    }
     //   宽度和长度
     let heightData = ref();
     let widthData = ref();
@@ -150,34 +171,52 @@ export default defineComponent({
         widthData.value = 200;
       }
     }
-    // 清空按钮
+    // 执行自定义事件
     function executeBlur() {
-      context.emit("blur", info.value);
+      if (props.type != "textarea") {
+        context.emit("blur", info.value);
+      } else {
+        context.emit("blur", textarea.value);
+      }
     }
     function executeChange(data: any) {
       context.emit("change", data);
     }
     function executeFocus() {
-      context.emit("focus", info.value);
-    }
-    function executeInput() {
-      context.emit("input", info.value.value);
-    }
-    function pressEnter(e: any) {
-      if (e.keyCode == 13) {
-        executeChange(info.value.value);
-        info.value.blur();
+      if (props.type != "textarea") {
+        context.emit("focus", info.value);
+      } else {
+        context.emit("focus", textarea.value);
       }
     }
+    function executeInput() {
+      if (props.type != "textarea") {
+        context.emit("input", info.value.value);
+      } else {
+        context.emit("input", textarea.value.value);
+      }
+    }
+
+    // 按下清空按钮
     function clearInput() {
       context.emit("update:modelValue", "");
       info.value.value = "";
     }
 
     let isFocus = ref(false);
+    function pressEnter(e: any) {
+      if (e.keyCode == 13) {
+        executeChange(info.value.value);
+        info.value.blur();
+      }
+    }
     function onFocus() {
       executeFocus();
       document.addEventListener("keyup", pressEnter);
+      isFocus.value = true;
+    }
+    function onTextareaFocus() {
+      executeFocus();
       isFocus.value = true;
     }
     function onBlur() {
@@ -187,21 +226,60 @@ export default defineComponent({
       }, 100);
       isFocus.value = false;
     }
+    function onTextareaFocusBlur() {
+      isFocus.value = false;
+      executeBlur();
+    }
+    // input清空按钮的宽度
     let clearIconWidth = ref(0);
     if (props.clearable) {
       clearIconWidth.value = heightData.value / 2;
-      console.log(clearIconWidth.value);
     }
+    // input内容的长度
     let inputLength = ref(0);
+    // 显示字数显示的长度
     let limitWordWidth = ref(0);
+    // textarea的autosize开启时
+    let lastAutoHeightRows = ref(0);
+    let autoHeight = ref();
+    if (props.autosize !== undefined) {
+      autoHeight.value = (fontSizeData.value + 2) * props.autosize.minRows + 6;
+      lastAutoHeightRows.value = props.autosize.minRows;
+    }
     watch(
       () => {
         return props.modelValue;
       },
       (newval, oldval) => {
-        limitWordWidth.value = wordLimit.value.clientWidth;
-        inputLength.value = info.value.value.length;
-        executeInput();
+        if (props.type != "textarea") {
+          limitWordWidth.value = wordLimit.value.clientWidth;
+          inputLength.value = info.value.value.length;
+          executeInput();
+        } else {
+          if (props.autosize !== undefined) {
+            if (
+              // 自己变大
+              Math.floor(
+                textarea.value.scrollHeight / (fontSizeData.value + 2)
+              ) > lastAutoHeightRows.value &&
+              lastAutoHeightRows.value + 1 <= props.autosize.maxRows
+            ) {
+              autoHeight.value =
+                (fontSizeData.value + 2) * (lastAutoHeightRows.value + 1) + 6;
+              lastAutoHeightRows.value = lastAutoHeightRows.value + 1;
+            }
+            // 自己变小
+            if (
+              String(oldval)[String(oldval).length - 1] === "\n" &&
+              lastAutoHeightRows.value - 1 >= props.autosize.minRows
+            ) {
+              autoHeight.value =
+                (fontSizeData.value + 2) * (lastAutoHeightRows.value - 1) + 6;
+              lastAutoHeightRows.value = lastAutoHeightRows.value - 1;
+            }
+          }
+          executeInput();
+        }
       }
     );
     return {
@@ -217,6 +295,11 @@ export default defineComponent({
       clearIcon,
       limitWordWidth,
       clearIconWidth,
+      textarea,
+      onTextareaFocus,
+      onTextareaFocusBlur,
+      autoHeight,
+      fontSizeData,
     };
   },
 });
@@ -281,12 +364,27 @@ export default defineComponent({
   flex: 2;
   margin-right: 5px;
 }
-.cd-textarea {
-  height: 200px;
+
+.cd-textarea-frame {
+  display: inline-block;
   width: 200px;
+}
+.cd-textarea-frame .cd-textarea-focus {
+  border: 1px solid #a8d3ff;
+}
+.cd-textarea {
+  width: v-bind(widthData + "px");
+  height: v-bind(autoHeight + "px");
   overflow: auto;
   padding: 2px;
+  padding-left: 4px;
+  padding-right: 4px;
   outline: none;
+  resize: v-bind("autosize===undefined?resize:none");
+  font-size: v-bind(fontSizeData + "px");
+  line-height: v-bind("fontSizeData+2 + 'px'");
+  border-radius: 5px;
+  border: 1px solid #dcdfe6;
 }
 .cd-textarea::-webkit-scrollbar {
   width: 5px;
