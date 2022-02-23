@@ -7,6 +7,7 @@
       'cd-input-frame-disabled': disabled,
     }"
   >
+    <!-- 前图标 -->
     <cd-icon
       v-if="prefixIcon !== undefined"
       class="cd-input-frame-prefix-icon"
@@ -14,6 +15,7 @@
       color="#c8cbd2"
       :size="heightData / 2"
     ></cd-icon>
+    <!-- 输入框 -->
     <div class="cd-input-div cd" @click.stop>
       <input
         ref="info"
@@ -46,7 +48,7 @@
         @mousedown.prevent="clearInput"
       ></cd-icon>
     </div>
-
+    <!-- 后图标 -->
     <cd-icon
       v-if="suffixIcon !== undefined"
       class="cd-input-frame-suffix-icon"
@@ -55,6 +57,31 @@
       color="#c8cbd2"
       :size="heightData / 2"
     ></cd-icon>
+    <!-- 下拉选择框 -->
+    <div
+      v-show="isInputDownShow"
+      :class="{
+        'cd-input-downbox-frame': true,
+      }"
+    >
+      <div
+        v-show="type == 'text'"
+        :class="{
+          'cd-input-downbox': true,
+          'cd-input-downbox-popup': isFocus,
+          'cd-input-downbox-pickup': isFocus == false,
+        }"
+      >
+        <div
+          v-for="data in selectData"
+          :key="data"
+          class="cd-input-everySelect"
+          @mousedown="onSelelct(data)"
+        >
+          {{ data }}
+        </div>
+      </div>
+    </div>
   </div>
 
   <div :class="{ 'cd-textarea-frame': true }" v-if="type == 'textarea'">
@@ -157,6 +184,9 @@ export default defineComponent({
       type: Number,
       default: 17,
     },
+    selectData: {
+      type: Array,
+    },
   },
   setup(props, context) {
     let info = ref();
@@ -211,9 +241,12 @@ export default defineComponent({
         context.emit("input", textarea.value.value);
       }
     }
-
+    function executeClear() {
+      context.emit("clear");
+    }
     // 按下清空按钮
     function clearInput() {
+      executeClear();
       context.emit("update:modelValue", "");
       if (props.type != "textarea") {
         info.value.value = "";
@@ -233,6 +266,7 @@ export default defineComponent({
       executeFocus();
       document.addEventListener("keyup", pressEnter);
       isFocus.value = true;
+      isInputDownShow.value = true;
     }
     function onTextareaFocus() {
       executeFocus();
@@ -244,6 +278,9 @@ export default defineComponent({
         document.removeEventListener("keyup", pressEnter);
       }, 100);
       isFocus.value = false;
+      setTimeout(() => {
+        isInputDownShow.value = false;
+      }, 180);
     }
     function onTextareaFocusBlur() {
       isFocus.value = false;
@@ -303,6 +340,20 @@ export default defineComponent({
         }
       }
     );
+    let isInputDownShow = ref();
+    function onSelelct(data: any) {
+      setTimeout(() => {
+        isInputDownShow.value = false;
+      }, 180);
+      if (props.maxLength !== undefined) {
+        context.emit("update:modelValue", data.substr(0, props.maxLength));
+        info.value.value = data.substr(0, props.maxLength);
+      } else {
+        context.emit("update:modelValue", data);
+        info.value.value = data;
+      }
+      executeInput();
+    }
     return {
       heightData,
       widthData,
@@ -321,6 +372,8 @@ export default defineComponent({
       onTextareaFocusBlur,
       autoHeight,
       fontSizeData,
+      onSelelct,
+      isInputDownShow,
     };
   },
 });
@@ -328,6 +381,7 @@ export default defineComponent({
 
 <style scoped>
 .cd-input-frame {
+  position: relative;
   display: flex;
   height: v-bind(heightData + "px");
   width: v-bind(widthData + "px");
@@ -365,6 +419,95 @@ export default defineComponent({
   background-color: transparent;
   padding-left: 5px;
   padding-right: v-bind("limitWordWidth+clearIconWidth+5+'px'");
+}
+.cd-input-downbox-frame {
+  position: absolute;
+  top: v-bind(heightData + 14+ "px");
+  left: 15px;
+  height: v-bind(heightData * 6+ "px");
+  width: v-bind(widthData/1.2 + "px");
+}
+.cd-input-downbox-frame::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: -6px;
+  left: 15px;
+  border: 5px solid white;
+  transform: rotate(45deg);
+  box-shadow: 0 -5px 5px -5px rgba(0, 0, 0, 0.2),
+    -5px 0 5px -5pxrgba (0, 0, 0, 0.2);
+  background-color: white;
+}
+.cd-input-downbox {
+  position: absolute;
+  height: v-bind(heightData * 6+ "px");
+  width: v-bind(widthData/1.2 + "px");
+  overflow: auto;
+  background-color: white;
+  left: 0;
+  top: 0;
+  font-size: v-bind(heightData/2 + "px");
+  line-height: v-bind(heightData + "px");
+  box-shadow: 0px 0px 9px 1px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+.cd-input-downbox::-webkit-scrollbar {
+  width: 6px;
+}
+/* 滑块 */
+.cd-input-downbox:hover::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+}
+/* 滚动槽 */
+.cd-input-downbox::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+/* 滚动条滑块 */
+.cd-input-downbox::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: transparent;
+}
+
+.cd-input-everySelect {
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-top: 5px;
+  height: v-bind(heightData + "px");
+  font-size: v-bind(heightData/2 + "px");
+  line-height: v-bind(heightData + "px");
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cd-input-everySelect:hover {
+  background-color: #f5f7fa;
+}
+
+.cd-input-downbox-popup {
+  overflow: auto;
+  animation: popup 0.2s linear;
+}
+@keyframes popup {
+  0% {
+    height: 0px;
+  }
+  100% {
+    height: v-bind(heightData * 6+ "px");
+  }
+}
+.cd-input-downbox-pickup {
+  overflow: hidden;
+  animation: pickup 0.2s linear;
+}
+@keyframes pickup {
+  0% {
+    height: v-bind(heightData * 6+ "px");
+  }
+  100% {
+    height: 0px;
+  }
 }
 .cd-input-wordLimit {
   position: absolute;

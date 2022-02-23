@@ -5,14 +5,16 @@
     <!-- <cd-date-picker /> -->
     <cd-input
       v-model="data"
-      type="textarea"
-      :maxLength="14"
+      type="text"
+      :maxLength="5"
       :minLength="2"
       :showWordLinit="true"
       placeholder="输入"
-      :clearable="false"
+      :clearable="true"
       :disabled="false"
+      :selectData="tu"
       :rows="1"
+      :height="12"
       :width="300"
       prefixIcon="fit"
       suffixIcon="fit"
@@ -26,6 +28,7 @@
       @input="onInput"
       @clear="onClear"
     />
+    <div>asdasd</div>
   </div>
 </template>
 
@@ -50,7 +53,18 @@ export default {
     function onInput(e: any) {
       console.log(4, e);
     }
-    function onClear() {}
+    function onClear() {
+      console.log("asds");
+    }
+    let tu = ref([
+      "aasasdasdddddsaaaaaaaaaaaaaaa",
+      "b",
+      "c",
+      "d",
+      "p",
+      "p",
+      "o",
+    ]);
     return {
       data,
       onFocus,
@@ -58,6 +72,7 @@ export default {
       onChange,
       onInput,
       onClear,
+      tu,
     };
   },
 };
