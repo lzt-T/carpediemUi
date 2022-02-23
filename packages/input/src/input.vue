@@ -71,6 +71,21 @@
       @focus="onTextareaFocus"
       @blur="onTextareaFocusBlur"
     ></textarea>
+    <span
+      v-show="showWordLinit == true && maxLength !== undefined"
+      class="cd-textarea-wordLimit"
+      @selectstart.prevent
+      >{{ inputLength }} / {{ maxLength }}</span
+    >
+    <cd-icon
+      class="cd-textarea-clear"
+      ref="textareaClearIcon"
+      v-show="clearable == true && isFocus == true"
+      name="delete"
+      color="#c8cbd2"
+      :size="heightData / 2"
+      @mousedown.prevent="clearInput"
+    ></cd-icon>
   </div>
 </template>
 
@@ -200,7 +215,11 @@ export default defineComponent({
     // 按下清空按钮
     function clearInput() {
       context.emit("update:modelValue", "");
-      info.value.value = "";
+      if (props.type != "textarea") {
+        info.value.value = "";
+      } else {
+        textarea.value.value = "";
+      }
     }
 
     let isFocus = ref(false);
@@ -256,6 +275,7 @@ export default defineComponent({
           inputLength.value = info.value.value.length;
           executeInput();
         } else {
+          inputLength.value = textarea.value.value.length;
           if (props.autosize !== undefined) {
             if (
               // 自己变大
@@ -271,7 +291,8 @@ export default defineComponent({
             // 自己变小
             if (
               String(oldval)[String(oldval).length - 1] === "\n" &&
-              lastAutoHeightRows.value - 1 >= props.autosize.minRows
+              lastAutoHeightRows.value - 1 >= props.autosize.minRows &&
+              String(newval).length < String(oldval).length
             ) {
               autoHeight.value =
                 (fontSizeData.value + 2) * (lastAutoHeightRows.value - 1) + 6;
@@ -366,13 +387,17 @@ export default defineComponent({
 }
 
 .cd-textarea-frame {
+  position: relative;
   display: inline-block;
-  width: 200px;
+  width: v-bind(widthData + "px");
+  height: v-bind(autoHeight + "px");
 }
 .cd-textarea-frame .cd-textarea-focus {
   border: 1px solid #a8d3ff;
 }
 .cd-textarea {
+  position: absolute;
+  top: 0;
   width: v-bind(widthData + "px");
   height: v-bind(autoHeight + "px");
   overflow: auto;
@@ -385,6 +410,21 @@ export default defineComponent({
   line-height: v-bind("fontSizeData+2 + 'px'");
   border-radius: 5px;
   border: 1px solid #dcdfe6;
+}
+.cd-textarea-wordLimit {
+  position: absolute;
+  bottom: 0px;
+  right: v-bind("isFocus&&clearable?25+'px':6+'px'");
+  color: #c8cbd2;
+  font-size: v-bind(heightData/2.5 + "px");
+  line-height: v-bind(heightData + "px");
+  opacity: 0.7;
+}
+.cd-textarea-clear {
+  position: absolute;
+  bottom: 50px;
+  right: 6px;
+  opacity: 0.7;
 }
 .cd-textarea::-webkit-scrollbar {
   width: 5px;
