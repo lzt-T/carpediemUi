@@ -35,15 +35,16 @@ export default defineComponent({
   padding: 0;
   box-sizing: border-box;
   word-break: break-all;
+  outline: none;
 }
 /* 修改图标的样式 .su ::before { color: red !important;}    */
 @font-face {
   font-family: "cd"; /* Project id 2988922 */
-  src: url("//at.alicdn.com/t/font_2988922_r1qt1i9lji.woff2?t=1643190862161")
+  src: url("//at.alicdn.com/t/font_2988922_dvont1bf2js.woff2?t=1645670777704")
       format("woff2"),
-    url("//at.alicdn.com/t/font_2988922_r1qt1i9lji.woff?t=1643190862161")
+    url("//at.alicdn.com/t/font_2988922_dvont1bf2js.woff?t=1645670777704")
       format("woff"),
-    url("//at.alicdn.com/t/font_2988922_r1qt1i9lji.ttf?t=1643190862161")
+    url("//at.alicdn.com/t/font_2988922_dvont1bf2js.ttf?t=1645670777704")
       format("truetype");
 }
 .cd {
@@ -807,6 +808,12 @@ export default defineComponent({
 /* 日历 */
 .icon-calendar:before {
   content: "\e67c";
+  color: v-bind(color);
+  font-size: v-bind(size + "px");
+}
+/* 减号 */
+.icon-minus::before {
+  content: "\e729";
   color: v-bind(color);
   font-size: v-bind(size + "px");
 }

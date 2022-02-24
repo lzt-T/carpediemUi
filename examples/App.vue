@@ -1,34 +1,20 @@
 <template>
   <div class="su">
-    asdsa
-    <!-- <cd-icon name="fit"></cd-icon> -->
-    <!-- <cd-date-picker /> -->
-    <cd-input
+    asds
+    <cd-input-number
       v-model="data"
-      type="text"
-      :maxLength="5"
-      :minLength="2"
-      :showWordLinit="true"
-      placeholder="输入"
-      :clearable="true"
+      :height="32"
+      :width="150"
+      :min="2.01"
+      :max="5"
+      :step="2"
+      :precision="0.01"
       :disabled="false"
-      :selectData="tu"
-      :rows="1"
-      :height="12"
-      :width="300"
-      prefixIcon="fit"
-      suffixIcon="fit"
-      :autosize="{ minRows: 2, maxRows: 5 }"
-      resize="both"
-      :fontSize="17"
-      name="asd"
+      placeholder="输入"
       @focus="onFocus"
       @blur="onBlur"
       @change="onChange"
-      @input="onInput"
-      @clear="onClear"
-    />
-    <div>asdasd</div>
+    ></cd-input-number>
   </div>
 </template>
 
@@ -37,42 +23,24 @@ import { ref, onMounted, getCurrentInstance, watch, reactive } from "vue";
 export default {
   name: "App",
   setup() {
-    let data = ref();
-    // watch(data, (newval, oldval) => {
-    //   console.log(newval);
-    // });
+    let data = ref(4.91);
+    watch(data, (newval, oldval) => {
+      console.log(newval);
+    });
     function onFocus(e: any) {
-      console.log(1, e);
+      console.log(e);
     }
     function onBlur(e: any) {
-      console.log(2, e);
+      console.log(e);
     }
     function onChange(e: any) {
-      console.log(3, e);
+      console.log(e);
     }
-    function onInput(e: any) {
-      console.log(4, e);
-    }
-    function onClear() {
-      console.log("asds");
-    }
-    let tu = ref([
-      "aasasdasdddddsaaaaaaaaaaaaaaa",
-      "b",
-      "c",
-      "d",
-      "p",
-      "p",
-      "o",
-    ]);
     return {
       data,
       onFocus,
       onBlur,
       onChange,
-      onInput,
-      onClear,
-      tu,
     };
   },
 };
