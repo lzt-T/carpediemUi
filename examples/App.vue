@@ -1,20 +1,25 @@
 <template>
   <div class="su">
-    asds
-    <cd-input-number
+    <cd-radio
+      name="as"
+      :height="70"
+      :width="300"
       v-model="data"
-      :height="32"
-      :width="150"
-      :min="2.01"
-      :max="5"
-      :step="2"
-      :precision="0.01"
       :disabled="false"
-      placeholder="输入"
-      @focus="onFocus"
-      @blur="onBlur"
-      @change="onChange"
-    ></cd-input-number>
+      :border="false"
+      label="1"
+      >asdasd</cd-radio
+    >
+    <cd-radio
+      name="as"
+      :height="70"
+      :width="300"
+      v-model="data"
+      :disabled="false"
+      :border="false"
+      label="1"
+      >asdasd</cd-radio
+    >
   </div>
 </template>
 
@@ -23,7 +28,7 @@ import { ref, onMounted, getCurrentInstance, watch, reactive } from "vue";
 export default {
   name: "App",
   setup() {
-    let data = ref(4.91);
+    let data = ref("1");
     watch(data, (newval, oldval) => {
       console.log(newval);
     });
