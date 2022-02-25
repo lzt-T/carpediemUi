@@ -2,22 +2,25 @@
   <div class="su">
     <cd-radio
       name="as"
-      :height="70"
-      :width="300"
+      :height="32"
+      :width="110"
       v-model="data"
       :disabled="false"
       :border="false"
       label="1"
-      >asdasd</cd-radio
+      @change="onChange"
+      >Basdasd</cd-radio
     >
+    <!-- asd -->
     <cd-radio
-      name="as"
+      name="a"
       :height="70"
       :width="300"
       v-model="data"
       :disabled="false"
-      :border="false"
-      label="1"
+      :border="true"
+      label="2"
+      @change="onChange"
       >asdasd</cd-radio
     >
   </div>
@@ -28,7 +31,7 @@ import { ref, onMounted, getCurrentInstance, watch, reactive } from "vue";
 export default {
   name: "App",
   setup() {
-    let data = ref("1");
+    let data = ref();
     watch(data, (newval, oldval) => {
       console.log(newval);
     });
@@ -53,7 +56,7 @@ export default {
 
 <style >
 .su {
-  height: 100px;
+  height: 600px;
   font-size: 100px;
   line-height: 100px;
 }
