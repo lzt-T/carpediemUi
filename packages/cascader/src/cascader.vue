@@ -6,7 +6,7 @@
       class="cd-cascader"
       :placeholder="placeholder"
       ref="info"
-      disabled
+      :name="name"
     />
     <cd-icon
       name="downArrowTow"
@@ -58,6 +58,9 @@ export default defineComponent({
     showAllLevels: {
       type: Boolean,
       default: true,
+    },
+    name: {
+      type: String,
     },
   },
   setup(props, context) {
@@ -126,6 +129,7 @@ export default defineComponent({
 }
 .cd-cascader {
   position: absolute;
+  z-index: -1;
   top: 0;
   left: 0;
   width: v-bind(size + "px");

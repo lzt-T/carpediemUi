@@ -12,6 +12,8 @@
       :size="sizeData"
       :border="border"
       :disabled="disabledData[ind]"
+      :name="name"
+      :value="value[ind]"
     ></cd-checkbox>
   </span>
 </template>
@@ -26,9 +28,11 @@ export default defineComponent({
   components: { CdCheckbox },
   emits: ["update:modelValue", "onChange"],
   props: {
+    // 字符串数组
     modelValue: {
       type: Array,
     },
+    // 字符串数组
     option: {
       type: Array,
       required: true,
@@ -53,6 +57,12 @@ export default defineComponent({
     marginLeft: {
       type: Number,
       default: 15,
+    },
+    name: {
+      type: String,
+    },
+    value: {
+      type: Array,
     },
   },
   setup(props, context) {

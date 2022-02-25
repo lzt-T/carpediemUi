@@ -97,6 +97,7 @@
       :placeholder="placeholder"
       @focus="onTextareaFocus"
       @blur="onTextareaFocusBlur"
+      :name="name"
     ></textarea>
     <span
       v-show="showWordLinit == true && maxLength !== undefined"

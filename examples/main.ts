@@ -10,6 +10,8 @@ import NanditVue from '~/index'
 // import 'carpediem-ui/lib/index.css'
 
 const app = createApp(App)
+const axios = require('axios');
+axios.defaults.baseURL = 'http://localhost:3000'
 
 app.use(NanditVue)
 

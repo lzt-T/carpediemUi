@@ -13,7 +13,7 @@
     >
     <!-- asd -->
     <cd-radio
-      name="a"
+      name="as"
       :height="70"
       :width="300"
       v-model="data"
@@ -24,14 +24,28 @@
       >asdasd</cd-radio
     >
   </div>
+
+  <form method="post" action="http://127.0.0.1:3000/su">
+    <cd-input-number name="asd" v-model="data"></cd-input-number>
+    <input type="submit" />
+  </form>
 </template>
 
 <script lang="ts">
+import axios from "axios";
 import { ref, onMounted, getCurrentInstance, watch, reactive } from "vue";
 export default {
   name: "App",
   setup() {
+    axios({
+      method: "get",
+      url: "/",
+    }).then((response) => {
+      console.log(response.data);
+    });
+
     let data = ref();
+    let selectData = ref(["12", "534"]);
     watch(data, (newval, oldval) => {
       console.log(newval);
     });
@@ -49,6 +63,7 @@ export default {
       onFocus,
       onBlur,
       onChange,
+      selectData,
     };
   },
 };

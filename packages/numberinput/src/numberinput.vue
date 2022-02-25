@@ -32,6 +32,7 @@
       @blur="onBlur"
       @keydown="onKeydown"
       :disabled="disabled"
+      :name="name"
     />
     <cd-icon
       :class="{
@@ -87,8 +88,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-
     placeholder: {
+      type: String,
+    },
+    name: {
       type: String,
     },
   },
@@ -185,6 +188,9 @@ export default defineComponent({
     // 失去焦点
     function onBlur() {
       isFocus.value = false;
+      if (inputData.value === undefined) {
+        inputData.value = "";
+      }
       inputData.value = Number(inputData.value).toFixed(keepFigures);
       executeBlur();
     }

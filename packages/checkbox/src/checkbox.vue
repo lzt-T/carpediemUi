@@ -15,6 +15,8 @@
       type="checkbox"
       v-model="checkData"
       :disabled="disabled"
+      :name="name"
+      :value="value"
     />
     <span
       :class="{ 'cd-checkbox-context': true }"
@@ -53,6 +55,12 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    name: {
+      type: String,
+    },
+    value: {
+      type: String,
+    },
   },
   setup(props, context) {
     //   设置大小
@@ -64,7 +72,7 @@ export default defineComponent({
     }
 
     // 选中还是没有选中
-    let checkData = ref();
+    let checkData = ref(false);
     checkData.value = props.modelValue;
     // 设置图标的颜色
     let selectIconColor = ref();

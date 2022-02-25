@@ -9,51 +9,61 @@
     }"
   >
     <span class="cd cd-datepicker-icon"></span>
-    <input
-      v-if="type == 'day'"
-      v-model.trim="dateData"
-      ref="info"
-      type="text"
-      :class="{
-        cd: true,
-        'cd-datepicker-input': true,
-      }"
-      :placeholder="placeholder"
-      @click.stop=""
-      @focus="onFocus('middle')"
-      @blur="onBlur('middle')"
-    />
+    <div class="cd-datepicker-input-frame">
+      <input
+        v-if="type == 'day'"
+        v-model.trim="dateData"
+        ref="info"
+        type="text"
+        :class="{
+          cd: true,
+          'cd-datepicker-input': true,
+        }"
+        :placeholder="placeholder"
+        @click.stop=""
+        @focus="onFocus('middle')"
+        @blur="onBlur('middle')"
+        :name="name"
+      />
+    </div>
+
     <div
       v-if="type == 'daterange'"
       :class="{ 'cd-datepicker-daterange-frame': true }"
     >
-      <input
-        v-model.trim="startDate"
-        ref="startinfo"
-        type="text"
-        :class="{
-          cd: true,
-          'cd-datepicker-start': true,
-        }"
-        :placeholder="startPlaceholder"
-        @click.stop=""
-        @focus="onFocus('start')"
-        @blur="onBlur('start')"
-      />
+      <div class="cd-datepicker-start-frame">
+        <input
+          v-model.trim="startDate"
+          ref="startinfo"
+          type="text"
+          :class="{
+            cd: true,
+            'cd-datepicker-start': true,
+          }"
+          :placeholder="startPlaceholder"
+          @click.stop=""
+          @focus="onFocus('start')"
+          @blur="onBlur('start')"
+          :name="name"
+        />
+      </div>
       <div class="cd-datepicker-start-to">to</div>
-      <input
-        v-model.trim="endDate"
-        ref="endinfo"
-        type="text"
-        :class="{
-          cd: true,
-          'cd-datepicker-end': true,
-        }"
-        :placeholder="endPlaceholder"
-        @click.stop=""
-        @focus="onFocus('end')"
-        @blur="onBlur('end')"
-      />
+      <div class="cd-datepicker-end-frame">
+        <input
+          v-model.trim="endDate"
+          ref="endinfo"
+          type="text"
+          :class="{
+            cd: true,
+            'cd-datepicker-end': true,
+          }"
+          :placeholder="endPlaceholder"
+          @click.stop=""
+          @focus="onFocus('end')"
+          @blur="onBlur('end')"
+          :name="name"
+        />
+      </div>
     </div>
     <calendar
       :height="heightData"
@@ -107,6 +117,9 @@ export default defineComponent({
     endPlaceholder: {
       type: String,
       default: "End date",
+    },
+    name: {
+      type: String,
     },
   },
   setup(props, context) {
@@ -442,9 +455,10 @@ export default defineComponent({
 
 <style scoped>
 .cd-datepicker-frame {
+  display: flex;
   position: relative;
   box-sizing: border-box;
-  display: inline-block;
+  /* display: inline-block; */
   border: 1px solid #e7e9ee;
   border-radius: 2px;
   height: v-bind(heightData + "px");
@@ -466,56 +480,60 @@ export default defineComponent({
 .cd-datepicker-frame-focusborder-err:hover {
   border: 0.1px solid red;
 }
+.cd-datepicker-icon {
+  margin-left: 5px;
+  margin-right: 5px;
+  flex: 1;
+}
+.cd-datepicker-icon::before {
+  content: "\e67c";
+  color: rgba(0, 0, 0, 0.4);
+  font-size: v-bind(heightData/1.7 + "px");
+}
+.cd-datepicker-input-frame {
+  flex: 99999;
+}
 .cd-datepicker-input {
-  box-sizing: border-box;
-  display: inline-block;
-  position: absolute;
-  top: 0;
-  left: 0;
   border-radius: 2px;
   border: 0px;
-  padding-left: v-bind(heightData/1.5 + 5 + "px");
   font-size: v-bind(heightData/2 + "px");
   height: v-bind(heightData + "px");
-  width: v-bind(widthData + "px");
-  outline: none;
+  width: 100%;
   color: #6f6970;
 }
 .cd-datepicker-daterange-frame {
   position: absolute;
   top: 0px;
   display: flex;
-  width: 200px;
   margin-left: 25px;
   height: v-bind(heightData + "px");
+}
+.cd-datepicker-start-frame {
+  flex: 5;
 }
 .cd-datepicker-start {
   box-sizing: border-box;
   border: 0px;
   height: v-bind(heightData + "px");
   font-size: v-bind(heightData/2 + "px");
-  width: v-bind("(widthData*1.8-41)*0.5 +'px'");
+  width: 100%;
   text-align: center;
-  outline: none;
   color: #6f6970;
 }
 .cd-datepicker-start-to {
-  display: inline-block;
+  flex: 1;
+  text-align: center;
   box-sizing: border-box;
+}
+.cd-datepicker-end-frame {
+  flex: 5;
 }
 .cd-datepicker-end {
   box-sizing: border-box;
   border: 0px;
   height: v-bind(heightData + "px");
-  width: v-bind("(widthData*1.8-41)*0.5 +'px'");
+  width: 100%;
   text-align: center;
-  outline: none;
   color: #6f6970;
-}
-.cd-datepicker-icon::before {
-  margin: 5px;
-  content: "\e67c";
-  color: rgba(0, 0, 0, 0.4);
-  font-size: v-bind(heightData/1.7 + "px");
 }
 </style>

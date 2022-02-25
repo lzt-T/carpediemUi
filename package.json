@@ -19,9 +19,14 @@
     "build:esm-bundle": "rollup --config ./build/rollup.config.js"
   },
   "dependencies": {
+    "@koa/cors": "^3.1.0",
+    "axios": "^0.26.0",
     "babel-plugin-import": "^1.13.3",
     "carpediem-ui": "^0.0.10",
     "core-js": "^3.6.5",
+    "koa": "^2.13.4",
+    "koa-bodyparser": "^4.3.0",
+    "koa-router": "^10.1.1",
     "rollup-plugin-postcss": "^4.0.2",
     "vue": "^3.0.0"
   },
