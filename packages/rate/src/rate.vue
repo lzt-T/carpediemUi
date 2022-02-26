@@ -5,19 +5,27 @@
       @mouseover="setIsHover(1)"
       @mouseout="setIsHover(0)"
     >
-      <div
+      <cd-icon
         v-for="(data, ind) in max"
         :key="data"
         :class="{
           'cd-rate-icon': true,
-          cd: true,
-          'cd-rate-icon-hover': ind + 1 <= hoverDate && isHover,
-          'cd-rate-icon-confirm': isHover == false && ind + 1 <= confirmData,
         }"
         @mouseover="onMouseover(ind)"
         @click="getConfirmData(ind)"
         :ref="setRate"
-      ></div>
+        :name="iconName"
+        :size="heightDate / 1.8"
+        :color="
+          isHover
+            ? ind + 1 <= hoverDate
+              ? hoverColor
+              : voidColor
+            : ind + 1 <= confirmData
+            ? hoverColor
+            : voidColor
+        "
+      ></cd-icon>
     </div>
     <div v-if="showScore && isHover" :class="{ 'cd-rate-score': true }">
       {{ hoverScore }}
@@ -32,9 +40,12 @@
 </template>
 
 <script lang="ts">
-import { emit } from "process";
+import cdIcon from "./../../icon/src/icon.vue";
 import { defineComponent, ref, watch, onMounted } from "vue";
 export default defineComponent({
+  components: {
+    cdIcon,
+  },
   name: "cd-rate",
   emits: ["change", "update:modelValue"],
   props: {
@@ -77,6 +88,10 @@ export default defineComponent({
     textColor: {
       type: String,
       default: "#1F2D3D",
+    },
+    iconName: {
+      type: String,
+      default: "star",
     },
   },
   setup(props, context) {
@@ -207,33 +222,7 @@ export default defineComponent({
   line-height: v-bind(heightDate/1.8 + "px");
 }
 .cd-rate-icon {
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
   flex: 1;
-  height: v-bind(heightDate/1.8 + "px");
-}
-.cd-rate-icon::before {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  content: "\e62c1";
-  font-size: v-bind(heightDate/1.8 + "px");
-  height: v-bind(heightDate/1.8 + "px");
   line-height: v-bind(heightDate/1.8 + "px");
-  color: v-bind(voidColor);
-}
-.cd-rate-icon-hover::before,
-.cd-rate-icon-confirm::before {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  content: "\e62c1";
-  font-size: v-bind(heightDate/1.8 + "px");
-  height: v-bind(heightDate/1.8 + "px");
-  line-height: v-bind(heightDate/1.8 + "px");
-  color: v-bind(hoverColor);
 }
 </style>

@@ -3,7 +3,7 @@
     <cd-rate
       v-model="data"
       :max="10"
-      :height="32"
+      :height="50"
       :disabled="false"
       :lowThreshold="2"
       :highThreshold="4"
@@ -12,6 +12,7 @@
       :showScore="true"
       textColor="#1F2D3D"
       @change="onChange"
+      iconName="fit"
     ></cd-rate>
     <form method="post" action="http://127.0.0.1:3000/su">
       <input type="submit" />
