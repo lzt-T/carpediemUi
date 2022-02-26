@@ -16,7 +16,7 @@
       @blur="onBlur"
       @focus="onFocus"
     ></cd-select> -->
-    <cd-cascader :option="option" @change="onChange"></cd-cascader>
+    <cd-cascader :option="option" @change="onChange" :width="100"></cd-cascader>
     asd asdsa
     <div>sadsad</div>
     <div @click.stop="">sadsad</div>

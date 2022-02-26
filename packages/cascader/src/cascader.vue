@@ -8,13 +8,16 @@
       'cd-cascader-frame-focus': isFocus,
     }"
   >
-    <input
-      type="text"
-      class="cd-cascader"
-      :placeholder="placeholder"
-      ref="info"
-      :name="name"
-    />
+    <div class="cd-cascader-div">
+      <input
+        type="text"
+        class="cd-cascader"
+        :placeholder="placeholder"
+        ref="info"
+        :name="name"
+      />
+    </div>
+
     <cd-icon
       name="downArrowTow"
       color="#dde0e7"
@@ -25,6 +28,7 @@
       }"
       :size="heightData / 2"
     ></cd-icon>
+
     <div
       :class="{
         'cd-cascader-downbox-frame': true,
@@ -113,6 +117,9 @@ export default defineComponent({
     window.addEventListener("mousedown", () => {
       if (isFocus.value == true) {
         isFocus.value = false;
+        setTimeout(() => {
+          isShow.value = false;
+        }, 180);
       }
     });
     // 获得多级选项的数据
@@ -144,7 +151,6 @@ export default defineComponent({
 
 <style scoped>
 .cd-cascader-frame {
-  /* 锁定字的大小避免修改font-xize带来的影响 */
   position: relative;
   display: flex;
   align-items: center;
@@ -159,12 +165,21 @@ export default defineComponent({
 .cd-cascader-frame-focus {
   border: 1px solid #8ac3ff;
 }
-.cd-cascader {
+.cd-cascader-div {
+  position: relative;
   flex: 99999;
-  border: 0;
+  height: v-bind(heightData + "px");
+  border: 0px;
+}
+.cd-cascader {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 0px;
   padding-left: 5px;
   font-size: v-bind(heightData/2 + "px");
   color: #606266;
+  background-color: transparent;
 }
 .cd-cascader-icon {
   flex: 1;
