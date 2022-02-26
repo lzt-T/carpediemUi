@@ -1,34 +1,22 @@
 <template>
   <div class="su">
-    <cd-radio
-      name="as"
+    <cd-rate
+      v-model="data"
+      :max="10"
       :height="32"
-      :width="110"
-      v-model="data"
       :disabled="false"
-      :border="false"
-      label="1"
+      :lowThreshold="2"
+      :highThreshold="4"
+      :colors="['#F7BA2A', 'red', 'yellow']"
+      voidColor="#C6D1DE"
+      :showScore="true"
+      textColor="#1F2D3D"
       @change="onChange"
-      >Basdasd</cd-radio
-    >
-    <!-- asd -->
-    <cd-radio
-      name="as"
-      :height="70"
-      :width="300"
-      v-model="data"
-      :disabled="false"
-      :border="true"
-      label="2"
-      @change="onChange"
-      >asdasd</cd-radio
-    >
+    ></cd-rate>
+    <form method="post" action="http://127.0.0.1:3000/su">
+      <input type="submit" />
+    </form>
   </div>
-
-  <form method="post" action="http://127.0.0.1:3000/su">
-    <cd-input-number name="asd" v-model="data"></cd-input-number>
-    <input type="submit" />
-  </form>
 </template>
 
 <script lang="ts">
@@ -37,14 +25,7 @@ import { ref, onMounted, getCurrentInstance, watch, reactive } from "vue";
 export default {
   name: "App",
   setup() {
-    axios({
-      method: "get",
-      url: "/",
-    }).then((response) => {
-      console.log(response.data);
-    });
-
-    let data = ref();
+    let data = ref(0.1);
     let selectData = ref(["12", "534"]);
     watch(data, (newval, oldval) => {
       console.log(newval);
