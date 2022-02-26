@@ -1,11 +1,11 @@
 <template>
-  <div class="cd-cascader-selectBox">
-    <cd-icon
-      name="caretUp"
-      color="white"
-      :size="19"
-      class="cd-selectBox-up"
-    ></cd-icon>
+  <div
+    :class="{
+      'cd-cascader-selectBox': true,
+      'cd-cascader-selectBox-down': isFocus,
+      'cd-cascader-selectBox-up': isFocus == false,
+    }"
+  >
     <span
       v-if="firstData.length"
       @click.self.stop
@@ -14,7 +14,7 @@
       <div
         v-for="(data, ind) in firstData"
         :key="ind"
-        @click="setFirstSubscript(ind, $event, selectData[ind].children)"
+        @mousedown="setFirstSubscript(ind, $event, selectData[ind].children)"
         :class="{
           'cd-select-everyOption': true,
           'cd-select-check': firstSubscript == ind,
@@ -24,7 +24,7 @@
         <cd-icon
           :color="firstSubscript == ind ? '#3c9cff' : '#dde0e7'"
           class="cd-select-everyIcon"
-          :size="size / 11"
+          :size="height / 2"
           v-if="selectData[ind].children !== undefined"
           name="rightArrowTow"
         ></cd-icon>
@@ -38,7 +38,7 @@
       <div
         v-for="(data, ind) in secondData"
         :key="ind"
-        @click="
+        @mousedown="
           setSecondSubscript(
             ind,
             $event,
@@ -55,7 +55,7 @@
           :color="secondSubscript == ind ? '#3c9cff' : '#dde0e7'"
           name="rightArrowTow"
           class="cd-select-everyIcon"
-          :size="size / 11"
+          :size="height / 2"
           v-if="selectData[firstSubscript].children[ind].children !== undefined"
         ></cd-icon>
       </div>
@@ -68,7 +68,7 @@
       <div
         v-for="(data, ind) in thirdlyData"
         :key="ind"
-        @click="
+        @mousedown="
           setThirdlySubscript(
             ind,
             $event,
@@ -86,7 +86,7 @@
           name="rightArrowTow"
           :color="thirdlySubscript == ind ? '#3c9cff' : '#dde0e7'"
           class="cd-select-everyIcon"
-          :size="size / 11"
+          :size="height / 2"
           v-if="
             selectData[firstSubscript].children[secondSubscript].children[ind]
               .children !== undefined
@@ -102,7 +102,7 @@
       <div
         v-for="(data, ind) in fourthlyData"
         :key="ind"
-        @click="setFourthlySubscript(ind, $event, undefined)"
+        @mousedown="setFourthlySubscript(ind, $event, undefined)"
         :class="{
           'cd-select-everyOption': true,
           'cd-select-check': fourthlySubscript == ind,
@@ -127,9 +127,14 @@ export default {
       type: Array,
       required: true,
     },
-    size: {
+    height: {
       type: Number,
-      required: true,
+    },
+    width: {
+      type: Number,
+    },
+    isFocus: {
+      type: Boolean,
     },
   },
   setup(props, context) {
@@ -276,23 +281,39 @@ export default {
 
 <style scoped>
 .cd-cascader-selectBox {
-  position: absolute;
-  z-index: 1;
-  top: v-bind(size/6.8 + 15 + "px");
-  color: #626468;
-  background-color: white;
   border-radius: 5px;
-  background-color: aqua;
   box-shadow: 0px 0px 12px 2px rgba(0, 0, 0, 0.1);
   display: flex;
   cursor: default;
+  background-color: white;
 }
-.cd-selectBox-up {
-  position: absolute;
-  top: -14px;
-  left: 5px;
+.cd-cascader-selectBox-down {
+  overflow: hidden;
+  animation: down 0.2s linear;
+}
+.cd-cascader-selectBox-up {
+  overflow: hidden;
+  animation: up 0.2s linear;
+}
+@keyframes down {
+  0% {
+    height: 0px;
+  }
+  100% {
+    height: v-bind(height * 6 + "px");
+  }
+}
+@keyframes up {
+  0% {
+    height: v-bind(height * 6 + "px");
+  }
+  100% {
+    height: 0px;
+  }
 }
 .cd-selectBox-span-one {
+  overflow: auto;
+  height: v-bind(height * 6 + "px");
   border-right: 0.1px solid #dde0e7;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
@@ -324,14 +345,14 @@ export default {
 }
 .cd-select-everyOption {
   position: relative;
-  height: v-bind(size/7.1 + "px");
-  line-height: v-bind(size/7.1 + "px");
+  height: v-bind(height + "px");
+  line-height: v-bind(height + "px");
   background-color: white;
-  font-size: v-bind(size/15 + "px");
-  padding-left: 14px;
-  padding-right: v-bind(size/11 + 12+"px");
-  margin-top: 2px;
-  margin-bottom: 2px;
+  font-size: v-bind(height/2 + "px");
+  color: #626468;
+  padding-left: 10px;
+  padding-right: 20px;
+  width: v-bind(width * 0.78+"px");
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -344,15 +365,9 @@ export default {
 }
 .cd-select-everyIcon {
   position: absolute;
-  right: 10px;
+  right: 5px;
 }
 
-span {
-  overflow: auto;
-  height: v-bind(size * 0.84+"px");
-  width: v-bind(size * 0.75+"px");
-  background-color: white;
-}
 span::-webkit-scrollbar {
   width: 6px;
 }

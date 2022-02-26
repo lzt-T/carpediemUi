@@ -1,6 +1,13 @@
 <!--为行内块元素--->
 <template>
-  <div v-focus="{ isFocus }" @click.stop="setIsFocus" class="cd-cascader-frame">
+  <div
+    @mousedown.prevent.stop="setIsFocus"
+    :class="{
+      'cd-cascader-frame': true,
+      'cd-cascader-frame-hover': isFocus == false,
+      'cd-cascader-frame-focus': isFocus,
+    }"
+  >
     <input
       type="text"
       class="cd-cascader"
@@ -16,21 +23,28 @@
         'cd-cascader-icon-down': isFocus == true,
         'cd-cascader-icon-up': isFocus == false,
       }"
-      :size="sizeData / 15"
+      :size="heightData / 2"
     ></cd-icon>
-    <select-box
-      :selectData="option"
-      v-show="isFocus == true"
-      @getCascaderData="getCascaderData"
-      :size="sizeData"
-    ></select-box>
+    <div
+      :class="{
+        'cd-cascader-downbox-frame': true,
+      }"
+      v-show="isShow"
+    >
+      <select-box
+        :selectData="option"
+        @getCascaderData="getCascaderData"
+        :height="heightData"
+        :width="widthData"
+        :isFocus="isFocus"
+      ></select-box>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import cdIcon from "./../../icon/src/icon.vue";
 import selectBox from "./selectBox.vue";
-import focus from "./focus";
 import { defineComponent, ref, watch } from "vue";
 export default defineComponent({
   name: "cd-cascader",
@@ -38,18 +52,19 @@ export default defineComponent({
     cdIcon,
     selectBox,
   },
-  emits: ["update:modelValue", "onChange"],
-  directives: {
-    focus,
-  },
+  emits: ["update:modelValue", "change"],
   props: {
     placeholder: {
       type: String,
       default: "请选择",
     },
-    size: {
+    height: {
       type: Number,
-      default: 200,
+      default: 32,
+    },
+    width: {
+      type: Number,
+      default: 240,
     },
     option: {
       type: Array,
@@ -64,24 +79,42 @@ export default defineComponent({
     },
   },
   setup(props, context) {
-    let sizeData = ref();
-    if (props.size <= 150) {
-      sizeData.value = 150;
-    } else {
-      sizeData.value = props.size;
-    }
-    let info = ref();
-    let isFocus = ref();
-    //设置isFocus的值
-    function setIsFocus() {
-      if (typeof isFocus.value == "undefined") {
-        isFocus.value = true;
-      } else if (isFocus.value == true) {
-        isFocus.value = false;
+    // 设置大小
+    let heightData = ref();
+    let widthData = ref();
+    setSize();
+    function setSize() {
+      if (props.height >= 24) {
+        heightData.value = props.height;
       } else {
-        isFocus.value = true;
+        heightData.value = 24;
+      }
+      if (props.width >= 200) {
+        widthData.value = props.width;
+      } else {
+        widthData.value = 200;
       }
     }
+    let info = ref();
+    let isFocus = ref(false);
+    let isShow = ref(false);
+    //设置isFocus的值
+    function setIsFocus() {
+      if (isFocus.value) {
+        isFocus.value = false;
+        setTimeout(() => {
+          isShow.value = false;
+        }, 180);
+      } else {
+        isFocus.value = true;
+        isShow.value = true;
+      }
+    }
+    window.addEventListener("mousedown", () => {
+      if (isFocus.value == true) {
+        isFocus.value = false;
+      }
+    });
     // 获得多级选项的数据
     function getCascaderData(data: any) {
       if (props.showAllLevels == true) {
@@ -92,13 +125,8 @@ export default defineComponent({
         setInputValue(data.split("/")[data.split("/").length - 1]);
       }
     }
-    window.addEventListener("click", () => {
-      if (isFocus.value == true) {
-        isFocus.value = false;
-      }
-    });
     function setInputValue(data: any) {
-      context.emit("onChange", data);
+      context.emit("change", data);
       context.emit("update:modelValue", data);
     }
     return {
@@ -106,7 +134,9 @@ export default defineComponent({
       setIsFocus,
       getCascaderData,
       info,
-      sizeData,
+      heightData,
+      widthData,
+      isShow,
     };
   },
 });
@@ -116,56 +146,58 @@ export default defineComponent({
 .cd-cascader-frame {
   /* 锁定字的大小避免修改font-xize带来的影响 */
   position: relative;
-  display: inline-block;
-  width: v-bind(size + "px");
-  height: v-bind(size/6.8 + "px");
-  font-size: v-bind(sizeData/6.8 + "px");
-  line-height: v-bind(sizeData/6.8 + "px");
+  display: flex;
+  align-items: center;
+  width: v-bind(widthData + "px");
+  height: v-bind(heightData + "px");
+  border: 1px solid #dcdfe6;
   border-radius: 5px;
-  min-width: 150px;
-  min-height: 22px;
-  margin: 0;
-  padding: 0;
+}
+.cd-cascader-frame-hover:hover {
+  border: 1px solid #d3d6dc;
+}
+.cd-cascader-frame-focus {
+  border: 1px solid #8ac3ff;
 }
 .cd-cascader {
-  position: absolute;
-  z-index: -1;
-  top: 0;
-  left: 0;
-  width: v-bind(size + "px");
-  height: v-bind(size/6.8 + "px");
-  min-width: 150px;
-  min-height: 22px;
-  border-radius: 5px;
-  padding-left: 10px;
-  padding-right: v-bind(sizeData/10 + "px");
-  border: 1.5px solid #dde0e7;
-  box-sizing: border-box;
-  font-size: v-bind(sizeData/15 + "px");
-  outline: none;
-  background-color: white;
+  flex: 99999;
+  border: 0;
+  padding-left: 5px;
+  font-size: v-bind(heightData/2 + "px");
   color: #606266;
-
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 .cd-cascader-icon {
-  position: absolute;
-  right: 4%;
+  flex: 1;
+  margin-left: 5px;
+  margin-right: 5px;
+  line-height: v-bind(heightData/2 + "px");
 }
 /* 上拉和下拉的动画 */
 .cd-cascader-icon-down {
   transform: rotate(180deg);
-  transform-origin: 50% 100%;
   animation: down 0.3s ease-out;
 }
 .cd-cascader-icon-up {
   transform: rotate(0deg);
-  transform-origin: 50% 100%;
   animation: up 0.3s ease-out;
 }
-
+.cd-cascader-downbox-frame {
+  position: absolute;
+  z-index: 1;
+  top: v-bind(heightData + 10 + "px");
+  left: 10px;
+}
+.cd-cascader-downbox-frame::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 15px;
+  border: 5px solid white;
+  transform: rotate(45deg);
+  box-shadow: 0 -5px 5px -5px rgba(0, 0, 0, 0.2),
+    -5px 0 5px -5pxrgba (0, 0, 0, 0.2);
+  background-color: white;
+}
 @keyframes down {
   0% {
     transform: rotate(0deg);

@@ -1,19 +1,26 @@
 <template>
   <div class="su">
-    <cd-rate
+    <!-- <cd-select
       v-model="data"
-      :max="10"
-      :height="50"
+      :options="selectData"
       :disabled="false"
-      :lowThreshold="2"
-      :highThreshold="4"
-      :colors="['#F7BA2A', 'red', 'yellow']"
-      voidColor="#C6D1DE"
-      :showScore="true"
-      textColor="#1F2D3D"
+      :clearable="false"
+      placeholder="输入"
+      :multiple="false"
+      :filterable="false"
+      :height="32"
+      :width="240"
+      name="asd"
       @change="onChange"
-      iconName="fit"
-    ></cd-rate>
+      @clear="onClear"
+      @blur="onBlur"
+      @focus="onFocus"
+    ></cd-select> -->
+    <cd-cascader :option="option" @change="onChange"></cd-cascader>
+    asd asdsa
+    <div>sadsad</div>
+    <div @click.stop="">sadsad</div>
+    <div @click.stop="">sadsad</div>
     <form method="post" action="http://127.0.0.1:3000/su">
       <input type="submit" />
     </form>
@@ -26,8 +33,56 @@ import { ref, onMounted, getCurrentInstance, watch, reactive } from "vue";
 export default {
   name: "App",
   setup() {
-    let data = ref(0.1);
-    let selectData = ref(["12", "534"]);
+    let option = ref([
+      {
+        value: "112qweeeeesaddddddddddeaaaaa",
+      },
+      {
+        value: "34",
+        children: [
+          {
+            value: "112",
+          },
+          {
+            value: "112",
+          },
+        ],
+      },
+      {
+        value: "112qweeeeesaddddddddddeaaaaa",
+      },
+      {
+        value: "112qweeeeesaddddddddddeaaaaa",
+      },
+      {
+        value: "112qweeeeesaddddddddddeaaaaa",
+      },
+      {
+        value: "112qweeeeesaddddddddddeaaaaa",
+      },
+      {
+        value: "112qweeeeesaddddddddddeaaaaa",
+      },
+      {
+        value: "112qweeeeesaddddddddddeaaaaa",
+      },
+    ]);
+    let data = ref();
+    let selectData = ref([
+      {
+        label: "1",
+        value: "1",
+      },
+      {
+        label: "2",
+        value: "2",
+      },
+      {
+        label: "2",
+        value: "2",
+        disabled: true,
+      },
+    ]);
     watch(data, (newval, oldval) => {
       console.log(newval);
     });
@@ -46,6 +101,7 @@ export default {
       onBlur,
       onChange,
       selectData,
+      option,
     };
   },
 };
