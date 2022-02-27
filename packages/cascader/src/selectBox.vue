@@ -353,6 +353,8 @@ export default {
   padding-left: 10px;
   padding-right: 20px;
   width: v-bind(width * 0.78+"px");
+  margin-top: 2px;
+  margin-bottom: 2px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

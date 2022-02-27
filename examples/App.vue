@@ -1,27 +1,23 @@
 <template>
   <div class="su">
-    <!-- <cd-select
-      v-model="data"
-      :options="selectData"
-      :disabled="false"
-      :clearable="false"
-      placeholder="输入"
-      :multiple="false"
-      :filterable="false"
-      :height="32"
-      :width="240"
-      name="asd"
-      @change="onChange"
-      @clear="onClear"
-      @blur="onBlur"
-      @focus="onFocus"
-    ></cd-select> -->
-    <cd-cascader :option="option" @change="onChange" :width="100"></cd-cascader>
-    asd asdsa
-    <div>sadsad</div>
     <div @click.stop="">sadsad</div>
     <div @click.stop="">sadsad</div>
     <form method="post" action="http://127.0.0.1:3000/su">
+      <cd-select
+        v-model="data"
+        :options="selectData"
+        :disabled="false"
+        :clearable="true"
+        placeholder="输入"
+        :filterable="true"
+        :height="32"
+        :width="100"
+        name="asd"
+        @change="onChange"
+        @clear="onClear"
+        @blur="onBlur"
+        @focus="onFocus"
+      ></cd-select>
       <input type="submit" />
     </form>
   </div>
@@ -67,20 +63,27 @@ export default {
         value: "112qweeeeesaddddddddddeaaaaa",
       },
     ]);
-    let data = ref();
+    let data = ref("2");
     let selectData = ref([
       {
-        label: "1",
-        value: "1",
+        label: "1123333333333333333333333333",
       },
       {
         label: "2",
-        value: "2",
       },
       {
-        label: "2",
-        value: "2",
+        label: "3",
+
         disabled: true,
+      },
+      {
+        label: "4",
+      },
+      {
+        label: "5",
+      },
+      {
+        label: "6",
       },
     ]);
     watch(data, (newval, oldval) => {
@@ -95,6 +98,9 @@ export default {
     function onChange(e: any) {
       console.log(e);
     }
+    function onClear() {
+      console.log("asdas");
+    }
     return {
       data,
       onFocus,
@@ -102,6 +108,7 @@ export default {
       onChange,
       selectData,
       option,
+      onClear,
     };
   },
 };

@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, watch, ref } from "vue";
 export default defineComponent({
   name: "cd-icon",
   props: {
@@ -21,7 +21,17 @@ export default defineComponent({
     },
   },
   setup(props) {
-    let type = "cd icon-" + props.name;
+    let type = ref();
+    type.value = "cd icon-" + props.name;
+
+    watch(
+      () => {
+        return props.name;
+      },
+      (newval, oldval) => {
+        type.value = "cd icon-" + props.name;
+      }
+    );
     return {
       type,
     };
