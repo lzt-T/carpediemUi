@@ -1,12 +1,16 @@
 <template>
-  <div :class="{ 'cd-slider-frame': true }" ref="sliderBox">
+  <div
+    :class="{ 'cd-slider-frame': true }"
+    ref="sliderBox"
+    @selectstart.prevent
+  >
     <div :class="{ 'cd-slider-left': true }"></div>
     <div :class="{ 'cd-slider-block-frame': true }" ref="sliderBlock">
       <div v-show="isHover" :class="{ 'cd-slider-block-score': isHover }">
         {{ score }}
       </div>
       <div
-        :class="{ 'cd-slider-block': true }"
+        :class="{ 'cd-slider-block': true, 'cd-slider-block-hover': isHover }"
         @mouseover="onMouseover"
         @mouseout="onMouseout"
         @mousedown="onMousedown($event)"
@@ -19,7 +23,7 @@
 
 <script lang="ts">
 import cdIcon from "./../../icon/src/icon.vue";
-import { defineComponent, ref, watch, onMounted } from "vue";
+import { defineComponent, ref, watch, onMounted, watchEffect } from "vue";
 export default defineComponent({
   components: {
     cdIcon,
@@ -27,7 +31,10 @@ export default defineComponent({
   name: "cd-slider",
   emits: ["update:modelValue"],
   props: {
-    modelValue: {},
+    modelValue: {
+      type: Number,
+      dafalt: 0,
+    },
     height: {
       type: Number,
       default: 32,
@@ -36,10 +43,15 @@ export default defineComponent({
       type: Number,
       default: 240,
     },
+    disabled: {
+      type: Boolean,
+      defult: false,
+    },
   },
   setup(props, context) {
     let sliderBox = ref();
     let sliderBlock = ref();
+    // 距离页面最左边的距离
     let pageDistance = ref();
     onMounted(() => {
       pageDistance.value = getLeft(sliderBox.value);
@@ -62,47 +74,59 @@ export default defineComponent({
     }
     // 是否触摸
     let isHover = ref(false);
+    let isExceed = ref(false);
     function onMouseover() {
       isHover.value = true;
     }
     function onMouseout() {
-      isHover.value = false;
+      if (isMove.value == false) {
+        isHover.value = false;
+      }
     }
-    let score = ref(0);
+    let score: any = ref(0);
     let startX = ref();
-    let isMove = ref();
-    let locationX = ref(0);
+    let startY = ref();
+    let isMove = ref(false);
+    // 每次移动的距离
+    let displacementDistance = ref(0);
+    // 滑块停的位置距离刻度为0的距离
     let restingPosition = ref(0);
-
+    // 获取元素在page中的位置
     function getLeft(e: any) {
-      var offset = e.offsetLeft;
+      let offset = e.offsetLeft;
       if (e.offsetParent != null) offset += getLeft(e.offsetParent);
       return offset;
     }
     function onMousedown(e: any) {
+      isExceed.value = false;
       isMove.value = true;
+      startY.value = e.pageY;
       startX.value = e.pageX;
-      locationX.value = 0;
+      displacementDistance.value = 0;
       restingPosition.value = e.pageX - pageDistance.value;
     }
     document.addEventListener("mousemove", (e) => {
       if (isMove.value) {
-        console.log(e.pageX);
-
-        locationX.value = e.pageX - startX.value;
+        displacementDistance.value = e.pageX - startX.value;
+        if (Math.abs(e.pageY - startY.value) >= heightData.value * 0.35) {
+          isExceed.value = true;
+        }
         if (
           restingPosition.value + e.pageX - startX.value >= 0 &&
           restingPosition.value + e.pageX - startX.value <= widthData.value
         ) {
-          locationX.value = e.pageX - startX.value;
+          displacementDistance.value = e.pageX - startX.value;
         } else {
           if (restingPosition.value + e.pageX - startX.value < 0) {
-            locationX.value = -restingPosition.value;
+            displacementDistance.value = -restingPosition.value;
+            isExceed.value = true;
           } else if (
             restingPosition.value + e.pageX - startX.value >
             widthData.value
           ) {
-            locationX.value = widthData.value - restingPosition.value;
+            displacementDistance.value =
+              widthData.value - restingPosition.value;
+            isExceed.value = true;
           }
         }
       }
@@ -111,8 +135,26 @@ export default defineComponent({
       if (isMove.value) {
         isMove.value = false;
       }
+      if (isExceed.value) {
+        isHover.value = false;
+      }
     });
-
+    watchEffect(() => {
+      score.value = Math.floor(
+        ((restingPosition.value + displacementDistance.value) /
+          widthData.value) *
+          100
+      );
+    });
+    watch(
+      () => {
+        return props.modelValue;
+      },
+      (newval, oldval) => {
+        score.value = newval;
+      },
+      { immediate: true }
+    );
     return {
       heightData,
       widthData,
@@ -123,7 +165,7 @@ export default defineComponent({
       onMousedown,
       sliderBox,
       sliderBlock,
-      locationX,
+      displacementDistance,
       restingPosition,
     };
   },
@@ -139,18 +181,20 @@ export default defineComponent({
   width: v-bind(widthData + "px");
 }
 .cd-slider-left {
-  flex: 5;
+  flex: v-bind(score);
   height: v-bind(heightData/5 + "px");
   width: v-bind(widthData + "px");
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
-  background-color: aqua;
+  background-color: #3f9eff;
 }
 .cd-slider-block-frame {
   position: absolute;
   height: v-bind(heightData + "px");
   width: v-bind(heightData * 0.6 + "px");
-  margin-left: v-bind(locationX + restingPosition + "px");
+  margin-left: v-bind(
+    displacementDistance + restingPosition-heightData * 0.3 + "px"
+  );
 }
 .cd-slider-block-score {
   position: absolute;
@@ -185,16 +229,16 @@ export default defineComponent({
   background-color: white;
   border: 1px solid #8ac3ff;
 }
-.cd-slider-block:hover {
+.cd-slider-block-hover {
   height: v-bind(heightData * 0.7 + "px");
   width: v-bind(heightData * 0.7 + "px");
 }
 .cd-slider-right {
-  flex: 5;
+  flex: v-bind(100-score);
   height: v-bind(heightData/5 + "px");
   width: v-bind(widthData + "px");
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
-  background-color: red;
+  background-color: #e3e6ed;
 }
 </style>

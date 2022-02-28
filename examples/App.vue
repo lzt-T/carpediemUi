@@ -22,7 +22,7 @@ import { ref, onMounted, getCurrentInstance, watch, reactive } from "vue";
 export default {
   name: "App",
   setup() {
-    let data = ref("2");
+    let data = ref(2);
 
     watch(data, (newval, oldval) => {
       console.log(newval);
