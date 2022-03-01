@@ -3,7 +3,7 @@
     <cd-slider
       class="suu"
       v-model="data"
-      :disabled="false"
+      :disabled="true"
       :height="32"
       :width="400"
       :step="8"

@@ -1,7 +1,7 @@
 <template>
   <div
     @mousedown="setScore($event)"
-    :class="{ 'cd-slider-frame': true }"
+    :class="{ 'cd-slider-frame': true, 'cd-slider-frame-disabled': disabled }"
     ref="sliderBox"
     @selectstart.prevent
   >
@@ -11,7 +11,10 @@
         {{ score }}
       </div>
       <div
-        :class="{ 'cd-slider-block': true, 'cd-slider-block-hover': isHover }"
+        :class="{
+          'cd-slider-block': true,
+          'cd-slider-block-hover': isHover && disabled != true,
+        }"
         @mouseover="onMouseover"
         @mouseout="onMouseout"
         @mousedown="onMousedown($event)"
@@ -201,6 +204,9 @@ export default defineComponent({
     }
     // 鼠标在滑块上按下
     function onMousedown(e: any) {
+      if (props.disabled) {
+        return;
+      }
       e.stopPropagation();
       isExceed.value = false;
       isMove.value = true;
@@ -243,6 +249,9 @@ export default defineComponent({
     });
     // 鼠标松开
     document.addEventListener("mouseup", (e) => {
+      if (props.disabled) {
+        return;
+      }
       if (isMove.value) {
         isMove.value = false;
       }
@@ -253,6 +262,9 @@ export default defineComponent({
       setmodelValue();
     });
     function setScore(e: any) {
+      if (props.disabled) {
+        return;
+      }
       isHover.value = true;
       initialPointDistance.value = e.pageX - pageLeftDistance.value;
       movingDistance.value = 0;
@@ -317,6 +329,9 @@ export default defineComponent({
   position: relative;
   height: v-bind(heightData + "px");
   width: v-bind(widthData + "px");
+}
+.cd-slider-frame-disabled {
+  cursor: not-allowed;
 }
 .cd-slider-left {
   flex: v-bind(score);
