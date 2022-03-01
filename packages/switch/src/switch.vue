@@ -1,5 +1,9 @@
 <template>
-  <div class="cd-switch-frame" @click="setIsTrue" @selectstart.prevent>
+  <div
+    :class="{ 'cd-switch-frame': true, 'cd-switch-frame-disabled': disabled }"
+    @click="setIsTrue"
+    @selectstart.prevent
+  >
     <cd-icon
       class="cd-switch-offIcon"
       :name="inactiIcon"
@@ -81,10 +85,12 @@ export default defineComponent({
     inactiIcon: {
       type: String,
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props, context) {
-    console.log(props.inactiveColor);
-
     //   设置大小
     let heightData = ref();
     let widthData = ref();
@@ -112,6 +118,9 @@ export default defineComponent({
       { immediate: true }
     );
     function setIsTrue() {
+      if (props.disabled) {
+        return;
+      }
       isMove.value = true;
       isTrue.value = !isTrue.value;
       setModelValue();
@@ -143,6 +152,9 @@ export default defineComponent({
   font-size: v-bind(heightData/1.2 + "px");
   width: auto;
   cursor: pointer;
+}
+.cd-switch-frame-disabled {
+  cursor: not-allowed;
 }
 .cd-switch-offIcon {
   margin-left: 5px;

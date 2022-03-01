@@ -1,7 +1,13 @@
 <template>
   <div class="su">
     asdsa
-    <cd-slider v-model="data"></cd-slider>
+    <cd-switch
+      v-model="data"
+      :disabled="false"
+      :height="50"
+      :width="200"
+      @change="onChange"
+    ></cd-switch>
     <form method="post" action="http://127.0.0.1:3000/su">
       <input type="submit" />
     </form>
@@ -14,7 +20,7 @@ import { ref, onMounted, getCurrentInstance, watch, reactive } from "vue";
 export default {
   name: "App",
   setup() {
-    let data = ref(32);
+    let data = ref(false);
     watch(data, (newval, oldval) => {
       console.log(newval);
     });
