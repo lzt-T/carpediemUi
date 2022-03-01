@@ -16,9 +16,10 @@ import CdRadio from './radio'
 import CdRate from './rate'
 import CdSelect from './select'
 import CdSlider from './slider'
+import CdSwitch from './switch'
 
 // 所有组件列表
-const components = [CdButton, CdBorder, CdIcon, CdRow, CdCol, CdLink, CdScrollbar, CdCascader, CdCheckbox, CdCheckboxGroup, CdDatePicker, CdInput, CdInputNumber, CdRadio, CdRate, CdSelect, CdSlider]
+const components = [CdButton, CdBorder, CdIcon, CdRow, CdCol, CdLink, CdScrollbar, CdCascader, CdCheckbox, CdCheckboxGroup, CdDatePicker, CdInput, CdInputNumber, CdRadio, CdRate, CdSelect, CdSlider, CdSwitch]
 
 // 定义 install 方法， App 作为参数
 const install = (app: App): void => {
@@ -43,7 +44,8 @@ export {
     CdRadio,
     CdRate,
     CdSelect,
-    CdSlider
+    CdSlider,
+    CdSwitch
 }
 
 export default {
