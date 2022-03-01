@@ -14,6 +14,7 @@
         :class="{
           'cd-slider-block': true,
           'cd-slider-block-hover': isHover && disabled != true,
+          'cd-slider-block-grap': isMove,
         }"
         @mouseover="onMouseover"
         @mouseout="onMouseout"
@@ -317,6 +318,7 @@ export default defineComponent({
       stepWidth,
       everyNode,
       everySign,
+      isMove,
     };
   },
 });
@@ -387,6 +389,10 @@ export default defineComponent({
 .cd-slider-block-hover {
   height: v-bind(heightData * 0.7 + "px");
   width: v-bind(heightData * 0.7 + "px");
+  cursor: grab;
+}
+.cd-slider-block-grap {
+  cursor: grabbing;
 }
 .cd-slider-right {
   flex: v-bind(maxData-score);
