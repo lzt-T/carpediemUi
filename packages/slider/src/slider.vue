@@ -1,5 +1,6 @@
 <template>
   <div
+    @mousedown="setScore($event)"
     :class="{ 'cd-slider-frame': true }"
     ref="sliderBox"
     @selectstart.prevent
@@ -18,6 +19,25 @@
       ></div>
     </div>
     <div :class="{ 'cd-slider-right': true }"></div>
+    <div
+      v-show="
+        (showStops && marks === undefined) || (marks && Object(marks)[ind])
+      "
+      v-for="(data, ind) in maxData / stepData - 1"
+      :key="ind"
+      class="node"
+      :ref="everyNode"
+    ></div>
+    <div v-show="showStops && marks !== undefined" class="cd-slider-mark-frame">
+      <div
+        v-for="(data, ind) in Object.keys(Object(marks)).length"
+        :key="ind"
+        :ref="everySign"
+        class="cd-slider-mark"
+      >
+        {{ marks[data - 1] }}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -29,7 +49,7 @@ export default defineComponent({
     cdIcon,
   },
   name: "cd-slider",
-  emits: ["update:modelValue"],
+  emits: ["update:modelValue", "change"],
   props: {
     modelValue: {
       type: Number,
@@ -47,15 +67,42 @@ export default defineComponent({
       type: Boolean,
       defult: false,
     },
+    step: {
+      type: Number,
+    },
+    max: {
+      type: Number,
+      default: 100,
+    },
+    showStops: {
+      type: Boolean,
+      default: false,
+    },
+    marks: {
+      type: Object,
+    },
   },
   setup(props, context) {
     let sliderBox = ref();
     let sliderBlock = ref();
-    // 距离页面最左边的距离
-    let pageDistance = ref();
-    onMounted(() => {
-      pageDistance.value = getLeft(sliderBox.value);
-    });
+    let stepData = ref();
+    let stepWidth = ref();
+    let maxData = ref(0);
+    let nodes: any = ref([]);
+    const everyNode = (el: any) => {
+      nodes.value.push(el);
+    };
+    let sign: any = ref([]);
+    const everySign = (el: any) => {
+      sign.value.push(el);
+    };
+    // 执行事件
+    function executeChange() {
+      context.emit("change", score.value);
+    }
+    function setmodelValue() {
+      context.emit("update:modelValue", score.value);
+    }
     //   设置大小
     let heightData = ref();
     let widthData = ref();
@@ -72,6 +119,61 @@ export default defineComponent({
         heightData.value = 24;
       }
     }
+
+    // 距离页面最左边的距离
+    let pageLeftDistance = ref();
+    // 设置最大显示数值
+    setMaxData();
+    function setMaxData() {
+      if (props.max >= 1) {
+        maxData.value = props.max;
+      } else {
+        maxData.value = 1;
+      }
+    }
+
+    // 设置步长
+    setStep();
+    function setStep() {
+      if (props.step !== undefined) {
+        if (props.step >= 1 && props.step <= maxData.value) {
+          stepData.value = maxData.value / props.step;
+          stepWidth.value = widthData.value / props.step;
+        } else {
+          if (props.step < 1) {
+            stepData.value = maxData.value;
+            stepWidth.value = widthData.value;
+          }
+          if (props.step > maxData.value) {
+            stepData.value = 1;
+            stepWidth.value = widthData.value / maxData.value;
+          }
+        }
+      } else {
+        stepData.value = 1;
+        stepWidth.value = widthData.value / maxData.value;
+      }
+    }
+    // 设置结点位置
+    function setNodesLocation() {
+      nodes.value.forEach((val: any, ind: number) => {
+        val.style.left = (ind + 1) * stepWidth.value + "px";
+      });
+    }
+    // 设置标记的位置
+    function setMarkLocation() {
+      sign.value.forEach((val: any, ind: number) => {
+        if (Object(props.marks)[ind] !== undefined) {
+          val.style.left = (ind + 1) * stepWidth.value + 3 + "px";
+        }
+      });
+    }
+    onMounted(() => {
+      setNodesLocation();
+      setMarkLocation();
+      pageLeftDistance.value = getLeft(sliderBox.value);
+    });
+
     // 是否触摸
     let isHover = ref(false);
     let isExceed = ref(false);
@@ -84,53 +186,62 @@ export default defineComponent({
       }
     }
     let score: any = ref(0);
-    let startX = ref();
+    let startX = ref(0);
     let startY = ref();
     let isMove = ref(false);
     // 每次移动的距离
-    let displacementDistance = ref(0);
+    let movingDistance = ref(0);
     // 滑块停的位置距离刻度为0的距离
-    let restingPosition = ref(0);
-    // 获取元素在page中的位置
+    let initialPointDistance = ref(0);
+    // 求到页面最左边的距离
     function getLeft(e: any) {
       let offset = e.offsetLeft;
       if (e.offsetParent != null) offset += getLeft(e.offsetParent);
       return offset;
     }
+    // 鼠标在滑块上按下
     function onMousedown(e: any) {
+      e.stopPropagation();
       isExceed.value = false;
       isMove.value = true;
       startY.value = e.pageY;
       startX.value = e.pageX;
-      displacementDistance.value = 0;
-      restingPosition.value = e.pageX - pageDistance.value;
+      movingDistance.value = 0;
+      initialPointDistance.value = e.pageX - pageLeftDistance.value;
+      if (initialPointDistance.value <= 0) {
+        initialPointDistance.value = 0;
+      }
+      if (initialPointDistance.value >= widthData.value) {
+        initialPointDistance.value = widthData.value;
+      }
     }
+    // 鼠标移动
     document.addEventListener("mousemove", (e) => {
       if (isMove.value) {
-        displacementDistance.value = e.pageX - startX.value;
+        movingDistance.value = e.pageX - startX.value;
         if (Math.abs(e.pageY - startY.value) >= heightData.value * 0.35) {
           isExceed.value = true;
         }
         if (
-          restingPosition.value + e.pageX - startX.value >= 0 &&
-          restingPosition.value + e.pageX - startX.value <= widthData.value
+          initialPointDistance.value + e.pageX - startX.value >= 0 &&
+          initialPointDistance.value + e.pageX - startX.value <= widthData.value
         ) {
-          displacementDistance.value = e.pageX - startX.value;
+          movingDistance.value = e.pageX - startX.value;
         } else {
-          if (restingPosition.value + e.pageX - startX.value < 0) {
-            displacementDistance.value = -restingPosition.value;
+          if (initialPointDistance.value + e.pageX - startX.value < 0) {
+            movingDistance.value = -initialPointDistance.value;
             isExceed.value = true;
           } else if (
-            restingPosition.value + e.pageX - startX.value >
+            initialPointDistance.value + e.pageX - startX.value >
             widthData.value
           ) {
-            displacementDistance.value =
-              widthData.value - restingPosition.value;
+            movingDistance.value = widthData.value - initialPointDistance.value;
             isExceed.value = true;
           }
         }
       }
     });
+    // 鼠标松开
     document.addEventListener("mouseup", (e) => {
       if (isMove.value) {
         isMove.value = false;
@@ -138,20 +249,41 @@ export default defineComponent({
       if (isExceed.value) {
         isHover.value = false;
       }
+      executeChange();
+      setmodelValue();
     });
+    function setScore(e: any) {
+      isHover.value = true;
+      initialPointDistance.value = e.pageX - pageLeftDistance.value;
+      movingDistance.value = 0;
+    }
     watchEffect(() => {
-      score.value = Math.floor(
-        ((restingPosition.value + displacementDistance.value) /
-          widthData.value) *
-          100
-      );
+      score.value =
+        Math.round(
+          (((initialPointDistance.value + movingDistance.value) /
+            widthData.value) *
+            maxData.value) /
+            stepData.value
+        ) * stepData.value;
     });
     watch(
       () => {
         return props.modelValue;
       },
       (newval, oldval) => {
-        score.value = newval;
+        if (Number(newval) > 0 && Number(newval) < maxData.value) {
+          score.value = newval;
+        } else {
+          if (Number(newval) <= 0) {
+            score.value = 0;
+          }
+          if (Number(newval) >= maxData.value) {
+            score.value = maxData.value;
+          }
+        }
+        initialPointDistance.value =
+          (score.value / maxData.value) * widthData.value;
+        movingDistance.value = 0;
       },
       { immediate: true }
     );
@@ -165,8 +297,14 @@ export default defineComponent({
       onMousedown,
       sliderBox,
       sliderBlock,
-      displacementDistance,
-      restingPosition,
+      movingDistance,
+      initialPointDistance,
+      setScore,
+      maxData,
+      stepData,
+      stepWidth,
+      everyNode,
+      everySign,
     };
   },
 });
@@ -190,16 +328,18 @@ export default defineComponent({
 }
 .cd-slider-block-frame {
   position: absolute;
+  left: 0;
   height: v-bind(heightData + "px");
   width: v-bind(heightData * 0.6 + "px");
   margin-left: v-bind(
-    displacementDistance + restingPosition-heightData * 0.3 + "px"
+    "Math.round((movingDistance + initialPointDistance)/stepWidth) *stepWidth-heightData * 0.3+'px'"
   );
 }
 .cd-slider-block-score {
   position: absolute;
   top: -36px;
-  left: -50%;
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 12px;
   text-align: center;
   line-height: 30px;
@@ -234,11 +374,38 @@ export default defineComponent({
   width: v-bind(heightData * 0.7 + "px");
 }
 .cd-slider-right {
-  flex: v-bind(100-score);
+  flex: v-bind(maxData-score);
   height: v-bind(heightData/5 + "px");
   width: v-bind(widthData + "px");
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
   background-color: #e3e6ed;
+}
+.node {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: v-bind(heightData/5 + "px");
+  width: v-bind(heightData/5 + "px");
+  border-radius: 50%;
+  background-color: white;
+}
+.cd-slider-mark-frame {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  height: v-bind(heightData/5 + "px");
+  width: v-bind(widthData + "px");
+}
+.cd-slider-mark {
+  position: absolute;
+  z-index: 0;
+  top: v-bind(heightData/4 + 5 + "px");
+  transform: translateX(-50%);
+  height: v-bind(heightData/5 + "px");
+  line-height: v-bind(heightData/3 + "px");
+  font-size: 13px;
+  color: #909399;
 }
 </style>

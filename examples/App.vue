@@ -4,11 +4,12 @@
       class="suu"
       v-model="data"
       :disabled="false"
-      :step="2"
       :height="32"
-      :width="240"
-      showStops="true"
-      :marks="{ 0: 32, 23: 90 }"
+      :width="400"
+      :step="8"
+      :showStops="true"
+      :max="100"
+      @change="onChange"
     ></cd-slider>
     <form method="post" action="http://127.0.0.1:3000/su">
       <input type="submit" />
@@ -22,8 +23,11 @@ import { ref, onMounted, getCurrentInstance, watch, reactive } from "vue";
 export default {
   name: "App",
   setup() {
-    let data = ref(2);
-
+    let data = ref(60);
+    // setInterval(() => {
+    //   data.value += 2;
+    //   console.log(data.value);
+    // }, 400);
     watch(data, (newval, oldval) => {
       console.log(newval);
     });
