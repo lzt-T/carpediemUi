@@ -1,17 +1,15 @@
 <template>
   <div v-if="type == 'list'">
     <div :class="{ 'cd-upload-div': true }">
-      <form :method="method" :action="action" ref="form">
-        <input
-          action="http://127.0.0.1:3000/su"
-          type="file"
-          :class="{ 'cd-upload': true }"
-          @change="UpFile($event)"
-          :multiple="multiple"
-          ref="file"
-          name="upload"
-        />
-      </form>
+      <input
+        action="http://127.0.0.1:3000/su"
+        type="file"
+        :class="{ 'cd-upload': true }"
+        @change="UpFile($event)"
+        :multiple="multiple"
+        ref="file"
+        name="upload"
+      />
       <div class="cd-upload-selectText">{{ selectText }}</div>
     </div>
     <div
@@ -64,7 +62,55 @@
     </div>
   </div>
   <div v-if="type == 'picture'">
-    <div>asdasd</div>
+    <div
+      v-if="autoUpload == false"
+      :class="{ 'cd-upload-picture-manual-upload': true }"
+    >
+      {{ manualUploadText }}
+    </div>
+    <div
+      :class="{ 'cd-upload-picture-img-frame': true }"
+      v-for="(data, ind) in imgArray"
+      :key="data"
+      @mouseover="onImgMouseover(ind)"
+      @mouseout="onImgMouseout"
+    >
+      <img :src="data" :class="{ 'cd-upload-picture-img': true }" />
+      <div
+        v-show="iscoveeInd == ind"
+        :class="{ 'cd-upload-picture-img-cover-frame': true }"
+      >
+        <cd-icon
+          name="trash"
+          :size="40"
+          color="white"
+          :class="{ 'cd-upload-picture-img-cover': true }"
+        ></cd-icon>
+      </div>
+    </div>
+    <div
+      :class="{ 'cd-upload-picture-frame': true }"
+      @mouseover="onPictureMouseover"
+      @mouseout="onPictureMouseout"
+    >
+      <input
+        action="http://127.0.0.1:3000/su"
+        type="file"
+        :class="{ 'cd-upload-picture': true }"
+        @change="UpFile($event)"
+        :multiple="multiple"
+        ref="file"
+        name="upload"
+      />
+      <div
+        :class="{
+          'cd-upload-picture-icon': true,
+          'cd-upload-picture-icon-hover': isHover,
+        }"
+      >
+        +
+      </div>
+    </div>
   </div>
 </template>
 
@@ -198,7 +244,7 @@ export default defineComponent({
         deleInd.value == undefined;
       }, 190);
     }
-    let form = ref();
+
     let file = ref();
     //每次上传file对象，有size和name属性
     let dataArray: any = ref([]);
@@ -295,12 +341,25 @@ export default defineComponent({
       uploadServer(dataArray);
     }
 
+    let isHover = ref();
+    function onPictureMouseover() {
+      isHover.value = true;
+    }
+    function onPictureMouseout() {
+      isHover.value = false;
+    }
+    let iscoveeInd = ref();
+    function onImgMouseover(ind: number) {
+      iscoveeInd.value = ind;
+    }
+    function onImgMouseout() {
+      iscoveeInd.value = undefined;
+    }
     return {
       UpFile,
       dataArray,
       file,
       imgArray,
-      form,
       heightData,
       widthData,
       fileName,
@@ -314,6 +373,12 @@ export default defineComponent({
       sumFile,
       onUpload,
       uploadServer,
+      isHover,
+      onPictureMouseover,
+      onPictureMouseout,
+      onImgMouseover,
+      onImgMouseout,
+      iscoveeInd,
     };
   },
 });
@@ -340,6 +405,7 @@ export default defineComponent({
   vertical-align: middle;
   border-radius: 5px;
   margin-left: 5px;
+  cursor: pointer;
 }
 .cd-upload {
   position: absolute;
@@ -348,7 +414,6 @@ export default defineComponent({
   left: 0;
   height: v-bind(heightData + "px");
   width: v-bind(widthData + "px");
-
   opacity: 0;
 }
 .cd-upload-selectText {
@@ -365,14 +430,14 @@ export default defineComponent({
   color: white;
   background-color: #409efe;
 }
-.cd-upload-list-frame {
-}
+
 .cd-upload-list-every {
   position: relative;
   display: flex;
   height: 35px;
   line-height: 35px;
   font-size: 15px;
+  cursor: pointer;
 }
 .cd-upload-list-every-hover {
   background-color: #f6f7f9;
@@ -418,5 +483,79 @@ export default defineComponent({
 .cd-upload-list-afterIcon {
   flex: 1;
   margin-right: 5px;
+}
+/* picture */
+.cd-upload-picture-manual-upload {
+  height: 32px;
+  width: 160px;
+  border-radius: 5px;
+  font-size: 17px;
+  line-height: 32px;
+  text-align: center;
+  color: white;
+  background-color: #409efe;
+}
+.cd-upload-picture-img-frame {
+  position: relative;
+  display: inline-block;
+  border-radius: 5px;
+  height: v-bind(heightData + "px");
+  width: v-bind(widthData + "px");
+  margin-right: 5px;
+}
+.cd-upload-picture-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+}
+.cd-upload-picture-img-cover-frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.cd-upload-picture-img-cover {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  line-height: 40px;
+}
+.cd-upload-picture-frame {
+  display: inline-block;
+  position: relative;
+  height: v-bind(heightData + "px");
+  width: v-bind(widthData + "px");
+  border-radius: 5px;
+}
+.cd-upload-picture {
+  position: absolute;
+  z-index: 1;
+  top: 0px;
+  left: 0px;
+  height: v-bind(heightData + "px");
+  width: v-bind(widthData + "px");
+  background-color: aqua;
+  opacity: 0;
+}
+.cd-upload-picture-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 1px solid #f7f7f7;
+  border-radius: 5px;
+  height: v-bind(heightData + "px");
+  width: v-bind(widthData + "px");
+  line-height: v-bind(heightData + "px");
+  font-size: 40px;
+  color: #a7abb4;
+  background-color: #fcfdff;
+  text-align: center;
+}
+.cd-upload-picture-icon-hover {
+  border: 1px solid #629cff;
 }
 </style>
