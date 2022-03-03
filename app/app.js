@@ -1,10 +1,11 @@
 var Koa = require('koa');
 var app = new Koa();
 var Router = require('koa-router')();
+var path = require('path')
+const formidable = require('formidable')
 var bodyParser = require('koa-bodyparser');
-const { withCtx } = require('vue');
 app.use(bodyParser())
-const cors = require("@koa/cors")
+const cors = require("@koa/cors");
 app.use(cors())
 app.use(async (ctx, next) => {
     ctx.set('Access-Control-Allow-Origin', '*');
@@ -17,11 +18,19 @@ app.use(async (ctx, next) => {
     }
 });
 
+
 Router.get('/', async (ctx) => {
     ctx.body = "asd"
 })
 Router.post('/su', async (ctx) => {
-    console.log(ctx.request.body);
+    let form = new formidable.IncomingForm({ multiples: true, uploadDir: path.join(__dirname, 'public'), keepExtensions: true });
+    // 调用parse上传
+    form.parse(ctx.req, (err, value, files) => {
+        if (err) {
+            ctx.body = "asddas"
+        }
+    })
+
     ctx.body = "asdasd"
 })
 app

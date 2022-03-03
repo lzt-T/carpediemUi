@@ -1067,6 +1067,13 @@
     "@types/qs" "*"
     "@types/serve-static" "*"
 
+"@types/formidable@^1.0.31":
+  "integrity" "sha512-zu3mQJa4hDNubEMViSj937602XdDGzK7Q5pJ5QmLUbNxclbo9tZGt5jtwM352ssZ+pqo5V4H14TBvT/ALqQQcA=="
+  "resolved" "https://registry.npmjs.org/@types/formidable/-/formidable-1.2.5.tgz"
+  "version" "1.2.5"
+  dependencies:
+    "@types/node" "*"
+
 "@types/glob@^7.1.1":
   "integrity" "sha1-6lniHS7lxReRTLS8jkFTuZ5WZnI="
   "resolved" "https://registry.npmmirror.com/@types/glob/download/@types/glob-7.1.4.tgz"
@@ -1911,6 +1918,11 @@
   "integrity" "sha1-qJS3XUvE9s1nnvMkSp/Y9Gri1Cg="
   "resolved" "https://registry.nlark.com/array-unique/download/array-unique-0.3.2.tgz"
   "version" "0.3.2"
+
+"asap@^2.0.0":
+  "integrity" "sha1-5QNHYR1+aQlDIIu9r+vLwvuGbUY="
+  "resolved" "https://registry.npmjs.org/asap/-/asap-2.0.6.tgz"
+  "version" "2.0.6"
 
 "asn1.js@^5.2.0":
   "integrity" "sha1-EamAuE67kXgc41sP3C7ilON4Pwc="
@@ -2763,6 +2775,16 @@
   "resolved" "https://registry.nlark.com/clone/download/clone-1.0.4.tgz"
   "version" "1.0.4"
 
+"co-body@^5.1.1":
+  "integrity" "sha512-sX/LQ7LqUhgyaxzbe7IqwPeTr2yfpfUIQ/dgpKo6ZI4y4lpQA0YxAomWIY+7I7rHWcG02PG+OuPREzMW/5tszQ=="
+  "resolved" "https://registry.npmjs.org/co-body/-/co-body-5.2.0.tgz"
+  "version" "5.2.0"
+  dependencies:
+    "inflation" "^2.0.0"
+    "qs" "^6.4.0"
+    "raw-body" "^2.2.0"
+    "type-is" "^1.6.14"
+
 "co-body@^6.0.0":
   "integrity" "sha512-m7pOT6CdLN7FuXUcpuz/8lfQ/L77x8SchHCF4G0RBTJO20Wzmhn5Sp4/5WsKy8OSpifBSUrmg83qEqaDHdyFuQ=="
   "resolved" "https://registry.npmjs.org/co-body/-/co-body-6.1.0.tgz"
@@ -3576,6 +3598,14 @@
   "resolved" "https://registry.nlark.com/detect-node/download/detect-node-2.1.0.tgz?cache=0&sync_timestamp=1621146954463&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fdetect-node%2Fdownload%2Fdetect-node-2.1.0.tgz"
   "version" "2.1.0"
 
+"dezalgo@1.0.3":
+  "integrity" "sha1-f3Qt4Gb8dIvI24IFad3c5Jvw1FY="
+  "resolved" "https://registry.npmjs.org/dezalgo/-/dezalgo-1.0.3.tgz"
+  "version" "1.0.3"
+  dependencies:
+    "asap" "^2.0.0"
+    "wrappy" "1"
+
 "diff@^4.0.1":
   "integrity" "sha1-YPOuy4nV+uUgwRqhnvwruYKq3n0="
   "resolved" "https://registry.nlark.com/diff/download/diff-4.0.2.tgz?cache=0&sync_timestamp=1622685824253&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fdiff%2Fdownload%2Fdiff-4.0.2.tgz"
@@ -4268,6 +4298,21 @@
     "combined-stream" "^1.0.6"
     "mime-types" "^2.1.12"
 
+"formidable@^1.1.1":
+  "integrity" "sha512-KcpbcpuLNOwrEjnbpMC0gS+X8ciDoZE1kkqzat4a8vrprf+s9pKNQ/QIwWfbfs4ltgmFl3MD177SNTkve3BwGQ=="
+  "resolved" "https://registry.npmjs.org/formidable/-/formidable-1.2.6.tgz"
+  "version" "1.2.6"
+
+"formidable@^2.0.1":
+  "integrity" "sha512-rjTMNbp2BpfQShhFbR3Ruk3qk2y9jKpvMW78nJgx8QKtxjDVrwbZG+wvDOmVbifHyOUOQJXxqEy6r0faRrPzTQ=="
+  "resolved" "https://registry.npmjs.org/formidable/-/formidable-2.0.1.tgz"
+  "version" "2.0.1"
+  dependencies:
+    "dezalgo" "1.0.3"
+    "hexoid" "1.0.0"
+    "once" "1.4.0"
+    "qs" "6.9.3"
+
 "forwarded@0.2.0":
   "integrity" "sha1-ImmTZCiq1MFcfr6XeahL8LKoGBE="
   "resolved" "https://registry.nlark.com/forwarded/download/forwarded-0.2.0.tgz?cache=0&sync_timestamp=1622503408398&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fforwarded%2Fdownload%2Fforwarded-0.2.0.tgz"
@@ -4624,6 +4669,11 @@
   "integrity" "sha1-TAb8y0YC/iYCs8k9+C1+fb8aio4="
   "resolved" "https://registry.nlark.com/hex-color-regex/download/hex-color-regex-1.1.0.tgz"
   "version" "1.1.0"
+
+"hexoid@1.0.0":
+  "integrity" "sha512-QFLV0taWQOZtvIRIAdBChesmogZrtuXvVWsFHZTk2SU+anspqZ2vMnoLg7IE1+Uk16N19APic1BuF8bC8c2m5g=="
+  "resolved" "https://registry.npmjs.org/hexoid/-/hexoid-1.0.0.tgz"
+  "version" "1.0.0"
 
 "highlight.js@^10.7.1":
   "integrity" "sha1-aXJy45kTVuQMPKxWanTu9oF1ZTE="
@@ -5560,6 +5610,15 @@
   "resolved" "https://registry.npmjs.org/klona/-/klona-2.0.5.tgz"
   "version" "2.0.5"
 
+"koa-body@^4.2.0":
+  "integrity" "sha512-wdGu7b9amk4Fnk/ytH8GuWwfs4fsB5iNkY8kZPpgQVb04QZSv85T0M8reb+cJmvLE8cjPYvBzRikD3s6qz8OoA=="
+  "resolved" "https://registry.npmjs.org/koa-body/-/koa-body-4.2.0.tgz"
+  "version" "4.2.0"
+  dependencies:
+    "@types/formidable" "^1.0.31"
+    "co-body" "^5.1.1"
+    "formidable" "^1.1.1"
+
 "koa-bodyparser@^4.3.0":
   "integrity" "sha512-uyV8G29KAGwZc4q/0WUAjH+Tsmuv9ImfBUF2oZVyZtaeo0husInagyn/JH85xMSxM0hEk/mbCII5ubLDuqW/Rw=="
   "resolved" "https://registry.npmjs.org/koa-bodyparser/-/koa-bodyparser-4.3.0.tgz"
@@ -6366,7 +6425,7 @@
   "resolved" "https://registry.nlark.com/on-headers/download/on-headers-1.0.2.tgz"
   "version" "1.0.2"
 
-"once@^1.3.0", "once@^1.3.1", "once@^1.4.0":
+"once@^1.3.0", "once@^1.3.1", "once@^1.4.0", "once@1.4.0":
   "integrity" "sha1-WDsap3WWHUsROsF9nFC6753Xa9E="
   "resolved" "https://registry.nlark.com/once/download/once-1.4.0.tgz"
   "version" "1.4.0"
@@ -7517,7 +7576,7 @@
   "resolved" "https://registry.npm.taobao.org/q/download/q-1.5.1.tgz?cache=0&sync_timestamp=1599054212574&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fq%2Fdownload%2Fq-1.5.1.tgz"
   "version" "1.5.1"
 
-"qs@^6.5.2", "qs@~6.5.2":
+"qs@^6.4.0", "qs@^6.5.2", "qs@~6.5.2":
   "integrity" "sha1-yzroBuh0BERYTvFUzo7pjUA/PjY="
   "resolved" "https://registry.nlark.com/qs/download/qs-6.5.2.tgz"
   "version" "6.5.2"
@@ -7526,6 +7585,11 @@
   "integrity" "sha1-QdwaAV49WB8WIXdr4xr7KHapsbw="
   "resolved" "https://registry.nlark.com/qs/download/qs-6.7.0.tgz"
   "version" "6.7.0"
+
+"qs@6.9.3":
+  "integrity" "sha512-EbZYNarm6138UKKq46tdx08Yo/q9ZhFoAXAI1meAFd2GtbRDhbZY2WQSICskT0c5q99aFzLG1D4nvTk9tqfXIw=="
+  "resolved" "https://registry.npmjs.org/qs/-/qs-6.9.3.tgz"
+  "version" "6.9.3"
 
 "query-string@^4.1.0":
   "integrity" "sha1-u7aTucqRXCMlFbIosaArYJBD2+s="
@@ -7570,7 +7634,7 @@
   "resolved" "https://registry.npm.taobao.org/range-parser/download/range-parser-1.2.1.tgz"
   "version" "1.2.1"
 
-"raw-body@^2.3.3", "raw-body@2.4.0":
+"raw-body@^2.2.0", "raw-body@^2.3.3", "raw-body@2.4.0":
   "integrity" "sha1-oc5vucm8NWylLoklarWQWeE9AzI="
   "resolved" "https://registry.nlark.com/raw-body/download/raw-body-2.4.0.tgz"
   "version" "2.4.0"
@@ -8935,7 +8999,7 @@
   "resolved" "https://registry.npmmirror.com/type-fest/download/type-fest-0.6.0.tgz?cache=0&sync_timestamp=1634020561111&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Ftype-fest%2Fdownload%2Ftype-fest-0.6.0.tgz"
   "version" "0.6.0"
 
-"type-is@^1.6.16", "type-is@~1.6.17", "type-is@~1.6.18":
+"type-is@^1.6.14", "type-is@^1.6.16", "type-is@~1.6.17", "type-is@~1.6.18":
   "integrity" "sha1-TlUs0F3wlGfcvE73Od6J8s83wTE="
   "resolved" "https://registry.nlark.com/type-is/download/type-is-1.6.18.tgz"
   "version" "1.6.18"

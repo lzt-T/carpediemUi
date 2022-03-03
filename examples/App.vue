@@ -1,13 +1,22 @@
 <template>
   <div class="su">
-    asdsa
-    <cd-switch
-      v-model="data"
+    <cd-upload
+      action="http://127.0.0.1:3000/su"
+      type="picture"
+      method="post"
+      :showFileList="false"
+      :beforeUpload="su"
+      :onRemove="su"
+      :onError="su"
+      :onSuccess="su"
+      :onPropgress="su"
       :disabled="false"
-      :height="50"
-      :width="200"
-      @change="onChange"
-    ></cd-switch>
+      :autoUpload="true"
+      :limit="5"
+      :height="32"
+      :width="180"
+      :multiple="true"
+    ></cd-upload>
     <form method="post" action="http://127.0.0.1:3000/su">
       <input type="submit" />
     </form>
@@ -24,6 +33,11 @@ export default {
     watch(data, (newval, oldval) => {
       console.log(newval);
     });
+    function su(data: any) {
+      console.log(data);
+
+      return true;
+    }
     // setInterval(() => {
     //   data.value = !data.value;
     // }, 1000);
@@ -46,6 +60,7 @@ export default {
       onBlur,
       onChange,
       onClear,
+      su,
     };
   },
 };
@@ -54,12 +69,9 @@ export default {
 <style >
 .su {
   height: 600px;
+  width: 600px;
   font-size: 100px;
   line-height: 100px;
-}
-.suu {
-  position: absolute;
-  top: 100px;
-  left: 100px;
+  /* background-color: bisque; */
 }
 </style>
