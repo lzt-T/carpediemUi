@@ -1,21 +1,14 @@
 <template>
   <div class="su">
-    <cd-upload
-      action="http://127.0.0.1:3000/su"
-      type="picture"
-      method="post"
-      :showFileList="true"
-      :beforeUpload="su"
-      :onRemove="su"
-      :onError="su"
-      :onSuccess="su"
-      :onPropgress="su"
-      :autoUpload="true"
-      :limit="2"
-      :height="200"
-      :width="200"
-      :multiple="true"
-    ></cd-upload>
+    asdsad
+    <cd-avatar
+      :size="50"
+      shape="circle"
+      src="https://cdn.jsdelivr.net/gh/lzb/img@master/5.jpg"
+      alt="asdsa"
+      fit="cover"
+      @error="onChange"
+    ></cd-avatar>
     <form method="post" action="http://127.0.0.1:3000/su">
       <input type="submit" />
     </form>
