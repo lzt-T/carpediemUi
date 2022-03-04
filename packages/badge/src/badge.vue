@@ -12,9 +12,7 @@
 </template>
 
 <script lang="ts">
-import cdIcon from "./../../icon/src/icon.vue";
 import { defineComponent, ref, watch } from "vue";
-
 export default defineComponent({
   name: "cd-badge",
   props: {
@@ -35,9 +33,6 @@ export default defineComponent({
       type: String,
       default: "#f06a61",
     },
-  },
-  components: {
-    cdIcon,
   },
   setup(props, context) {
     let valueData = ref();
