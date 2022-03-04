@@ -1,9 +1,21 @@
 <template>
   <div class="su">
     <div>sadasd</div>
-    <cd-badge :value="90" :max="99" :isDot="false" :hidden="false"
-      >asd</cd-badge
-    >
+    <cd-carousel
+      :height="213"
+      :initialIndex="0"
+      trigger="hover"
+      :autoplay="true"
+      :interval="3000"
+      arrow="hover"
+      :loop="true"
+      :src="[
+        'https://cdn.jsdelivr.net/gh/lztnb/img@master/5.jpg',
+        'https://cdn.jsdelivr.net/gh/lztnb/img@master/6.jpg',
+        'https://cdn.jsdelivr.net/gh/lztnb/img@master/7.jpg',
+        'https://cdn.jsdelivr.net/gh/lztnb/img@master/14.jpg',
+      ]"
+    ></cd-carousel>
     <form method="post" action="http://127.0.0.1:3000/su">
       <input type="submit" />
     </form>
@@ -55,7 +67,7 @@ export default {
 
 <style >
 .su {
-  height: 900px;
+  height: 600px;
   width: 600px;
   font-size: 100px;
   line-height: 100px;
