@@ -10,10 +10,10 @@
       :onError="su"
       :onSuccess="su"
       :onPropgress="su"
-      :autoUpload="false"
-      :limit="5"
-      :height="300"
-      :width="300"
+      :autoUpload="true"
+      :limit="2"
+      :height="200"
+      :width="200"
       :multiple="true"
     ></cd-upload>
     <form method="post" action="http://127.0.0.1:3000/su">
@@ -67,7 +67,7 @@ export default {
 
 <style >
 .su {
-  height: 600px;
+  height: 900px;
   width: 600px;
   font-size: 100px;
   line-height: 100px;

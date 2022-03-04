@@ -39,7 +39,7 @@
 
         <cd-icon
           name="documentTow"
-          :size="heightData / 2"
+          :size="16"
           :class="{ 'cd-upload-list-beforeIcon': true }"
           color="rgba(0, 0, 0, 0.4)"
         ></cd-icon>
@@ -54,7 +54,7 @@
         <cd-icon
           :name="hoverInd == ind ? 'delete' : fileState[ind] == 2 ? 'tick' : ''"
           :color="hoverInd == ind ? '#a0a1a3' : '#abce95'"
-          :size="heightData / 2"
+          :size="16"
           :class="{ 'cd-upload-list-afterIcon': true }"
           @click="deleDocument(ind)"
         ></cd-icon>
@@ -65,17 +65,33 @@
     <div
       v-if="autoUpload == false"
       :class="{ 'cd-upload-picture-manual-upload': true }"
+      @click="onUpload"
     >
       {{ manualUploadText }}
     </div>
     <div
-      :class="{ 'cd-upload-picture-img-frame': true }"
+      :class="{
+        'cd-upload-picture-img-frame': true,
+        'cd-upload-picture-img-show': true,
+        'cd-upload-picture-img-notshow': ind == deleInd,
+      }"
       v-for="(data, ind) in imgArray"
       :key="data"
       @mouseover="onImgMouseover(ind)"
       @mouseout="onImgMouseout"
     >
       <img :src="data" :class="{ 'cd-upload-picture-img': true }" />
+      <div
+        :class="{ 'cd-upload-picture-accomplish': true }"
+        v-show="iscoveeInd != ind && fileState[ind] == 2"
+      >
+        <cd-icon
+          name="tick"
+          :size="12"
+          color="white"
+          :class="{ 'cd-upload-picture-accomplish-icon': true }"
+        ></cd-icon>
+      </div>
       <div
         v-show="iscoveeInd == ind"
         :class="{ 'cd-upload-picture-img-cover-frame': true }"
@@ -85,6 +101,7 @@
           :size="40"
           color="white"
           :class="{ 'cd-upload-picture-img-cover': true }"
+          @click="deleDocument(ind)"
         ></cd-icon>
       </div>
     </div>
@@ -241,8 +258,8 @@ export default defineComponent({
             return ind != deleInd.value;
           }
         );
-        deleInd.value == undefined;
-      }, 190);
+        deleInd.value = undefined;
+      }, 200);
     }
 
     let file = ref();
@@ -447,12 +464,12 @@ export default defineComponent({
 }
 @keyframes show {
   0% {
-    margin-top: -10px;
+    top: -10px;
     opacity: 0;
   }
   100% {
     opacity: 1;
-    margin-top: 0px;
+    top: 0px;
   }
 }
 .cd-upload-list-every-notShow {
@@ -460,12 +477,12 @@ export default defineComponent({
 }
 @keyframes notshow {
   0% {
-    margin-top: 0px;
-    opacity: 0.5;
+    opacity: 1;
+    margin-top: 0;
   }
   100% {
     opacity: 0;
-    margin-top: -20px;
+    margin-top: -15px;
   }
 }
 .cd-upload-list-beforeIcon {
@@ -503,10 +520,49 @@ export default defineComponent({
   width: v-bind(widthData + "px");
   margin-right: 5px;
 }
+.cd-upload-picture-img-show {
+  animation: imgShow 0.2s linear;
+}
+@keyframes imgShow {
+  0% {
+    top: -30px;
+  }
+  100% {
+    top: 0;
+  }
+}
+.cd-upload-picture-img-notshow {
+  animation: imgNotShow 0.2s linear;
+}
+@keyframes imgNotShow {
+  0% {
+    top: 0px;
+    opacity: 1;
+  }
+  100% {
+    top: -30px;
+    opacity: 0;
+  }
+}
 .cd-upload-picture-img {
   width: 100%;
   height: 100%;
   border-radius: 5px;
+}
+.cd-upload-picture-accomplish {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: 14px solid #15d96d;
+  border-left: 14px solid transparent;
+  border-bottom: 14px solid transparent;
+  border-top-right-radius: 5px;
+  line-height: 12px;
+}
+.cd-upload-picture-accomplish-icon {
+  position: absolute;
+  top: -10px;
+  right: -10px;
 }
 .cd-upload-picture-img-cover-frame {
   position: absolute;
