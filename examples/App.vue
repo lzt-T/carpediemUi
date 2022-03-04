@@ -1,14 +1,9 @@
 <template>
   <div class="su">
-    asdsad
-    <cd-avatar
-      :size="50"
-      shape="circle"
-      src="https://cdn.jsdelivr.net/gh/lzb/img@master/5.jpg"
-      alt="asdsa"
-      fit="cover"
-      @error="onChange"
-    ></cd-avatar>
+    <div>sadasd</div>
+    <cd-badge :value="90" :max="99" :isDot="false" :hidden="false"
+      >asd</cd-badge
+    >
     <form method="post" action="http://127.0.0.1:3000/su">
       <input type="submit" />
     </form>
@@ -21,7 +16,7 @@ import { ref, onMounted, getCurrentInstance, watch, reactive } from "vue";
 export default {
   name: "App",
   setup() {
-    let data = ref(false);
+    let data = ref(90);
     watch(data, (newval, oldval) => {
       console.log(newval);
     });
