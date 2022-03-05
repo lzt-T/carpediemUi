@@ -1,7 +1,9 @@
 <template>
   <div class="su">
     <div>sadasd</div>
-    <cd-collapse :options="data" :height="48" :accordion="false"></cd-collapse>
+    <cd-collapse :state="false" title="sadas" :height="48"
+      >asdsadasdasdasdasd</cd-collapse
+    >
     <form method="post" action="http://127.0.0.1:3000/su">
       <input type="submit" />
     </form>
