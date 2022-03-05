@@ -1,20 +1,7 @@
 <template>
   <div class="su">
     <div>sadasd</div>
-    <cd-carousel
-      :height="213"
-      :initialIndex="0"
-      trigger="hover"
-      :autoplay="true"
-      :interval="3000"
-      arrow="hover"
-      :loop="true"
-      @change="onChange"
-      :src="[
-        'https://cdn.jsdelivr.net/gh/lztnb/img@master/5.jpg',
-        'https://cdn.jsdelivr.net/gh/lztnb/img@master/6.jpg',
-      ]"
-    ></cd-carousel>
+    <cd-collapse :options="data" :height="48" :accordion="false"></cd-collapse>
     <form method="post" action="http://127.0.0.1:3000/su">
       <input type="submit" />
     </form>
@@ -27,7 +14,16 @@ import { ref, onMounted, getCurrentInstance, watch, reactive } from "vue";
 export default {
   name: "App",
   setup() {
-    let data = ref(90);
+    let data = ref([
+      {
+        title: "asdasd",
+        text: "asdasd341273576123567按格式就到港的费ashdkas126783789126831274512嘎哈圣诞节哈市的方式jahfgjdasjh",
+      },
+      {
+        title: "asdasd",
+        text: "asdasd",
+      },
+    ]);
     watch(data, (newval, oldval) => {
       console.log(newval);
     });
@@ -36,9 +32,6 @@ export default {
 
       return true;
     }
-    // setInterval(() => {
-    //   data.value = !data.value;
-    // }, 1000);
     function onFocus(e: any) {
       console.log(e);
     }
