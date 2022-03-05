@@ -17,7 +17,7 @@
         <img :src="data" />
       </div>
     </div>
-    <div :class="{ 'cd-carousel-trigger-frame': true }">
+    <div :class="{ 'cd-carousel-trigger-frame': true }" v-if="src.length != 1">
       <div
         v-for="(data, ind) in src.length"
         :key="data"
@@ -27,10 +27,11 @@
         }"
         @mouseover="triggerMouseover(ind)"
         @mouseout="triggerMouseout"
+        @click="triggerClick(ind)"
       ></div>
     </div>
     <div
-      v-show="isArrowShow"
+      v-show="isArrowShow && src.length != 1"
       :class="{ 'cd-carousel-left': true }"
       @click="lastPage"
       @selectstart.prevent
@@ -38,7 +39,7 @@
       &lt;
     </div>
     <div
-      v-show="isArrowShow"
+      v-show="isArrowShow && src.length != 1"
       :class="{ 'cd-carousel-right': true }"
       @click="nextPage"
       @selectstart.prevent
@@ -52,6 +53,7 @@
 import { defineComponent, ref, watch } from "vue";
 export default defineComponent({
   name: "cd-carousel",
+  emits: ["change"],
   props: {
     src: {
       type: Array,
@@ -90,9 +92,9 @@ export default defineComponent({
     let presentInd = ref();
     let presentImg: any = ref([]);
     let triggerHoverInd = ref();
+    let isHoverMove = ref(false);
     // 初始化img数组
     initializeImg();
-
     function initializeImg() {
       if (props.initialIndex >= 0 && props.initialIndex < props.src.length) {
         presentInd.value = props.initialIndex;
@@ -105,8 +107,6 @@ export default defineComponent({
         }
       }
       triggerHoverInd.value = presentInd.value;
-      console.log(triggerHoverInd.value);
-
       presentImg.value[0] =
         props.src[
           presentInd.value - 1 < 0
@@ -119,6 +119,10 @@ export default defineComponent({
     }
     // 监听下标的变化
     watch(presentInd, (newval, oldval) => {
+      if (isHoverMove.value) {
+        return;
+      }
+      context.emit("change", newval);
       setTimeout(() => {
         triggerHoverInd.value = newval % props.src.length;
         isLeftMove.value = false;
@@ -137,6 +141,9 @@ export default defineComponent({
     let isLeftMove = ref(false);
     let cycleTimer = setInterval(recoveryTime, props.interval);
     function recoveryTime() {
+      if (props.src.length == 1) {
+        return;
+      }
       isLeftMove.value = true;
       // 停止自动播放
       if (props.autoplay == false) {
@@ -201,16 +208,39 @@ export default defineComponent({
         presentInd.value = 0;
       }
     }
-    //
-
+    //关于trigger是click切换还是hover切换
+    function triggerMove(ind: number) {
+      if (ind > presentInd.value && isLeftMove.value == false) {
+        isLeftMove.value = true;
+        isHoverMove.value = true;
+        presentImg.value[1] = props.src[presentInd.value];
+        presentImg.value[2] = props.src[ind];
+        presentInd.value = ind;
+        isHoverMove.value = false;
+      } else if (ind < presentInd.value && isRightMove.value == false) {
+        isRightMove.value = true;
+        isHoverMove.value = true;
+        presentImg.value[1] = props.src[presentInd.value];
+        presentImg.value[0] = props.src[ind];
+        presentInd.value = ind;
+        isHoverMove.value = false;
+      }
+    }
+    function triggerClick(ind: number) {
+      if (props.trigger == "click") {
+        triggerMove(ind);
+      }
+    }
     function triggerMouseover(ind: number) {
       if (props.trigger == "hover") {
+        triggerMove(ind);
       }
       triggerHoverInd.value = ind;
     }
     function triggerMouseout() {
       if (props.trigger == "hover") {
-        triggerHoverInd.value = undefined;
+      } else {
+        triggerHoverInd.value = presentInd.value;
       }
     }
     return {
@@ -225,6 +255,7 @@ export default defineComponent({
       triggerMouseover,
       triggerMouseout,
       triggerHoverInd,
+      triggerClick,
     };
   },
 });

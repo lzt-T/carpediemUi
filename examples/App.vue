@@ -9,11 +9,10 @@
       :interval="3000"
       arrow="hover"
       :loop="true"
+      @change="onChange"
       :src="[
         'https://cdn.jsdelivr.net/gh/lztnb/img@master/5.jpg',
         'https://cdn.jsdelivr.net/gh/lztnb/img@master/6.jpg',
-        'https://cdn.jsdelivr.net/gh/lztnb/img@master/7.jpg',
-        'https://cdn.jsdelivr.net/gh/lztnb/img@master/14.jpg',
       ]"
     ></cd-carousel>
     <form method="post" action="http://127.0.0.1:3000/su">
