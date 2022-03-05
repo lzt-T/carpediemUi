@@ -27,7 +27,7 @@
           }"
         ></cd-icon>
       </div>
-      <div ref="text">
+      <div ref="text" class="cd-collapse-text">
         <slot></slot>
       </div>
     </div>
@@ -108,12 +108,12 @@ export default defineComponent({
   border-bottom: 1px solid #ededed;
 }
 .cd-collapse-div-always-show {
-  overflow: hidden;
-  height: v-bind(divHeight + heightData + "px");
+  overflow: auto;
+  height: auto;
 }
 .cd-collapse-div-show {
   overflow: hidden;
-  height: v-bind(divHeight + heightData + "px");
+  height: auto;
   animation: show 0.2s linear;
 }
 @keyframes show {
@@ -182,5 +182,8 @@ export default defineComponent({
   100% {
     transform: rotate(0deg);
   }
+}
+.cd-collapse-text {
+  display: inline-block;
 }
 </style>

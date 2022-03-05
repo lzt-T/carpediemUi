@@ -1,9 +1,9 @@
 <template>
   <div class="su">
     <div>sadasd</div>
-    <cd-collapse :state="false" title="sadas" :height="48"
-      >asdsadasdasdasdasd</cd-collapse
-    >
+    <cd-collapse :state="false" title="sadas" :height="48">
+      <div class="suu">aksjhdasjkd</div>
+    </cd-collapse>
     <form method="post" action="http://127.0.0.1:3000/su">
       <input type="submit" />
     </form>
@@ -61,10 +61,14 @@ export default {
 
 <style >
 .su {
-  height: 600px;
+  height: 2000px;
   width: 600px;
   font-size: 100px;
   line-height: 100px;
   /* background-color: bisque; */
+}
+.suu {
+  margin-top: 500px;
+  margin-bottom: 100px;
 }
 </style>
