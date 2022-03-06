@@ -1,13 +1,35 @@
 <template>
   <div class="su">
-    <div>sadasd</div>
-    <cd-empty :imageSize="400">
-      <template v-slot:description>a</template>
-    </cd-empty>
-    <form method="post" action="http://127.0.0.1:3000/su">
-      <input type="submit" />
-    </form>
+    <cd-image
+      alt="asdas"
+      fit="contain"
+      :hideOnClickModal="false"
+      :lazy="true"
+      src="https://cdn.jsdelivr.net/gh/lztnb/img@master/1.jpg"
+      :previewSrcList="[
+        'https://cdn.jsdelivr.net/gh/lztnb/img@master/1.jpg',
+        'https://cdn.jsdelivr.net/gh/lztnb/img@master/1.jpg',
+      ]"
+      :initialIndex="1"
+    ></cd-image>
+    <div>asdsad</div>
+    <cd-image
+      alt="asdas"
+      fit="none"
+      :hideOnClickModal="false"
+      :lazy="true"
+      src="https://cdn.jsdelivr.net/gh/lztnb/img@master/2.jpg"
+      :previewSrcList="[
+        'https://cdn.jsdelivr.net/gh/lztnb/img@master/1.jpg',
+        'https://cdn.jsdelivr.net/gh/lztnb/img@master/1.jpg',
+      ]"
+      :initialIndex="1"
+    >
+    </cd-image>
   </div>
+  <form method="post" action="http://127.0.0.1:3000/su">
+    <input type="submit" />
+  </form>
 </template>
 
 <script lang="ts">
@@ -61,14 +83,11 @@ export default {
 
 <style >
 .su {
-  height: 500px;
-  width: 600px;
+  overflow: auto;
+  height: 400px;
+  width: 400px;
   font-size: 100px;
   line-height: 100px;
   /* background-color: bisque; */
-}
-.suu {
-  margin-top: 500px;
-  margin-bottom: 100px;
 }
 </style>
