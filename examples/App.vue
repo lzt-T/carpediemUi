@@ -1,9 +1,9 @@
 <template>
   <div class="su">
     <div>sadasd</div>
-    <cd-collapse :state="false" title="sadas" :height="48">
-      <div class="suu">aksjhdasjkd</div>
-    </cd-collapse>
+    <cd-empty :imageSize="400">
+      <template v-slot:description>a</template>
+    </cd-empty>
     <form method="post" action="http://127.0.0.1:3000/su">
       <input type="submit" />
     </form>
@@ -61,7 +61,7 @@ export default {
 
 <style >
 .su {
-  height: 2000px;
+  height: 500px;
   width: 600px;
   font-size: 100px;
   line-height: 100px;
