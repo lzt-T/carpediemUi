@@ -45,11 +45,31 @@
         ></cd-icon>
       </div>
       <!-- 组合键 -->
-      <div>
-        <cd-icon></cd-icon>
-        <cd-icon></cd-icon>
-        <cd-icon></cd-icon>
-        <cd-icon></cd-icon>
+      <div class="cd-image-combination-button-frame">
+        <cd-icon
+          name="lessen"
+          class="cd-image-combination-button-lessen"
+          :size="30"
+          color="white"
+        ></cd-icon>
+        <cd-icon
+          name="magnify"
+          class="cd-image-combination-button-magnify"
+          :size="30"
+          color="white"
+        ></cd-icon>
+        <cd-icon
+          name="leftRotate"
+          class="cd-image-combination-button-leftRotate"
+          :size="30"
+          color="white"
+        ></cd-icon>
+        <cd-icon
+          name="rightRotate"
+          class="cd-image-combination-button-rightRotate"
+          :size="30"
+          color="white"
+        ></cd-icon>
       </div>
     </div>
   </teleport>
@@ -302,5 +322,36 @@ img {
   border-radius: 22px;
   background-color: #606266;
   opacity: 0.8;
+}
+.cd-image-combination-button-frame {
+  position: absolute;
+  z-index: 2;
+  bottom: 35px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  height: 44px;
+  border-radius: 22px;
+  background-color: #606266;
+  opacity: 0.8;
+}
+.cd-image-combination-button-lessen {
+  flex: 1;
+  margin-left: 22px;
+  margin-right: 15px;
+  line-height: 30px;
+}
+.cd-image-combination-button-magnify {
+  flex: 1;
+  margin-right: 15px;
+}
+.cd-image-combination-button-leftRotate {
+  flex: 1;
+  margin-right: 15px;
+}
+.cd-image-combination-button-rightRotate {
+  flex: 1;
+  margin-right: 22px;
 }
 </style>

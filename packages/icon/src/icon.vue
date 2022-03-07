@@ -50,11 +50,11 @@ export default defineComponent({
 /* 修改图标的样式 .su ::before { color: red !important;}    */
 @font-face {
   font-family: "cd"; /* Project id 2988922 */
-  src: url("//at.alicdn.com/t/font_2988922_4tunmzhoslp.woff2?t=1646542358010")
+  src: url("//at.alicdn.com/t/font_2988922_89lge39yvzi.woff2?t=1646667513521")
       format("woff2"),
-    url("//at.alicdn.com/t/font_2988922_4tunmzhoslp.woff?t=1646542358010")
+    url("//at.alicdn.com/t/font_2988922_89lge39yvzi.woff?t=1646667513521")
       format("woff"),
-    url("//at.alicdn.com/t/font_2988922_4tunmzhoslp.ttf?t=1646542358010")
+    url("//at.alicdn.com/t/font_2988922_89lge39yvzi.ttf?t=1646667513521")
       format("truetype");
 }
 .cd {
@@ -828,8 +828,30 @@ export default defineComponent({
   font-size: v-bind(size + "px");
 }
 /* 空盒子 */
-.icon-empty {
+.icon-empty::before {
   content: "\e611";
+  color: v-bind(color);
+  font-size: v-bind(size + "px");
+}
+/* 缩小 */
+.icon-lessen::before {
+  content: "\e69f";
+  color: v-bind(color);
+  font-size: v-bind(size + "px");
+}
+/* 放大 */
+.icon-magnify::before {
+  content: "\e6a0";
+  color: v-bind(color);
+  font-size: v-bind(size + "px");
+}
+.icon-leftRotate::before {
+  content: "\e6a1";
+  color: v-bind(color);
+  font-size: v-bind(size + "px");
+}
+.icon-rightRotate::before {
+  content: "\e6a2";
   color: v-bind(color);
   font-size: v-bind(size + "px");
 }
