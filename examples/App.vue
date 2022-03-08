@@ -3,29 +3,16 @@
     <cd-image
       alt="asdas"
       fit="contain"
-      :hideOnClickModal="false"
+      :hideOnClickModal="true"
       :lazy="true"
       src="https://cdn.jsdelivr.net/gh/lztnb/img@master/1.jpg"
       :previewSrcList="[
         'https://cdn.jsdelivr.net/gh/lztnb/img@master/1.jpg',
-        'https://cdn.jsdelivr.net/gh/lztnb/img@master/1.jpg',
+        'https://cdn.jsdelivr.net/gh/lztnb/img@master/2.jpg',
       ]"
       :initialIndex="1"
     ></cd-image>
     <div>asdsad</div>
-    <cd-image
-      alt="asdas"
-      fit="none"
-      :hideOnClickModal="false"
-      :lazy="true"
-      src="https://cdn.jsdelivr.net/gh/lztnb/img@master/2.jpg"
-      :previewSrcList="[
-        'https://cdn.jsdelivr.net/gh/lztnb/img@master/1.jpg',
-        'https://cdn.jsdelivr.net/gh/lztnb/img@master/1.jpg',
-      ]"
-      :initialIndex="1"
-    >
-    </cd-image>
   </div>
   <form method="post" action="http://127.0.0.1:3000/su">
     <input type="submit" />

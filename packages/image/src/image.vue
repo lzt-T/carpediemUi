@@ -10,22 +10,40 @@
     <div v-if="isError" class="cd-image-error-frame">
       <slot name="err"></slot>
     </div>
-  </div>
-  <teleport to="body" v-if="isBrowse">
-    <div :class="{ 'cd-image-browse-frame': true }">
-      <div :class="{ 'cd-image-browse-cover': true }"></div>
-      <div class="cd-image-browse-img-frame">
-        <img
-          :src="previewSrcList[initialIndexData]"
-          class="cd-image-browse-img"
-        />
-      </div>
+
+    <div
+      :class="{
+        'cd-image-browse-frame': true,
+      }"
+      v-if="isBrowse && previewSrcList.length > 0"
+      @wheel="rollerRolling($event)"
+    >
+      <div
+        :class="{ 'cd-image-browse-cover': true }"
+        @click="hideOnClickModal ? closeBrowse() : ''"
+      ></div>
+      <img
+        :src="previewSrcList[initialIndexData]"
+        :class="{
+          'cd-image-browse-img': true,
+          'cd-image-lessen-animation': lessenAnimation,
+          'cd-image-magnify-animation': magnifyAnimation,
+          'cd-image-rightRotate-animation': isRightRotate,
+          'cd-image-leftRotate-animation': isLeftRotate,
+        }"
+        @mousedown="onMousedown($event)"
+        @mouseup="onMouseup($event)"
+        @mousemove="onMousemove($event)"
+        @dragstart.prevent=""
+      />
+
       <div class="cd-image-browse-left-frame">
         <cd-icon
           name="leftArrowTow"
           color="white"
           :size="24"
           class="cd-image-browse-left"
+          @click="clickLeft"
         ></cd-icon>
       </div>
       <div class="cd-image-browse-right-frame">
@@ -34,6 +52,7 @@
           color="white"
           :size="24"
           class="cd-image-browse-right"
+          @click="clickRight"
         ></cd-icon>
       </div>
       <div class="cd-image-browse-del-frame">
@@ -42,6 +61,7 @@
           color="white"
           :size="24"
           class="cd-image-browse-del"
+          @click="closeBrowse"
         ></cd-icon>
       </div>
       <!-- 组合键 -->
@@ -51,28 +71,32 @@
           class="cd-image-combination-button-lessen"
           :size="30"
           color="white"
+          @click="onLessen"
         ></cd-icon>
         <cd-icon
           name="magnify"
           class="cd-image-combination-button-magnify"
           :size="30"
           color="white"
+          @click="onMagnify"
         ></cd-icon>
         <cd-icon
           name="leftRotate"
           class="cd-image-combination-button-leftRotate"
           :size="30"
           color="white"
+          @click="onLeftRotate"
         ></cd-icon>
         <cd-icon
           name="rightRotate"
           class="cd-image-combination-button-rightRotate"
           :size="30"
           color="white"
+          @click="onRightRotate"
         ></cd-icon>
       </div>
     </div>
-  </teleport>
+  </div>
 </template>
 
 <script lang="ts">
@@ -194,16 +218,180 @@ export default defineComponent({
     let browseImgWidth = ref<number>();
     let isBrowse = ref(false);
     let initialIndexData = ref();
+    let multiple = ref<number>(1);
+    let lessenAnimation = ref<Boolean>(false);
+    let magnifyAnimation = ref<Boolean>(false);
+    // 设置图片信息
+    function setBrowseImg() {
+      if (
+        props.previewSrcList === undefined ||
+        props.previewSrcList.length == 0
+      ) {
+        return;
+      }
+      browseImgUrl = props.previewSrcList[initialIndexData.value] as string;
+      browseImg.src = browseImgUrl;
+      browseImgHeight.value = browseImg.height;
+      browseImgWidth.value = browseImg.width;
+    }
+    // 打开图片弹窗
     function onClick() {
-      if (props.previewSrcList === undefined) {
+      if (
+        props.previewSrcList === undefined ||
+        props.previewSrcList.length == 0
+      ) {
         return;
       } else {
+        multiple.value = 1;
+        imgRotate.value = 0;
         isBrowse.value = true;
-        initialIndexData.value = props.initialIndex;
-        browseImgUrl = props.previewSrcList[initialIndexData.value] as string;
-        browseImg.src = browseImgUrl;
-        browseImgHeight.value = browseImg.height;
-        browseImgWidth.value = browseImg.width;
+        dragInitialize();
+        if (
+          props.initialIndex >= 0 &&
+          props.initialIndex < props.previewSrcList.length
+        ) {
+          initialIndexData.value = props.initialIndex;
+        } else {
+          initialIndexData.value = 0;
+        }
+        setBrowseImg();
+      }
+    }
+    // 上一张
+    function clickLeft() {
+      multiple.value = 1;
+      imgRotate.value = 0;
+      dragInitialize();
+      if (props.previewSrcList === undefined) {
+        return;
+      }
+      initialIndexData.value = initialIndexData.value - 1;
+      if (initialIndexData.value < 0) {
+        initialIndexData.value = props.previewSrcList?.length - 1;
+      }
+      setBrowseImg();
+    }
+    // 下一张
+    function clickRight() {
+      multiple.value = 1;
+      imgRotate.value = 0;
+      dragInitialize();
+      if (props.previewSrcList === undefined) {
+        return;
+      }
+      initialIndexData.value = initialIndexData.value + 1;
+      if (initialIndexData.value >= props.previewSrcList.length) {
+        initialIndexData.value = 0;
+      }
+      setBrowseImg();
+    }
+    // 关闭图片弹窗
+    function closeBrowse() {
+      isBrowse.value = false;
+    }
+    // 缩小
+    function onLessen() {
+      if (multiple.value < 0.2 || lessenAnimation.value) {
+        return;
+      }
+      lessenAnimation.value = true;
+      setTimeout(() => {
+        lessenAnimation.value = false;
+      }, 100);
+      multiple.value = multiple.value * 0.8;
+    }
+    // 放大
+    function onMagnify() {
+      if (multiple.value > 6 || magnifyAnimation.value) {
+        return;
+      }
+      magnifyAnimation.value = true;
+      setTimeout(() => {
+        magnifyAnimation.value = false;
+      }, 100);
+      multiple.value = multiple.value * 1.2;
+    }
+    let isRightRotate = ref<boolean>();
+    let isLeftRotate = ref<boolean>();
+    // 向左旋转
+    function onLeftRotate() {
+      if (isLeftRotate.value) {
+        return;
+      }
+      isLeftRotate.value = true;
+      setTimeout(() => {
+        isLeftRotate.value = false;
+      }, 200);
+      imgRotate.value = imgRotate.value - 90;
+      if (imgRotate.value < 0) {
+        imgRotate.value = 270;
+      }
+    }
+    // 向右旋转90度
+    function onRightRotate() {
+      if (isRightRotate.value) {
+        return;
+      }
+      isRightRotate.value = true;
+      setTimeout(() => {
+        isRightRotate.value = false;
+      }, 200);
+      imgRotate.value = imgRotate.value + 90;
+      if (imgRotate.value == 360) {
+        imgRotate.value = 0;
+      }
+    }
+    // 拖动
+    let isDrag = ref<Boolean>(false);
+    let startX = ref<number>(0);
+    let startY = ref<number>(0);
+    let moveXLoading = ref<number>(0);
+    let moveYLoading = ref<number>(0);
+    let lastX = ref<number>(0);
+    let lastY = ref<number>(0);
+    let moveX = ref<number>(0);
+    let moveY = ref<number>(0);
+    let imgRotate = ref<number>(0);
+    function dragInitialize() {
+      startX.value = 0;
+      startY.value = 0;
+      moveXLoading.value = 0;
+      moveYLoading.value = 0;
+      lastX.value = 0;
+      lastY.value = 0;
+      moveX.value = 0;
+      moveY.value = 0;
+    }
+    function onMousedown(e: any) {
+      isDrag.value = true;
+      startX.value = e.clientX;
+      startY.value = e.clientY;
+    }
+    function onMousemove(e: any) {
+      if (isDrag.value == false) {
+        return;
+      }
+      moveXLoading.value = e.clientX - startX.value;
+      moveYLoading.value = e.clientY - startY.value;
+      moveX.value = lastX.value + moveXLoading.value;
+      moveY.value = lastY.value + moveYLoading.value;
+    }
+    function onMouseup(e: any) {
+      isDrag.value = false;
+      lastX.value = lastX.value + e.clientX - startX.value;
+      lastY.value = lastY.value + e.clientY - startY.value;
+    }
+    function rollerRolling(e: any) {
+      if (e.deltaY > 0) {
+        if (multiple.value < 0.2) {
+          return;
+        }
+        multiple.value = multiple.value * 0.95;
+      } else {
+        if (multiple.value > 6) {
+          return;
+        }
+        multiple.value = multiple.value / 0.95;
       }
     }
     return {
@@ -216,6 +404,25 @@ export default defineComponent({
       initialIndexData,
       browseImgHeight,
       browseImgWidth,
+      clickLeft,
+      clickRight,
+      closeBrowse,
+      onLessen,
+      onMagnify,
+      multiple,
+      lessenAnimation,
+      magnifyAnimation,
+      onMousedown,
+      onMousemove,
+      onMouseup,
+      moveX,
+      moveY,
+      onRightRotate,
+      onLeftRotate,
+      imgRotate,
+      isRightRotate,
+      isLeftRotate,
+      rollerRolling,
     };
   },
 });
@@ -249,7 +456,7 @@ img {
 }
 
 .cd-image-browse-frame {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 1;
@@ -266,18 +473,85 @@ img {
   background-color: #000;
   opacity: 0.5;
 }
-.cd-image-browse-img-frame {
-  width: v-bind(browseImgWidth + "px");
-  height: v-bind(browseImgWidth + "px");
-}
 .cd-image-browse-img {
-  position: absolute;
+  position: fixed;
   z-index: 2;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  width: v-bind(browseImgWidth + "px");
-  height: v-bind(browseImgWidth + "px");
+  transform: v-bind(
+    "'translate('+(-browseImgWidth* multiple/2+moveX)+'px'+','+(-browseImgHeight * multiple/2+moveY)+'px'+')'+' rotate('+imgRotate+'deg'+')'"
+  );
+  width: v-bind(browseImgWidth * multiple + "px");
+  height: v-bind(browseImgHeight * multiple + "px");
+}
+
+.cd-image-lessen-animation {
+  animation: lessen 0.1s linear;
+}
+@keyframes lessen {
+  0% {
+    width: v-bind(browseImgWidth * multiple/0.8 + "px");
+    height: v-bind(browseImgHeight * multiple/0.8 + "px");
+    transform: v-bind(
+      "'translate('+(-browseImgWidth* multiple/0.8/2+moveX)+'px'+','+(-browseImgHeight * multiple/0.8/2+moveY)+'px'+')'+' rotate('+imgRotate+'deg'+')'"
+    );
+  }
+  100% {
+    width: v-bind(browseImgWidth * multiple + "px");
+    height: v-bind(browseImgHeight * multiple + "px");
+    transform: v-bind(
+      "'translate('+(-browseImgWidth* multiple/2+moveX)+'px'+','+(-browseImgHeight * multiple/2+moveY)+'px'+')'+' rotate('+imgRotate+'deg'+')'"
+    );
+  }
+}
+.cd-image-magnify-animation {
+  animation: magnify 0.1s linear;
+}
+@keyframes magnify {
+  0% {
+    width: v-bind(browseImgWidth * multiple/1.2 + "px");
+    height: v-bind(browseImgHeight * multiple/1.2 + "px");
+    transform: v-bind(
+      "'translate('+(-browseImgWidth* multiple/1.2/2+moveX)+'px'+','+(-browseImgHeight * multiple/1.2/2+moveY)+'px'+')'+' rotate('+imgRotate+'deg'+')'"
+    );
+  }
+  100% {
+    width: v-bind(browseImgWidth * multiple + "px");
+    height: v-bind(browseImgHeight * multiple + "px");
+    transform: v-bind(
+      "'translate('+(-browseImgWidth* multiple/2+moveX)+'px'+','+(-browseImgHeight * multiple/2+moveY)+'px'+')'+' rotate('+imgRotate+'deg'+')'"
+    );
+  }
+}
+.cd-image-rightRotate-animation {
+  animation: rightrotate 0.2s linear;
+}
+@keyframes rightrotate {
+  0% {
+    transform: v-bind(
+      "'translate('+(-browseImgWidth* multiple/2+moveX)+'px'+','+(-browseImgHeight * multiple/2+moveY)+'px'+')'+' rotate('+(imgRotate-90)+'deg'+')'"
+    );
+  }
+  100% {
+    transform: v-bind(
+      "'translate('+(-browseImgWidth* multiple/2+moveX)+'px'+','+(-browseImgHeight * multiple/2+moveY)+'px'+')'+' rotate('+imgRotate+'deg'+')'"
+    );
+  }
+}
+.cd-image-leftRotate-animation {
+  animation: leftrotate 0.2s linear;
+}
+@keyframes leftrotate {
+  0% {
+    transform: v-bind(
+      "'translate('+(-browseImgWidth* multiple/2+moveX)+'px'+','+(-browseImgHeight * multiple/2+moveY)+'px'+')'+' rotate('+(imgRotate+90)+'deg'+')'"
+    );
+  }
+  100% {
+    transform: v-bind(
+      "'translate('+(-browseImgWidth* multiple/2+moveX)+'px'+','+(-browseImgHeight * multiple/2+moveY)+'px'+')'+' rotate('+imgRotate+'deg'+')'"
+    );
+  }
 }
 .cd-image-browse-left-frame {
   position: absolute;
@@ -345,13 +619,16 @@ img {
 .cd-image-combination-button-magnify {
   flex: 1;
   margin-right: 15px;
+  line-height: 30px;
 }
 .cd-image-combination-button-leftRotate {
   flex: 1;
   margin-right: 15px;
+  line-height: 30px;
 }
 .cd-image-combination-button-rightRotate {
   flex: 1;
   margin-right: 22px;
+  line-height: 30px;
 }
 </style>
