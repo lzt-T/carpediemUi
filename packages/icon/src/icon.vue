@@ -50,11 +50,11 @@ export default defineComponent({
 /* 修改图标的样式 .su ::before { color: red !important;}    */
 @font-face {
   font-family: "cd"; /* Project id 2988922 */
-  src: url("//at.alicdn.com/t/font_2988922_89lge39yvzi.woff2?t=1646667513521")
+  src: url("//at.alicdn.com/t/font_2988922_p79if0ccpx.woff2?t=1646833325711")
       format("woff2"),
-    url("//at.alicdn.com/t/font_2988922_89lge39yvzi.woff?t=1646667513521")
+    url("//at.alicdn.com/t/font_2988922_p79if0ccpx.woff?t=1646833325711")
       format("woff"),
-    url("//at.alicdn.com/t/font_2988922_89lge39yvzi.ttf?t=1646667513521")
+    url("//at.alicdn.com/t/font_2988922_p79if0ccpx.ttf?t=1646833325711")
       format("truetype");
 }
 .cd {
@@ -852,6 +852,11 @@ export default defineComponent({
 }
 .icon-rightRotate::before {
   content: "\e6a2";
+  color: v-bind(color);
+  font-size: v-bind(size + "px");
+}
+.icon-ellipsis::before {
+  content: "\e6a3";
   color: v-bind(color);
   font-size: v-bind(size + "px");
 }

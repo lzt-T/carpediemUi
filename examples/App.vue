@@ -1,18 +1,16 @@
 <template>
   <div class="su">
-    <cd-image
-      alt="asdas"
-      fit="contain"
-      :hideOnClickModal="true"
-      :lazy="true"
-      src="https://cdn.jsdelivr.net/gh/lztnb/img@master/1.jpg"
-      :previewSrcList="[
-        'https://cdn.jsdelivr.net/gh/lztnb/img@master/1.jpg',
-        'https://cdn.jsdelivr.net/gh/lztnb/img@master/2.jpg',
-      ]"
-      :initialIndex="1"
-    ></cd-image>
-    <div>asdsad</div>
+    asgjhd
+    <cd-pagination
+      :height="32"
+      :pageSize="10"
+      :total="100"
+      :pagerCount="5"
+      :pageSizes="[10, 20, 30, 40, 100]"
+      :goTo="true"
+      @sizeChange="onSizeChange"
+      @currentChange="onCurrentChange"
+    ></cd-pagination>
   </div>
   <form method="post" action="http://127.0.0.1:3000/su">
     <input type="submit" />
@@ -38,18 +36,18 @@ export default {
     watch(data, (newval, oldval) => {
       console.log(newval);
     });
-    function su(data: any) {
+    function onSizeChange(data: any) {
       console.log(data);
 
       return true;
     }
-    function onFocus(e: any) {
+    function onCurrentChange(e: any) {
       console.log(e);
     }
-    function onBlur(e: any) {
+    function onpPrevClick(e: any) {
       console.log(e);
     }
-    function onChange(e: any) {
+    function onNextClick(e: any) {
       console.log(e);
     }
     function onClear() {
@@ -58,11 +56,11 @@ export default {
 
     return {
       data,
-      onFocus,
-      onBlur,
-      onChange,
+      onSizeChange,
+      onCurrentChange,
+      onpPrevClick,
       onClear,
-      su,
+      onNextClick,
     };
   },
 };
@@ -70,11 +68,8 @@ export default {
 
 <style >
 .su {
-  overflow: auto;
-  height: 400px;
-  width: 400px;
+  width: 900px;
   font-size: 100px;
   line-height: 100px;
-  /* background-color: bisque; */
 }
 </style>

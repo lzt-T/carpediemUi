@@ -84,6 +84,7 @@ export default defineComponent({
     },
     options: {
       type: Array,
+      required: true,
     },
     disabled: {
       type: Boolean,
@@ -132,10 +133,10 @@ export default defineComponent({
       } else {
         heightData.value = 24;
       }
-      if (props.width >= 200) {
+      if (props.width >= 120) {
         widthData.value = props.width;
       } else {
-        widthData.value = 200;
+        widthData.value = 120;
       }
     }
     // 是不是处于focus状态
@@ -264,6 +265,7 @@ export default defineComponent({
   width: v-bind(widthData + "px");
   border: 1px solid #dcdfe6;
   border-radius: 5px;
+  background: white;
 }
 .cd-select-frame-hover:hover {
   border: 1px solid #d3d6dc;
