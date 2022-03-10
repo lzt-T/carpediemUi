@@ -1,6 +1,17 @@
 <template>
   <div class="su">
-    <cd-table></cd-table>
+    ad
+    <cd-table
+      :data="data"
+      :fieldName="['date', 'name', 'address']"
+      :listName="['Date', 'Name', 'Address']"
+      :sort="[true, true, false]"
+      :stripe="false"
+      :border="true"
+      :fixedHeader="true"
+      :rows="6"
+      :width="12"
+    ></cd-table>
   </div>
   <form method="post" action="http://127.0.0.1:3000/su">
     <input type="submit" />
@@ -13,13 +24,63 @@ import { ref, onMounted, getCurrentInstance, watch, reactive } from "vue";
 export default {
   name: "App",
   setup() {
-    let data = ref(20);
-    setInterval(() => {
-      if (data.value == 100) {
-        return;
-      }
-      data.value = data.value + 2;
-    }, 500);
+    let data = ref([
+      {
+        date: "1",
+        name: "1",
+        address: "as",
+      },
+      {
+        date: "2",
+        name: "2",
+        address: "as",
+      },
+      {
+        date: "2",
+        name: "4",
+        address: "as",
+      },
+      {
+        date: "3",
+        name: "3",
+        address: "as",
+      },
+      {
+        date: "3",
+        name: "3",
+        address: "as",
+      },
+      {
+        date: "3",
+        name: "3",
+        address: "as",
+      },
+      {
+        date: "3",
+        name: "3",
+        address: "as",
+      },
+      {
+        date: "3",
+        name: "3",
+        address: "as",
+      },
+      {
+        date: "3",
+        name: "3",
+        address: "as",
+      },
+      {
+        date: "3",
+        name: "3",
+        address: "as",
+      },
+      {
+        date: "3",
+        name: "3",
+        address: "as",
+      },
+    ]);
     watch(data, (newval, oldval) => {
       console.log(newval);
     });
@@ -54,6 +115,7 @@ export default {
 
 <style >
 .su {
+  margin-left: 20px;
   width: 900px;
   font-size: 100px;
   line-height: 100px;
