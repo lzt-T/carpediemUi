@@ -1,16 +1,16 @@
 <template>
   <div class="su">
-    asgjhd
-    <cd-pagination
-      :height="32"
-      :pageSize="10"
-      :total="100"
-      :pagerCount="5"
-      :pageSizes="[10, 20, 30, 40, 100]"
-      :goTo="true"
-      @sizeChange="onSizeChange"
-      @currentChange="onCurrentChange"
-    ></cd-pagination>
+    djgas
+    <cd-progress
+      type="circle"
+      :percentage="data"
+      :width="200"
+      :height="6"
+      :textInside="false"
+      :showText="true"
+      :format="onClear"
+      :animation="false"
+    ></cd-progress>
   </div>
   <form method="post" action="http://127.0.0.1:3000/su">
     <input type="submit" />
@@ -23,22 +23,18 @@ import { ref, onMounted, getCurrentInstance, watch, reactive } from "vue";
 export default {
   name: "App",
   setup() {
-    let data = ref([
-      {
-        title: "asdasd",
-        text: "asdasd341273576123567按格式就到港的费ashdkas126783789126831274512嘎哈圣诞节哈市的方式jahfgjdasjh",
-      },
-      {
-        title: "asdasd",
-        text: "asdasd",
-      },
-    ]);
+    let data = ref(20);
+    setInterval(() => {
+      if (data.value == 100) {
+        return;
+      }
+      data.value = data.value + 2;
+    }, 500);
     watch(data, (newval, oldval) => {
       console.log(newval);
     });
     function onSizeChange(data: any) {
       console.log(data);
-
       return true;
     }
     function onCurrentChange(e: any) {
@@ -51,7 +47,7 @@ export default {
       console.log(e);
     }
     function onClear() {
-      console.log("asdas");
+      return data.value + "/%";
     }
 
     return {

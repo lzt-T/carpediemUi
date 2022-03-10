@@ -25,9 +25,10 @@ import CdCollapse from './collapse'
 import CdEmpty from './empty'
 import CdImage from './image'
 import CdPagination from './pagination'
+import CdProgress from './progress'
 
 // 所有组件列表
-const components = [CdButton, CdBorder, CdIcon, CdRow, CdCol, CdLink, CdScrollbar, CdCascader, CdCheckbox, CdCheckboxGroup, CdDatePicker, CdInput, CdInputNumber, CdRadio, CdRate, CdSelect, CdSlider, CdSwitch, CdUpload, CdAvatar, CdBadge, CdCarousel, CdCollapse, CdEmpty, CdImage, CdPagination]
+const components = [CdButton, CdBorder, CdIcon, CdRow, CdCol, CdLink, CdScrollbar, CdCascader, CdCheckbox, CdCheckboxGroup, CdDatePicker, CdInput, CdInputNumber, CdRadio, CdRate, CdSelect, CdSlider, CdSwitch, CdUpload, CdAvatar, CdBadge, CdCarousel, CdCollapse, CdEmpty, CdImage, CdPagination, CdProgress]
 
 // 定义 install 方法， App 作为参数
 const install = (app: App): void => {
@@ -61,7 +62,8 @@ export {
     CdCollapse,
     CdEmpty,
     CdImage,
-    CdPagination
+    CdPagination,
+    CdProgress
 }
 
 export default {
