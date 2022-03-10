@@ -1,17 +1,16 @@
 <template>
   <div class="su">
-    ad
-    <cd-table
-      :data="data"
-      :fieldName="['date', 'name', 'address', 'aa']"
-      :listName="['Date', 'Name', 'Address', 'aa']"
-      :sort="[true, true, false]"
-      :stripe="false"
-      :border="false"
-      :fixedHeader="true"
-      :rows="6"
-      :width="12"
-    ></cd-table>
+    asd
+    <cd-tag
+      :height="32"
+      :width="60"
+      :closable="false"
+      color="black"
+      backgroundColor="white"
+      @click="onSizeChange"
+      @close="onCurrentChange"
+      >as</cd-tag
+    >
   </div>
   <form method="post" action="http://127.0.0.1:3000/su">
     <input type="submit" />
@@ -86,11 +85,10 @@ export default {
       console.log(newval);
     });
     function onSizeChange(data: any) {
-      console.log(data);
-      return true;
+      console.log("sadsad");
     }
     function onCurrentChange(e: any) {
-      console.log(e);
+      console.log("pppp");
     }
     function onpPrevClick(e: any) {
       console.log(e);
