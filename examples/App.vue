@@ -3,11 +3,11 @@
     ad
     <cd-table
       :data="data"
-      :fieldName="['date', 'name', 'address']"
-      :listName="['Date', 'Name', 'Address']"
+      :fieldName="['date', 'name', 'address', 'aa']"
+      :listName="['Date', 'Name', 'Address', 'aa']"
       :sort="[true, true, false]"
       :stripe="false"
-      :border="true"
+      :border="false"
       :fixedHeader="true"
       :rows="6"
       :width="12"
@@ -29,6 +29,7 @@ export default {
         date: "1",
         name: "1",
         address: "as",
+        aa: "asda",
       },
       {
         date: "2",

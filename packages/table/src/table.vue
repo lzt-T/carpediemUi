@@ -8,8 +8,8 @@
       >
         <div
           :class="{
-            'cd-tabble-list-title-frame': true,
             'cd-tabble-list-title-fixedHeader': fixedHeader,
+            'cd-tabble-list-title-frame': true,
             'cd-table-list-bottom': true,
             'cd-table-list-right': border,
           }"
@@ -47,6 +47,7 @@
             'cd-table-list-right': border,
             'cd-table-list-stripe': stripe && ind1 % 2 == 1,
           }"
+          ref="TextData"
         >
           {{ data1[fieldName[ind2]] }}
         </div>
@@ -144,12 +145,19 @@ export default defineComponent({
         }
       });
     }
+    let TextData = ref();
+    let fixedWidth = ref();
+    onMounted(() => {
+      fixedWidth.value = TextData.value.offsetWidth;
+    });
     return {
       widthData,
       isUp,
       isDown,
       setSort,
       options,
+      TextData,
+      fixedWidth,
     };
   },
 });
@@ -199,7 +207,7 @@ export default defineComponent({
 }
 .cd-tabble-list-title-fixedHeader {
   position: absolute;
-  width: v-bind("((1/listName.length*100).toFixed(0))+'%'");
+  width: v-bind(fixedWidth + "px");
   background-color: white;
 }
 .cd-tabble-list-title-sort {
@@ -214,6 +222,7 @@ export default defineComponent({
 
 .cd-tabble-list-data {
   padding-left: 10px;
+  height: v-bind(widthData + "px");
 }
 .cd-table-list-bottom {
   border-bottom: 1px solid #ededed;
