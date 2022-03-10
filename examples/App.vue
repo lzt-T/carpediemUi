@@ -1,16 +1,6 @@
 <template>
   <div class="su">
-    djgas
-    <cd-progress
-      type="circle"
-      :percentage="data"
-      :width="200"
-      :height="6"
-      :textInside="false"
-      :showText="true"
-      :format="onClear"
-      :animation="false"
-    ></cd-progress>
+    <cd-table></cd-table>
   </div>
   <form method="post" action="http://127.0.0.1:3000/su">
     <input type="submit" />

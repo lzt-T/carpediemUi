@@ -31,13 +31,11 @@
 
 <script lang="ts">
 import cdIcon from "./../../icon/src/icon.vue";
-import cdSelect from "./../../select/src/select.vue";
 import { defineComponent, onMounted, ref, watch, watchEffect } from "vue";
 export default defineComponent({
   name: "cd-progress",
   components: {
     cdIcon,
-    cdSelect,
   },
   props: {
     type: {
@@ -107,7 +105,6 @@ export default defineComponent({
         if (newval >= 0 && newval <= 50) {
           rightRotate.value = (newval / 50) * 180;
           leftRotate.value = 0;
-          console.log(leftRotate.value);
         } else if (newval > 50 && newval <= 100) {
           rightRotate.value = 180;
           leftRotate.value = ((newval - 50) / 50) * 180;
