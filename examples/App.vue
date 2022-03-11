@@ -1,15 +1,12 @@
 <template>
   <div class="su">
     asd
-    <cd-tag
-      :height="32"
-      :width="60"
-      :closable="false"
-      color="black"
-      backgroundColor="white"
+    <cd-backtop
+      :visibilityHeight="40"
+      :right="45"
+      :bottom="45"
       @click="onSizeChange"
-      @close="onCurrentChange"
-      >as</cd-tag
+      >asd</cd-backtop
     >
   </div>
   <form method="post" action="http://127.0.0.1:3000/su">
@@ -116,6 +113,7 @@ export default {
 .su {
   margin-left: 20px;
   width: 900px;
+  height: 2000px;
   font-size: 100px;
   line-height: 100px;
 }
