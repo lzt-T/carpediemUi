@@ -1,13 +1,13 @@
 <template>
   <div class="su">
     asd
-    <cd-backtop
-      :visibilityHeight="40"
-      :right="45"
-      :bottom="45"
-      @click="onSizeChange"
-      >asd</cd-backtop
-    >
+    <cd-breadcrumb
+      :height="60"
+      :options="[{ value: 1, to: '/' }, { value: 2, to: '/ab' }, { value: 3 }]"
+      separator="/"
+      separatorIcon="rightArrow"
+      :replace="false"
+    ></cd-breadcrumb>
   </div>
   <form method="post" action="http://127.0.0.1:3000/su">
     <input type="submit" />
