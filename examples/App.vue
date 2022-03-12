@@ -1,13 +1,16 @@
 <template>
   <div class="su">
-    asd
-    <cd-breadcrumb
-      :height="60"
-      :options="[{ value: 1, to: '/' }, { value: 2, to: '/ab' }, { value: 3 }]"
-      separator="/"
-      separatorIcon="rightArrow"
-      :replace="false"
-    ></cd-breadcrumb>
+    asd\
+    <div class="suu">
+      <cd-pageheader @back="onSizeChange">
+        <!-- <template v-slot:title>
+          <div>asdasdasd</div>
+        </template>
+        <template v-slot:content>
+          <div>asdasdasdasdsdadas</div>
+        </template> -->
+      </cd-pageheader>
+    </div>
   </div>
   <form method="post" action="http://127.0.0.1:3000/su">
     <input type="submit" />
@@ -116,5 +119,9 @@ export default {
   height: 2000px;
   font-size: 100px;
   line-height: 100px;
+}
+.suu {
+  height: 24px;
+  width: 200px;
 }
 </style>

@@ -66,7 +66,6 @@ export default defineComponent({
   background-color: transparent;
   height: v-bind(size + "px");
   width: v-bind(size + "px");
-  line-height: v-bind(size + "px");
 }
 /* 适应箭头 */
 .icon-fit:before {

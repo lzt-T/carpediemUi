@@ -30,9 +30,10 @@ import CdTable from './table'
 import CdTag from './tag'
 import CdBacktop from './backtop'
 import CdBreadcrumb from './breadcrumb'
+import CdPageHeader from './pageheader'
 
 // 所有组件列表
-const components = [CdButton, CdBorder, CdIcon, CdRow, CdCol, CdLink, CdScrollbar, CdCascader, CdCheckbox, CdCheckboxGroup, CdDatePicker, CdInput, CdInputNumber, CdRadio, CdRate, CdSelect, CdSlider, CdSwitch, CdUpload, CdAvatar, CdBadge, CdCarousel, CdCollapse, CdEmpty, CdImage, CdPagination, CdProgress, CdTable, CdTag, CdBacktop, CdBreadcrumb]
+const components = [CdButton, CdBorder, CdIcon, CdRow, CdCol, CdLink, CdScrollbar, CdCascader, CdCheckbox, CdCheckboxGroup, CdDatePicker, CdInput, CdInputNumber, CdRadio, CdRate, CdSelect, CdSlider, CdSwitch, CdUpload, CdAvatar, CdBadge, CdCarousel, CdCollapse, CdEmpty, CdImage, CdPagination, CdProgress, CdTable, CdTag, CdBacktop, CdBreadcrumb, CdPageHeader]
 
 // 定义 install 方法， App 作为参数
 const install = (app: App): void => {
@@ -71,7 +72,8 @@ export {
     CdTable,
     CdTag,
     CdBacktop,
-    CdBreadcrumb
+    CdBreadcrumb,
+    CdPageHeader
 }
 
 export default {
