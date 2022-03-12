@@ -2,14 +2,10 @@
   <div class="su">
     asd\
     <div class="suu">
-      <cd-pageheader @back="onSizeChange">
-        <!-- <template v-slot:title>
-          <div>asdasdasd</div>
-        </template>
-        <template v-slot:content>
-          <div>asdasdasdasdsdadas</div>
-        </template> -->
-      </cd-pageheader>
+      <cd-tabs v-model="data" :border="false">
+        <cd-tab-pane label="aaaa" icon="fit">sad</cd-tab-pane>
+        <cd-tab-pane label="bbbb">sadsad</cd-tab-pane>
+      </cd-tabs>
     </div>
   </div>
   <form method="post" action="http://127.0.0.1:3000/su">
@@ -23,64 +19,7 @@ import { ref, onMounted, getCurrentInstance, watch, reactive } from "vue";
 export default {
   name: "App",
   setup() {
-    let data = ref([
-      {
-        date: "1",
-        name: "1",
-        address: "as",
-        aa: "asda",
-      },
-      {
-        date: "2",
-        name: "2",
-        address: "as",
-      },
-      {
-        date: "2",
-        name: "4",
-        address: "as",
-      },
-      {
-        date: "3",
-        name: "3",
-        address: "as",
-      },
-      {
-        date: "3",
-        name: "3",
-        address: "as",
-      },
-      {
-        date: "3",
-        name: "3",
-        address: "as",
-      },
-      {
-        date: "3",
-        name: "3",
-        address: "as",
-      },
-      {
-        date: "3",
-        name: "3",
-        address: "as",
-      },
-      {
-        date: "3",
-        name: "3",
-        address: "as",
-      },
-      {
-        date: "3",
-        name: "3",
-        address: "as",
-      },
-      {
-        date: "3",
-        name: "3",
-        address: "as",
-      },
-    ]);
+    let data = ref(0);
     watch(data, (newval, oldval) => {
       console.log(newval);
     });
@@ -121,7 +60,7 @@ export default {
   line-height: 100px;
 }
 .suu {
-  height: 24px;
-  width: 200px;
+  height: 600px;
+  width: 500px;
 }
 </style>
