@@ -2,14 +2,20 @@
   <div class="su">
     asd\
     <div class="suu">
-      <cd-alter
-        title="sadas"
-        type="info"
-        :closable="true"
-        :center="true"
-        :showIcon="true"
-        @close="onSizeChange"
-      ></cd-alter>
+      <cd-dialog
+        v-model="data"
+        :width="50"
+        title="Tips"
+        text="jafhsgdhjkasgd asjhdgashjd ashjdgas"
+        :top="15"
+        :center="false"
+        @open="onSizeChange"
+        @close="onCurrentChange"
+      >
+        <template v-slot:footer>
+          <div></div>
+        </template>
+      </cd-dialog>
     </div>
   </div>
   <form method="post" action="http://127.0.0.1:3000/su">
@@ -23,7 +29,7 @@ import { ref, onMounted, getCurrentInstance, watch, reactive } from "vue";
 export default {
   name: "App",
   setup() {
-    let data = ref(0);
+    let data = ref(true);
     watch(data, (newval, oldval) => {
       console.log(newval);
     });

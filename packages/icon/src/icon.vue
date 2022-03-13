@@ -48,6 +48,7 @@ export default defineComponent({
   outline: none;
 }
 /* 修改图标的样式 .su ::before { color: red !important;}    */
+/* icon的居中，字体大小和line-height一样就可以了 */
 @font-face {
   font-family: "cd"; /* Project id 2988922 */
   src: url("//at.alicdn.com/t/font_2988922_fcy7bljyn6u.woff2?t=1647167404356")
