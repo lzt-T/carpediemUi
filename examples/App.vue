@@ -2,10 +2,14 @@
   <div class="su">
     asd\
     <div class="suu">
-      <cd-tabs v-model="data" :border="false">
-        <cd-tab-pane label="aaaa" icon="fit">sad</cd-tab-pane>
-        <cd-tab-pane label="bbbb">sadsad</cd-tab-pane>
-      </cd-tabs>
+      <cd-alter
+        title="sadas"
+        type="info"
+        :closable="true"
+        :center="true"
+        :showIcon="true"
+        @close="onSizeChange"
+      ></cd-alter>
     </div>
   </div>
   <form method="post" action="http://127.0.0.1:3000/su">

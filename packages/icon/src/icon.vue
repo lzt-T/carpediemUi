@@ -50,11 +50,11 @@ export default defineComponent({
 /* 修改图标的样式 .su ::before { color: red !important;}    */
 @font-face {
   font-family: "cd"; /* Project id 2988922 */
-  src: url("//at.alicdn.com/t/font_2988922_p79if0ccpx.woff2?t=1646833325711")
+  src: url("//at.alicdn.com/t/font_2988922_fcy7bljyn6u.woff2?t=1647167404356")
       format("woff2"),
-    url("//at.alicdn.com/t/font_2988922_p79if0ccpx.woff?t=1646833325711")
+    url("//at.alicdn.com/t/font_2988922_fcy7bljyn6u.woff?t=1647167404356")
       format("woff"),
-    url("//at.alicdn.com/t/font_2988922_p79if0ccpx.ttf?t=1646833325711")
+    url("//at.alicdn.com/t/font_2988922_fcy7bljyn6u.ttf?t=1647167404356")
       format("truetype");
 }
 .cd {
@@ -845,18 +845,45 @@ export default defineComponent({
   color: v-bind(color);
   font-size: v-bind(size + "px");
 }
+/* 左旋转 */
 .icon-leftRotate::before {
   content: "\e6a1";
   color: v-bind(color);
   font-size: v-bind(size + "px");
 }
+/* 右旋转 */
 .icon-rightRotate::before {
   content: "\e6a2";
   color: v-bind(color);
   font-size: v-bind(size + "px");
 }
+/* 省略号 */
 .icon-ellipsis::before {
   content: "\e6a3";
+  color: v-bind(color);
+  font-size: v-bind(size + "px");
+}
+/* info */
+.icon-info::before {
+  content: "\e6a4";
+  color: v-bind(color);
+  font-size: v-bind(size + "px");
+}
+/* 成功 */
+.icon-success::before {
+  content: "\e615";
+  color: v-bind(color);
+  font-size: v-bind(size + "px");
+}
+/* 失败 */
+.icon-error::before {
+  content: "\e746";
+  color: v-bind(color);
+  font-size: v-bind(size + "px");
+}
+/* 警告 */
+.icon-warning::before {
+  content: "\e601";
   color: v-bind(color);
   font-size: v-bind(size + "px");
 }
