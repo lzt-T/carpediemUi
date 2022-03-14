@@ -3,19 +3,15 @@
     asd\
     <button @click="onSizeChange">Button</button>
     <div class="suu">
-      <cd-drawer
+      <cd-message
         v-model="data"
-        direction="right"
-        :size="50"
-        title="sadsa"
-        @close="onSizeChange"
-        @open="onSizeChange"
-      >
-        <div>dasdas</div>
-        <div>dasdas</div>
-        <div>dasdas</div>
-        <div>dasdas</div>
-      </cd-drawer>
+        message="asd"
+        type="info"
+        :offset="20"
+        :duration="3000"
+        :closabled="true"
+        :center="true"
+      ></cd-message>
     </div>
   </div>
   <form method="post" action="http://127.0.0.1:3000/su">
@@ -29,12 +25,12 @@ import { ref, onMounted, getCurrentInstance, watch, reactive } from "vue";
 export default {
   name: "App",
   setup() {
-    let data = ref(false);
+    let data = ref(true);
     watch(data, (newval, oldval) => {
       console.log(newval);
     });
     function onSizeChange(aa: any) {
-      data.value = true;
+      data.value = !data.value;
       console.log("asd");
     }
     function onCurrentChange(e: any) {
