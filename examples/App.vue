@@ -1,21 +1,14 @@
 <template>
   <div class="su">
     asd\
+    <button @click="onSizeChange">Button</button>
     <div class="suu">
-      <cd-dialog
-        v-model="data"
-        :width="50"
-        title="Tips"
-        text="jafhsgdhjkasgd asjhdgashjd ashjdgas"
-        :top="15"
-        :center="false"
-        @open="onSizeChange"
-        @close="onCurrentChange"
-      >
-        <template v-slot:footer>
-          <div></div>
-        </template>
-      </cd-dialog>
+      <cd-drawer v-model="data" direction="top" :size="50" title="sadsa">
+        <div>dasdas</div>
+        <div>dasdas</div>
+        <div>dasdas</div>
+        <div>dasdas</div>
+      </cd-drawer>
     </div>
   </div>
   <form method="post" action="http://127.0.0.1:3000/su">
@@ -29,12 +22,13 @@ import { ref, onMounted, getCurrentInstance, watch, reactive } from "vue";
 export default {
   name: "App",
   setup() {
-    let data = ref(true);
+    let data = ref(false);
     watch(data, (newval, oldval) => {
       console.log(newval);
     });
-    function onSizeChange(data: any) {
-      console.log("sadsad");
+    function onSizeChange(aa: any) {
+      data.value = true;
+      console.log("asd");
     }
     function onCurrentChange(e: any) {
       console.log("pppp");

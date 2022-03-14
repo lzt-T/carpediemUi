@@ -35,9 +35,10 @@ import CdTabs from './tabs'
 import CdTabPane from './tabpane'
 import CdAlter from './alert'
 import CdDialog from './dialog'
+import CdDrawer from './drawer'
 
 // 所有组件列表
-const components = [CdButton, CdBorder, CdIcon, CdRow, CdCol, CdLink, CdScrollbar, CdCascader, CdCheckbox, CdCheckboxGroup, CdDatePicker, CdInput, CdInputNumber, CdRadio, CdRate, CdSelect, CdSlider, CdSwitch, CdUpload, CdAvatar, CdBadge, CdCarousel, CdCollapse, CdEmpty, CdImage, CdPagination, CdProgress, CdTable, CdTag, CdBacktop, CdBreadcrumb, CdPageHeader, CdTabs, CdTabPane, CdAlter, CdDialog]
+const components = [CdButton, CdBorder, CdIcon, CdRow, CdCol, CdLink, CdScrollbar, CdCascader, CdCheckbox, CdCheckboxGroup, CdDatePicker, CdInput, CdInputNumber, CdRadio, CdRate, CdSelect, CdSlider, CdSwitch, CdUpload, CdAvatar, CdBadge, CdCarousel, CdCollapse, CdEmpty, CdImage, CdPagination, CdProgress, CdTable, CdTag, CdBacktop, CdBreadcrumb, CdPageHeader, CdTabs, CdTabPane, CdAlter, CdDialog, CdDrawer]
 
 // 定义 install 方法， App 作为参数
 const install = (app: App): void => {
@@ -81,7 +82,8 @@ export {
     CdTabs,
     CdTabPane,
     CdAlter,
-    CdDialog
+    CdDialog,
+    CdDrawer
 }
 
 export default {
