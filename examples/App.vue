@@ -3,15 +3,14 @@
     asd\
     <button @click="onSizeChange">Button</button>
     <div class="suu">
-      <cd-message
-        v-model="data"
-        message="asd"
-        type="info"
-        :offset="20"
-        :duration="3000"
-        :closabled="true"
-        :center="true"
-      ></cd-message>
+      <cd-tooltip
+        backgroundColor="red"
+        color="yellow"
+        content="asdasdasdsd"
+        direction="top"
+      >
+        <div class="ppp">asdasd</div></cd-tooltip
+      >
     </div>
   </div>
   <form method="post" action="http://127.0.0.1:3000/su">
@@ -25,12 +24,12 @@ import { ref, onMounted, getCurrentInstance, watch, reactive } from "vue";
 export default {
   name: "App",
   setup() {
-    let data = ref(true);
+    let data = ref(false);
     watch(data, (newval, oldval) => {
       console.log(newval);
     });
     function onSizeChange(aa: any) {
-      data.value = !data.value;
+      data.value = true;
       console.log("asd");
     }
     function onCurrentChange(e: any) {
@@ -67,7 +66,13 @@ export default {
   line-height: 100px;
 }
 .suu {
+  margin-top: 50px;
   height: 600px;
   width: 500px;
+}
+.ppp {
+  margin: 20px;
+  background-color: aquamarine;
+  padding: 20px;
 }
 </style>
