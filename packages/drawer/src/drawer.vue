@@ -1,11 +1,26 @@
 <template>
   <div class="cd-drawer-frame" v-show="isShow">
-    <div class="cd-drawer-cover" @click="onClose"></div>
+    <div
+      :class="{
+        'cd-drawer-cover': true,
+        'cd-drawer-cover-show': isAnimation,
+        'cd-drawer-cover-notshow': isAnimation == false,
+      }"
+      @click="onClose"
+    ></div>
     <div
       :class="{
         'cd-drawer-div': true,
         'cd-drawer-div-top': isAnimation && direction == 'top',
         'cd-drawer-div-topVanish': isAnimation == false && direction == 'top',
+        'cd-drawer-div-bottom': isAnimation && direction == 'bottom',
+        'cd-drawer-div-bottomVanish':
+          isAnimation == false && direction == 'bottom',
+        'cd-drawer-div-left': isAnimation && direction == 'left',
+        'cd-drawer-div-leftVanish': isAnimation == false && direction == 'left',
+        'cd-drawer-div-right': isAnimation && direction == 'right',
+        'cd-drawer-div-rightVanish':
+          isAnimation == false && direction == 'right',
       }"
     >
       <div class="cd-drawer-title-frame">
@@ -104,11 +119,13 @@ export default defineComponent({
         if (newval) {
           isAnimation.value = true;
           isShow.value = newval;
+          context.emit("open");
         } else {
           isAnimation.value = false;
+          context.emit("close");
           setTimeout(() => {
             isShow.value = false;
-          }, 180);
+          }, 185);
         }
       },
       {
@@ -154,6 +171,28 @@ export default defineComponent({
   width: 100vw;
   background-color: #000;
   opacity: 0.5;
+}
+.cd-drawer-cover-show {
+  animation: coverShow 0.2s linear;
+}
+@keyframes coverShow {
+  0% {
+    opacity: 0.1;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+.cd-drawer-cover-notshow {
+  animation: coverNotShow 0.2s linear;
+}
+@keyframes coverNotShow {
+  0% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 .cd-drawer-div {
   position: absolute;
@@ -202,6 +241,7 @@ export default defineComponent({
   border-radius: 10px;
   background: transparent;
 }
+
 .cd-drawer-div-top {
   animation: top 0.2s linear;
 }
@@ -224,6 +264,78 @@ export default defineComponent({
   100% {
     opacity: 0;
     top: v-bind(-heightData + "vh");
+  }
+}
+.cd-drawer-div-bottom {
+  animation: bottom 0.2s linear;
+}
+.cd-drawer-div-bottomVanish {
+  animation: bottomVanish 0.2s linear;
+}
+@keyframes bottom {
+  0% {
+    bottom: v-bind(-heightData + "vh");
+  }
+  100% {
+    bottom: 0;
+  }
+}
+@keyframes bottomVanish {
+  0% {
+    bottom: 0;
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    bottom: v-bind(-heightData + "vh");
+  }
+}
+.cd-drawer-div-left {
+  animation: left 0.2s linear;
+}
+.cd-drawer-div-leftVanish {
+  animation: leftVanish 0.2s linear;
+}
+@keyframes left {
+  0% {
+    left: v-bind(-widthData + "vh");
+  }
+  100% {
+    left: 0;
+  }
+}
+@keyframes leftVanish {
+  0% {
+    left: 0;
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    left: v-bind(-widthData + "vh");
+  }
+}
+.cd-drawer-div-right {
+  animation: right 0.2s linear;
+}
+.cd-drawer-div-rightVanish {
+  animation: rightVanish 0.2s linear;
+}
+@keyframes right {
+  0% {
+    right: v-bind(-widthData + "vh");
+  }
+  100% {
+    right: 0;
+  }
+}
+@keyframes rightVanish {
+  0% {
+    right: 0;
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    right: v-bind(-widthData + "vh");
   }
 }
 </style>

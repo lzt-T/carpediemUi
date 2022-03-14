@@ -3,7 +3,14 @@
     asd\
     <button @click="onSizeChange">Button</button>
     <div class="suu">
-      <cd-drawer v-model="data" direction="top" :size="50" title="sadsa">
+      <cd-drawer
+        v-model="data"
+        direction="right"
+        :size="50"
+        title="sadsa"
+        @close="onSizeChange"
+        @open="onSizeChange"
+      >
         <div>dasdas</div>
         <div>dasdas</div>
         <div>dasdas</div>
