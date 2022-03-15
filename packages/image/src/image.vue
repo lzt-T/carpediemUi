@@ -16,7 +16,7 @@
         'cd-image-browse-frame': true,
       }"
       v-if="isBrowse && previewSrcList.length > 0"
-      @wheel="rollerRolling($event)"
+      @wheel.prevent="rollerRolling($event)"
     >
       <div
         :class="{ 'cd-image-browse-cover': true }"

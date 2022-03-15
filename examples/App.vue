@@ -3,9 +3,10 @@
     asd\
     <button @click="onSizeChange">Button</button>
     <div class="suu">
-      <cd-tooltip content="sdaytyytytytytytt" direction="left">
-        <div class="ppp">d</div></cd-tooltip
-      >
+      <cd-image
+        src="https://cdn.jsdelivr.net/gh/lztnb/img@master/5.jpg"
+        :previewSrcList="['https://cdn.jsdelivr.net/gh/lztnb/img@master/5.jpg']"
+      ></cd-image>
     </div>
   </div>
   <form method="post" action="http://127.0.0.1:3000/su">
