@@ -1,7 +1,28 @@
 <template>
-  <div class="cd-tooltip-frame">
-    <div :class="{ 'cd-tooltip': true }" ref="tooltip">
-      <div :class="{ 'cd-tooltip-icon': true }"></div>
+  <div
+    class="cd-tooltip-frame"
+    @mouseenter="onMouseenter"
+    @mouseleave="onMouseleave"
+  >
+    <div
+      :class="{
+        'cd-tooltip': true,
+        'cd-tooltip-top': direction == 'top' && isHover,
+        'cd-tooltip-bottom': direction == 'bottom' && isHover,
+        'cd-tooltip-left': direction == 'left' && isHover,
+        'cd-tooltip-right': direction == 'right' && isHover,
+      }"
+      ref="tooltip"
+    >
+      <div
+        :class="{
+          'cd-tooltip-icon': true,
+          'cd-tooltip-icon-top': direction == 'top' && isHover,
+          'cd-tooltip-icon-bottom': direction == 'bottom' && isHover,
+          'cd-tooltip-icon-left': direction == 'left' && isHover,
+          'cd-tooltip-icon-right': direction == 'right' && isHover,
+        }"
+      ></div>
       <div>{{ content }}</div>
     </div>
     <div>
@@ -35,41 +56,24 @@ export default defineComponent({
     let tooltip = ref();
     let heightData = ref<number>();
     let widthData = ref<number>();
-    interface Direction {
-      top: number | undefined;
-      bottom: number | undefined;
-      left: number | undefined;
-      right: number | undefined;
-    }
-
-    let iconDirection = reactive<Direction>({
-      top: undefined,
-      bottom: undefined,
-      left: undefined,
-      right: undefined,
-    });
-    let tooltipDirection = reactive<Direction>({
-      top: undefined,
-      bottom: undefined,
-      left: undefined,
-      right: undefined,
-    });
-
-    function setDirection() {
-      if (props.direction == "top") {
-      } else if (props.direction == "bottom") {
-      } else if (props.direction == "left") {
-      } else if (props.direction == "right") {
-      }
-    }
+    let isHover = ref<boolean>();
     onMounted(() => {
       heightData.value = tooltip.value.clientHeight;
       widthData.value = tooltip.value.clientWidth;
     });
+    function onMouseenter() {
+      isHover.value = true;
+    }
+    function onMouseleave() {
+      isHover.value = false;
+    }
     return {
       tooltip,
       heightData,
       widthData,
+      onMouseenter,
+      onMouseleave,
+      isHover,
     };
   },
 });
@@ -80,17 +84,67 @@ export default defineComponent({
   position: relative;
 }
 .cd-tooltip {
+  white-space: nowrap;
+  opacity: 0;
   position: absolute;
-  top: 0;
-  left: 0;
-  display: inline-block;
   padding: 10px;
   border-radius: 5px;
   font-size: 15px;
-  line-height: 15px;
+  line-height: 21px;
   background-color: v-bind(backgroundColor);
   color: v-bind(color);
 }
+.cd-tooltip-top {
+  opacity: 1;
+  top: v-bind(-heightData-8 + "px");
+  left: 50%;
+  transform: translateX(-50%);
+}
+.cd-tooltip-bottom {
+  opacity: 1;
+  bottom: v-bind(-heightData-8 + "px");
+  left: 50%;
+  transform: translateX(-50%);
+}
+.cd-tooltip-left {
+  opacity: 1;
+  top: 50%;
+  transform: translateY(-50%);
+  left: v-bind(-widthData-8 + "px");
+}
+.cd-tooltip-right {
+  opacity: 1;
+  top: 50%;
+  transform: translateY(-50%);
+  right: v-bind(-widthData-8 + "px");
+}
 .cd-tooltip-icon {
+  position: absolute;
+  z-index: 2;
+  height: 0;
+  width: 0;
+  border-width: 4px;
+  border-style: solid;
+  border-color: v-bind(backgroundColor);
+}
+.cd-tooltip-icon-top {
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  bottom: -3px;
+}
+.cd-tooltip-icon-bottom {
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  top: -3px;
+}
+.cd-tooltip-icon-left {
+  right: -3px;
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+}
+.cd-tooltip-icon-right {
+  left: -3px;
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
 }
 </style>

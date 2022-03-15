@@ -3,13 +3,8 @@
     asd\
     <button @click="onSizeChange">Button</button>
     <div class="suu">
-      <cd-tooltip
-        backgroundColor="red"
-        color="yellow"
-        content="asdasdasdsd"
-        direction="top"
-      >
-        <div class="ppp">asdasd</div></cd-tooltip
+      <cd-tooltip content="sdaytyytytytytytt" direction="left">
+        <div class="ppp">d</div></cd-tooltip
       >
     </div>
   </div>
@@ -68,10 +63,10 @@ export default {
 .suu {
   margin-top: 50px;
   height: 600px;
-  width: 500px;
+  width: 100px;
 }
 .ppp {
-  margin: 20px;
+  /* margin: 20px; */
   background-color: aquamarine;
   padding: 20px;
 }
