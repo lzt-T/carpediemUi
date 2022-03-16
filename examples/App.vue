@@ -3,10 +3,9 @@
     asd\
     <button @click="onSizeChange">Button</button>
     <div class="suu">
-      <cd-image
-        src="https://cdn.jsdelivr.net/gh/lztnb/img@master/5.jpg"
-        :previewSrcList="['https://cdn.jsdelivr.net/gh/lztnb/img@master/5.jpg']"
-      ></cd-image>
+      <cd-badge>
+        <div>asdasd</div>
+      </cd-badge>
     </div>
   </div>
   <form method="post" action="http://127.0.0.1:3000/su">

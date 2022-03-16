@@ -16,7 +16,9 @@ import { defineComponent, ref, watch } from "vue";
 export default defineComponent({
   name: "cd-badge",
   props: {
-    value: {},
+    value: {
+      type: Number || String,
+    },
     max: {
       type: Number,
       default: 99,
@@ -35,12 +37,12 @@ export default defineComponent({
     },
   },
   setup(props, context) {
-    let valueData = ref();
+    let valueData = ref<number | string>();
     watch(
-      () => {
+      (): number | string | undefined => {
         return props.value;
       },
-      (newval, oldval) => {
+      (newval: number | string | undefined, oldval) => {
         if (typeof newval == "number") {
           if (newval <= props.max) {
             valueData.value = newval;

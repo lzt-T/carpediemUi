@@ -27,18 +27,18 @@ export default defineComponent({
   },
   setup(props, context) {
     let isShow = ref<boolean>(false);
-    window.addEventListener("scroll", () => {
+    window.addEventListener("scroll", (): void => {
       if (document.documentElement.scrollTop >= props.visibilityHeight) {
         isShow.value = true;
       } else {
         isShow.value = false;
       }
     });
-    function onClick() {
+    function onClick(): void {
       context.emit("click");
       scrollToTop();
     }
-    const scrollToTop = () => {
+    const scrollToTop = (): void => {
       const top = document.documentElement.scrollTop || document.body.scrollTop;
       if (top > 0) {
         window.requestAnimationFrame(scrollToTop);

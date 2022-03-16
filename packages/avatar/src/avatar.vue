@@ -50,9 +50,9 @@ export default defineComponent({
     cdIcon,
   },
   setup(props, context) {
-    let img = ref();
+    let img = ref<object>();
     //   设置大小
-    let szieData = ref();
+    let szieData = ref<number>();
     setSize();
     function setSize() {
       if (props.size >= 24) {

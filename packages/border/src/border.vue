@@ -12,8 +12,9 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent, ref } from "vue";
+export default defineComponent({
   name: "cd-border",
   props: {
     height: {
@@ -29,19 +30,20 @@ export default {
       default: "cd-border",
     },
   },
-  setup(props) {
+  setup(props, context) {
     //调整边距用的
-    let heightData = props.height;
+    let heightData = ref<number>();
+    heightData.value = props.height;
     if (props.width > props.height) {
-      heightData = props.height;
+      heightData.value = props.height;
     } else {
-      heightData = props.width;
+      heightData.value = props.width;
     }
     return {
       heightData,
     };
   },
-};
+});
 </script>
 
 <style scoped>

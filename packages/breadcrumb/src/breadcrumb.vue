@@ -59,14 +59,14 @@ export default defineComponent({
   setup(props, context) {
     let heightData = ref<number>();
     setSize();
-    function setSize() {
+    function setSize(): void {
       if (props.height >= 12) {
         heightData.value = props.height;
       } else {
         heightData.value = 12;
       }
     }
-    function onClick(to: string) {
+    function onClick(to: string): void {
       if (props.replace) {
         location.replace(to);
       } else {

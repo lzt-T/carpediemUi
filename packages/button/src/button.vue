@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 export default defineComponent({
   name: "cd-button",
   props: {
@@ -72,43 +72,49 @@ export default defineComponent({
     },
   },
   setup(props, context) {
-    let backgroundCcolorData = props.backgroundCcolor;
-    let colorData = props.color;
-    let borderWidthData = 0.1;
-    let roundData = 0;
-    let widthData = props.width;
-    let disabledData = "default";
+    let backgroundCcolorData = ref<string>();
+    backgroundCcolorData.value = props.backgroundCcolor;
+    let colorData = ref<string>();
+    colorData.value = props.color;
+    let borderWidthData = ref<number>(0.1);
+    let roundData = ref<number>(0);
+    let widthData = ref<number>();
+    widthData.value = props.width;
+    let disabledData = ref<string>("default");
     if (props.size != 38 && props.width == 38 * 2.2) {
-      widthData = props.size * 2.2;
+      widthData.value = props.size * 2.2;
     }
     //设置背景和字体颜色
-    if (backgroundCcolorData == "white" || backgroundCcolorData == "#FFFFFF") {
-      colorData = "#000000";
-      borderWidthData = 0.1;
+    if (
+      backgroundCcolorData.value == "white" ||
+      backgroundCcolorData.value == "#FFFFFF"
+    ) {
+      colorData.value = "#000000";
+      borderWidthData.value = 0.1;
     } else {
-      colorData = "#FFFFFF";
-      borderWidthData = 0;
+      colorData.value = "#FFFFFF";
+      borderWidthData.value = 0;
     }
     //椭圆
     if (props.round == true) {
-      roundData = props.size / 2;
+      roundData.value = props.size / 2;
     }
     //圆形
     if (props.circle == true) {
-      widthData = props.size;
-      roundData = props.size / 2;
+      widthData.value = props.size;
+      roundData.value = props.size / 2;
     }
     //是不是以文字的形式出现
     if (props.text == true) {
-      backgroundCcolorData == "#FFFFFF";
-      borderWidthData = 0;
-      roundData = 0;
+      backgroundCcolorData.value == "#FFFFFF";
+      borderWidthData.value = 0;
+      roundData.value = 0;
     }
     let opacityData = 1;
     //是否处于禁用状态,只要处于在加载和禁止状态就都是0.75透明
     if (props.disabled == true) {
       opacityData = 0.75;
-      disabledData = "not-allowed";
+      disabledData.value = "not-allowed";
     }
     if (props.loading == true) {
       opacityData = 0.75;

@@ -28,7 +28,7 @@
 
 <script lang="ts">
 import cdIcon from "./../../icon/src/icon.vue";
-import { defineComponent, inject, onMounted, ref, watch } from "vue";
+import { defineComponent, ref } from "vue";
 export default defineComponent({
   name: "cd-alter",
   components: {
@@ -66,7 +66,7 @@ export default defineComponent({
     let iconName = ref<string>();
     let iconColor = ref<string>();
     setBackgroundColor();
-    function setBackgroundColor() {
+    function setBackgroundColor(): void {
       if (props.type == "success") {
         backgroundColor.value = "#eef9eb";
         colorData.value = "#67C23A";
@@ -91,7 +91,7 @@ export default defineComponent({
     }
     let isShow = ref<boolean>(true);
     let isAnimation = ref<boolean>(false);
-    function onClose() {
+    function onClose(): void {
       isAnimation.value = true;
       context.emit("close");
       setTimeout(() => {
