@@ -123,13 +123,13 @@ export default defineComponent({
     },
   },
   setup(props, context) {
-    let stage = ref("middle");
-    let info = ref();
-    let startinfo = ref();
-    let endinfo = ref();
+    let stage = ref<string>("middle");
+    let info = ref<object>();
+    let startinfo = ref<object>();
+    let endinfo = ref<object>();
     // 组件的大小
-    let heightData = ref();
-    let widthData = ref();
+    let heightData = ref<number>();
+    let widthData = ref<number>();
     if (props.height <= 25) {
       heightData.value = 25;
     } else {
@@ -141,10 +141,10 @@ export default defineComponent({
       widthData.value = props.width;
     }
     // 是不是处于输入
-    let yearData = ref("");
-    let monthData = ref("");
-    let dayData = ref("");
-    let isFocus = ref(false);
+    let yearData = ref<string>("");
+    let monthData = ref<string>("");
+    let dayData = ref<string>("");
+    let isFocus = ref<boolean>(false);
     //输入时
     function onFocus(stageData: any) {
       stage.value = stageData;
@@ -343,11 +343,11 @@ export default defineComponent({
             }
           }
           if (stage.value == "middle") {
-            info.value.blur();
+            (info.value as HTMLInputElement).blur();
           } else if (stage.value == "start") {
-            startinfo.value.blur();
+            (startinfo.value as HTMLInputElement).blur();
           } else if (stage.value == "end") {
-            endinfo.value.blur();
+            (endinfo.value as HTMLInputElement).blur();
           }
         } else {
           if (
@@ -360,11 +360,11 @@ export default defineComponent({
               isShowCopy.value = false;
             }, 280);
             if (stage.value == "middle") {
-              info.value.blur();
+              (info.value as HTMLInputElement).blur();
             } else if (stage.value == "start") {
-              startinfo.value.blur();
+              (startinfo.value as HTMLInputElement).blur();
             } else if (stage.value == "end") {
-              endinfo.value.blur();
+              (endinfo.value as HTMLInputElement).blur();
             }
           } else {
             if (stage.value == "middle") {
@@ -458,7 +458,6 @@ export default defineComponent({
   display: flex;
   position: relative;
   box-sizing: border-box;
-  /* display: inline-block; */
   border: 1px solid #e7e9ee;
   border-radius: 2px;
   height: v-bind(heightData + "px");

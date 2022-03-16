@@ -67,8 +67,8 @@ export default defineComponent({
   },
   setup(props, context) {
     // 初始化min和max的变化
-    let minData = ref();
-    let maxData = ref();
+    let minData = ref<number>(0);
+    let maxData = ref<number>(0);
     if (props.min === undefined) {
       minData.value = 0;
     } else {
@@ -79,19 +79,19 @@ export default defineComponent({
     } else {
       maxData.value = props.max;
     }
-    let disabledDataCopy: any = ref([]);
+    let disabledDataCopy = ref<boolean[]>([]);
     // 设置disabled
-    let disabledData: any = ref([]);
+    let disabledData = ref<boolean[]>([]);
     if (props.disabled === undefined) {
       props.option.forEach((val, ind) => {
         disabledData.value.push(false);
         disabledDataCopy.value.push(false);
       });
     } else {
-      props.disabled.forEach((val, ind) => {
-        disabledData.value.push(val);
-        disabledDataCopy.value.push(val);
-      });
+      for (let i: number = 0; i < props.disabled.length; i++) {
+        disabledData.value.push(props.disabled[i] as boolean);
+        disabledDataCopy.value.push(props.disabled[i] as boolean);
+      }
       for (let i = props.disabled.length; i < props.option.length; i++) {
         disabledData.value.push(false);
         disabledDataCopy.value.push(false);
@@ -99,15 +99,15 @@ export default defineComponent({
     }
 
     // 设置大小
-    let sizeData = ref();
+    let sizeData = ref<number>();
     if (props.size <= 50) {
       sizeData.value = 50;
     } else {
       sizeData.value = props.size;
     }
     // 初始化
-    let isTrue: any = ref([]);
-    props.option.forEach((value, ind) => {
+    let isTrue = ref<boolean[]>([]);
+    props.option.forEach((value, ind): void => {
       if (props.modelValue?.indexOf(value) != -1) {
         isTrue.value.push(true);
       } else {
@@ -115,16 +115,16 @@ export default defineComponent({
       }
     });
     // 选择的数据
-    let checkData: any = ref([]);
-    function setCheckData() {
+    let checkData = ref<string[]>([]);
+    function setCheckData(): void {
       checkData.value.length = 0;
       isTrue.value.forEach((val: boolean, ind: number) => {
         if (val == true) {
-          checkData.value.push(props.option[ind]);
+          checkData.value.push(props.option[ind] as string);
         }
       });
     }
-    function setDiaabled() {
+    function setDiaabled(): void {
       if (
         checkData.value.length > minData.value &&
         checkData.value.length < maxData.value
@@ -170,7 +170,7 @@ export default defineComponent({
     }
     watch(
       isTrue.value,
-      (newval, oldval) => {
+      (newval, oldval): void => {
         setCheckData();
         setModelValue(checkData.value);
         setDiaabled();
@@ -178,7 +178,7 @@ export default defineComponent({
       },
       { immediate: true }
     );
-    function setModelValue(data: any) {
+    function setModelValue(data: string[]): void {
       context.emit("update:modelValue", [...data]);
     }
     return {

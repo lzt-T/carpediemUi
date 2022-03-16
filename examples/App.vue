@@ -3,7 +3,7 @@
     asd\
     <button @click="onSizeChange">Button</button>
     <div class="suu">
-      <cd-cascader :option="data" @change="onpPrevClick"> asdas</cd-cascader>
+      <cd-date-picker> asdas</cd-date-picker>
     </div>
   </div>
   <form method="post" action="http://127.0.0.1:3000/su">
@@ -70,8 +70,8 @@ export default {
   margin-left: 20px;
   width: 900px;
   height: 2000px;
-  font-size: 100px;
-  line-height: 100px;
+  font-size: 150px;
+  line-height: 200px;
 }
 .suu {
   margin-top: 50px;

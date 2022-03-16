@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 export default defineComponent({
   name: "cd-col",
   props: {
@@ -21,10 +21,10 @@ export default defineComponent({
     },
   },
   setup(props) {
-    let widthData;
-    let marginLeftData;
-    widthData = (props.span / 24) * 100;
-    marginLeftData = (props.offset / 24) * 100;
+    let widthData = ref<number>();
+    let marginLeftData = ref<number>();
+    widthData.value = (props.span / 24) * 100;
+    marginLeftData.value = (props.offset / 24) * 100;
     return {
       widthData,
       marginLeftData,

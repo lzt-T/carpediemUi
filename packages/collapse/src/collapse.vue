@@ -57,31 +57,31 @@ export default defineComponent({
   },
   setup(props, context) {
     //   设置大小
-    let heightData = ref();
+    let heightData = ref<number>();
     setSize();
-    function setSize() {
+    function setSize(): void {
       if (props.height >= 24) {
         heightData.value = props.height;
       } else {
         heightData.value = 24;
       }
     }
-    let text = ref();
-    let isAction = ref();
-    let divHeight = ref(0);
-    onMounted(() => {
+    let text = ref<object>();
+    let isAction = ref<boolean>();
+    let divHeight = ref<number>(0);
+    onMounted((): void => {
       if (props.state) {
         isAction.value = true;
-        divHeight.value = text.value.clientHeight;
+        divHeight.value = (text.value as HTMLDivElement).clientHeight;
       } else {
         isAction.value = false;
       }
     });
 
-    let isMove = ref(false);
-    function onClick() {
+    let isMove = ref<boolean>(false);
+    function onClick(): void {
       isMove.value = true;
-      divHeight.value = text.value.clientHeight;
+      divHeight.value = (text.value as HTMLDivElement).clientHeight;
       isAction.value = !isAction.value;
     }
     return {
