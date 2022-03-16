@@ -53,18 +53,18 @@ export default defineComponent({
     },
   },
   setup(props, context) {
-    let tooltip = ref();
+    let tooltip = ref<object>();
     let heightData = ref<number>();
     let widthData = ref<number>();
     let isHover = ref<boolean>();
     onMounted(() => {
-      heightData.value = tooltip.value.clientHeight;
-      widthData.value = tooltip.value.clientWidth;
+      heightData.value = (tooltip.value as HTMLDivElement).clientHeight;
+      widthData.value = (tooltip.value as HTMLDivElement).clientWidth;
     });
-    function onMouseenter() {
+    function onMouseenter(): void {
       isHover.value = true;
     }
-    function onMouseleave() {
+    function onMouseleave(): void {
       isHover.value = false;
     }
     return {

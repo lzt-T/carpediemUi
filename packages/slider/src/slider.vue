@@ -87,29 +87,29 @@ export default defineComponent({
     },
   },
   setup(props, context) {
-    let sliderBox = ref();
-    let sliderBlock = ref();
-    let stepData = ref();
-    let stepWidth = ref();
-    let maxData = ref(0);
-    let nodes: any = ref([]);
-    const everyNode = (el: any) => {
+    let sliderBox = ref<object>();
+    let sliderBlock = ref<object>();
+    let stepData = ref<number>();
+    let stepWidth = ref<number>(1);
+    let maxData = ref<number>(0);
+    let nodes = ref<object[]>([]);
+    const everyNode = (el: object) => {
       nodes.value.push(el);
     };
-    let sign: any = ref([]);
-    const everySign = (el: any) => {
+    let sign = ref<object[]>([]);
+    const everySign = (el: object) => {
       sign.value.push(el);
     };
     // 执行事件
-    function executeChange() {
+    function executeChange(): void {
       context.emit("change", score.value);
     }
-    function setmodelValue() {
+    function setmodelValue(): void {
       context.emit("update:modelValue", score.value);
     }
     //   设置大小
-    let heightData = ref();
-    let widthData = ref();
+    let heightData = ref<number>(0);
+    let widthData = ref<number>(0);
     setSize();
     function setSize() {
       if (props.width >= 160) {
@@ -125,7 +125,7 @@ export default defineComponent({
     }
 
     // 距离页面最左边的距离
-    let pageLeftDistance = ref();
+    let pageLeftDistance = ref<number>(0);
     // 设置最大显示数值
     setMaxData();
     function setMaxData() {
@@ -138,7 +138,7 @@ export default defineComponent({
 
     // 设置步长
     setStep();
-    function setStep() {
+    function setStep(): void {
       if (props.step !== undefined) {
         if (props.step >= 1 && props.step <= maxData.value) {
           stepData.value = maxData.value / props.step;
@@ -159,56 +159,58 @@ export default defineComponent({
       }
     }
     // 设置结点位置
-    function setNodesLocation() {
-      nodes.value.forEach((val: any, ind: number) => {
-        val.style.left = (ind + 1) * stepWidth.value + "px";
+    function setNodesLocation(): void {
+      nodes.value.forEach((val: object, ind: number) => {
+        (val as HTMLElement).style.left = (ind + 1) * stepWidth.value + "px";
       });
     }
     // 设置标记的位置
-    function setMarkLocation() {
-      sign.value.forEach((val: any, ind: number) => {
+    function setMarkLocation(): void {
+      sign.value.forEach((val: object, ind: number) => {
         if (Object(props.marks)[ind] !== undefined) {
-          val.style.left = (ind + 1) * stepWidth.value + 3 + "px";
+          (val as HTMLElement).style.left =
+            (ind + 1) * stepWidth.value + 3 + "px";
         }
       });
     }
     onMounted(() => {
       setNodesLocation();
       setMarkLocation();
-      pageLeftDistance.value = getLeft(sliderBox.value);
+      pageLeftDistance.value = getLeft(sliderBox.value as HTMLElement);
     });
 
     // 是否触摸
-    let isHover = ref(false);
-    let isExceed = ref(false);
-    function onMouseover() {
+    let isHover = ref<boolean>(false);
+    let isExceed = ref<boolean>(false);
+    function onMouseover(): void {
       isHover.value = true;
     }
-    function onMouseout() {
+    function onMouseout(): void {
       if (isMove.value == false) {
         isHover.value = false;
       }
     }
-    let score: any = ref(0);
-    let startX = ref(0);
-    let startY = ref();
-    let isMove = ref(false);
+    let score = ref<number>(0);
+    let startX = ref<number>(0);
+    let startY = ref<number>(0);
+    let isMove = ref<boolean>(false);
     // 每次移动的距离
-    let movingDistance = ref(0);
+    let movingDistance = ref<number>(0);
     // 滑块停的位置距离刻度为0的距离
-    let initialPointDistance = ref(0);
+    let initialPointDistance = ref<number>(0);
     // 求到页面最左边的距离
-    function getLeft(e: any) {
-      let offset = e.offsetLeft;
-      if (e.offsetParent != null) offset += getLeft(e.offsetParent);
+    function getLeft(e: HTMLElement): number {
+      let offset: number = e.offsetLeft;
+      if (e.offsetParent != null)
+        offset += getLeft(e.offsetParent as HTMLElement);
       return offset;
     }
     // 鼠标在滑块上按下
-    function onMousedown(e: any) {
+    function onMousedown(e: any): void {
       if (props.disabled) {
         return;
       }
-      e.stopPropagation();
+      (e as Event).stopPropagation();
       isExceed.value = false;
       isMove.value = true;
       startY.value = e.pageY;
@@ -223,7 +225,7 @@ export default defineComponent({
       }
     }
     // 鼠标移动
-    document.addEventListener("mousemove", (e) => {
+    document.addEventListener("mousemove", (e): void => {
       if (isMove.value) {
         movingDistance.value = e.pageX - startX.value;
         if (Math.abs(e.pageY - startY.value) >= heightData.value * 0.35) {
@@ -249,7 +251,7 @@ export default defineComponent({
       }
     });
     // 鼠标松开
-    document.addEventListener("mouseup", (e) => {
+    document.addEventListener("mouseup", (): void => {
       if (props.disabled) {
         return;
       }
@@ -262,7 +264,7 @@ export default defineComponent({
       executeChange();
       setmodelValue();
     });
-    function setScore(e: any) {
+    function setScore(e: { pageX: number }): void {
       if (props.disabled) {
         return;
       }
@@ -270,22 +272,22 @@ export default defineComponent({
       initialPointDistance.value = e.pageX - pageLeftDistance.value;
       movingDistance.value = 0;
     }
-    watchEffect(() => {
+    watchEffect((): void => {
       score.value =
         Math.round(
           (((initialPointDistance.value + movingDistance.value) /
             widthData.value) *
             maxData.value) /
-            stepData.value
-        ) * stepData.value;
+            (stepData.value as number)
+        ) * (stepData.value as number);
     });
     watch(
       () => {
         return props.modelValue;
       },
-      (newval, oldval) => {
+      (newval: number | undefined, oldval) => {
         if (Number(newval) > 0 && Number(newval) < maxData.value) {
-          score.value = newval;
+          score.value = newval as number;
         } else {
           if (Number(newval) <= 0) {
             score.value = 0;

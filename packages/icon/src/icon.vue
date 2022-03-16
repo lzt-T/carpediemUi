@@ -21,14 +21,13 @@ export default defineComponent({
     },
   },
   setup(props) {
-    let type = ref();
+    let type = ref<string>();
     type.value = "cd icon-" + props.name;
-
     watch(
       () => {
         return props.name;
       },
-      (newval, oldval) => {
+      (newval, oldval): void => {
         type.value = "cd icon-" + props.name;
       }
     );

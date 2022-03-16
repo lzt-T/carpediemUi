@@ -70,17 +70,17 @@ export default defineComponent({
     //
     let isShow = ref<boolean>(true);
     let isHover = ref<boolean>();
-    function onMouseenter() {
+    function onMouseenter(): void {
       isHover.value = true;
     }
-    function onMouseleave() {
+    function onMouseleave(): void {
       isHover.value = false;
     }
-    function onClose() {
+    function onClose(): void {
       isShow.value = false;
       context.emit("close");
     }
-    function onClick() {
+    function onClick(): void {
       context.emit("click");
     }
     return {

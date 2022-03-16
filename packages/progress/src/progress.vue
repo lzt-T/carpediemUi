@@ -79,7 +79,7 @@ export default defineComponent({
     let heightData = ref<number>();
     let widthData = ref<number>();
     setSize();
-    function setSize() {
+    function setSize(): void {
       if (props.width >= 120) {
         widthData.value = props.width;
       } else {
@@ -101,7 +101,7 @@ export default defineComponent({
       () => {
         return props.percentage;
       },
-      (newval, oldval) => {
+      (newval: number, oldval) => {
         if (newval >= 0 && newval <= 50) {
           rightRotate.value = (newval / 50) * 180;
           leftRotate.value = 0;
@@ -123,7 +123,7 @@ export default defineComponent({
       { immediate: true }
     );
     // 文字内容
-    function setText() {
+    function setText(): void {
       if (props.format === undefined) {
         textData.value = percentageData.value + "%";
       } else {

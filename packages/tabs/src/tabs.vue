@@ -54,34 +54,43 @@ export default defineComponent({
     },
   },
   setup(props, context) {
-    let tabpaneList = ref();
+    let tabpaneList = ref<object>();
     let currentTabPane = ref<number>(0);
     let labelArray = ref<string[]>([]);
     let iconArray = ref<string[]>([]);
     provide("currentTabPane", currentTabPane);
     onMounted(() => {
       currentTabPane.value = props.modelValue;
-      console.log(tabpaneList.value.children.length);
-      for (let i = 0; i < tabpaneList.value.children.length; i++) {
-        labelArray.value[i] =
-          tabpaneList.value.children[i].getAttribute("label");
-        if (tabpaneList.value.children[i].getAttribute("icon") == undefined) {
+      for (
+        let i = 0;
+        i < (tabpaneList.value as HTMLDivElement).children.length;
+        i++
+      ) {
+        labelArray.value[i] = (tabpaneList.value as HTMLDivElement).children[
+          i
+        ].getAttribute("label") as string;
+        if (
+          (tabpaneList.value as HTMLDivElement).children[i].getAttribute(
+            "icon"
+          ) == undefined
+        ) {
           iconArray.value[i] = "";
         } else {
-          iconArray.value[i] =
-            tabpaneList.value.children[i].getAttribute("icon");
+          iconArray.value[i] = (tabpaneList.value as HTMLDivElement).children[
+            i
+          ].getAttribute("icon") as string;
         }
       }
     });
-    function onClick(ind: number) {
+    function onClick(ind: number): void {
       currentTabPane.value = ind;
       context.emit("update:modelValue", ind);
     }
     let hoverData = ref<number>();
-    function onMouseenter(ind: number) {
+    function onMouseenter(ind: number): void {
       hoverData.value = ind;
     }
-    function onMouseleave() {
+    function onMouseleave(): void {
       hoverData.value = undefined;
     }
     return {

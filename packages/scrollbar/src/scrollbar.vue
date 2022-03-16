@@ -39,7 +39,7 @@ export default defineComponent({
   },
   setup(props, context) {
     //滚动时触发的事件
-    function scroll() {
+    function scroll(): void {
       context.emit("scroll");
     }
     return {

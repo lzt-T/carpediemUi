@@ -65,6 +65,7 @@ export default defineComponent({
     cdIcon,
   },
   props: {
+    // 对象数组
     data: {
       type: Array,
       required: true,
@@ -105,7 +106,7 @@ export default defineComponent({
     // 设置大小
     let widthData = ref<number>();
     setSize();
-    function setSize() {
+    function setSize(): void {
       if (props.width >= 24) {
         widthData.value = props.width;
       } else {
@@ -113,15 +114,15 @@ export default defineComponent({
       }
     }
     //
-    let options = ref();
-    options.value = props.data;
+    let options = ref<object[]>([]);
+    options.value = props.data as object[];
     let isUp = ref<boolean[]>([]);
     let isDown = ref<boolean[]>([]);
-    props.listName.forEach((val, ind) => {
+    props.listName.forEach((val, ind: number): void => {
       isUp.value[ind] = false;
       isDown.value[ind] = false;
     });
-    function setSort(ind: number, data: number) {
+    function setSort(ind: number, data: number): void {
       if (data == 0) {
         isUp.value[ind] = true;
         isDown.value[ind] = false;
@@ -129,7 +130,7 @@ export default defineComponent({
         isUp.value[ind] = false;
         isDown.value[ind] = true;
       }
-      for (let i = 0; i < isUp.value.length; i++) {
+      for (let i: number = 0; i < isUp.value.length; i++) {
         if (i != ind) {
           isUp.value[i] = false;
           isDown.value[i] = false;
@@ -145,10 +146,10 @@ export default defineComponent({
         }
       });
     }
-    let TextData = ref();
-    let fixedWidth = ref();
+    let TextData = ref<object>();
+    let fixedWidth = ref<number>();
     onMounted(() => {
-      fixedWidth.value = TextData.value.offsetWidth;
+      fixedWidth.value = (TextData.value as HTMLDivElement).offsetWidth;
     });
     return {
       widthData,

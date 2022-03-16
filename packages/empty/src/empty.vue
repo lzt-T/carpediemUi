@@ -56,29 +56,31 @@ export default defineComponent({
   },
   setup() {
     // 描述
-    let isDescriptionDom = ref(true);
-    let descriptionDom = ref();
-    let descriptionHeight = ref();
-    let isImgDom = ref(true);
-    let imgDom = ref();
-    let imgHeight = ref();
-    let isDefaultDom = ref(true);
-    let defaultDom = ref();
-    let defaultHeight = ref();
+    let isDescriptionDom = ref<boolean>(true);
+    let descriptionDom = ref<object>();
+    let descriptionHeight = ref<number>();
+    let isImgDom = ref<boolean>(true);
+    let imgDom = ref<object>();
+    let imgHeight = ref<number>();
+    let isDefaultDom = ref<boolean>(true);
+    let defaultDom = ref<object>();
+    let defaultHeight = ref<number>();
     onMounted(() => {
-      descriptionHeight.value = descriptionDom.value.clientHeight;
+      descriptionHeight.value = (
+        descriptionDom.value as HTMLDivElement
+      ).clientHeight;
       if (descriptionHeight.value > 0) {
         isDescriptionDom.value = true;
       } else {
         isDescriptionDom.value = false;
       }
-      imgHeight.value = imgDom.value.clientHeight;
+      imgHeight.value = (imgDom.value as HTMLDivElement).clientHeight;
       if (imgHeight.value > 0) {
         isImgDom.value = true;
       } else {
         isImgDom.value = false;
       }
-      defaultHeight.value = defaultDom.value.clientHeight;
+      defaultHeight.value = (defaultDom.value as HTMLDivElement).clientHeight;
       if (defaultHeight.value > 0) {
         isDefaultDom.value = true;
       } else {

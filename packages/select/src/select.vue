@@ -66,7 +66,9 @@ export default defineComponent({
   name: "cd-select",
   emits: ["update:modelValue", "change", "clear", "blur", "focus"],
   props: {
-    modelValue: {},
+    modelValue: {
+      type: String,
+    },
     name: {
       type: String,
     },
@@ -100,34 +102,37 @@ export default defineComponent({
     },
   },
   setup(props, context) {
-    let select = ref();
-    let placeholderData = ref();
-    let lastSelectData = ref();
+    let select = ref<object>();
+    let placeholderData = ref<string>();
+    let lastSelectData = ref<string>();
     placeholderData.value = props.placeholder;
     onMounted(() => {
-      select.value.value = props.modelValue;
+      (select.value as HTMLInputElement).value = props.modelValue as string;
       lastSelectData.value = props.modelValue;
     });
-    function executeChange() {
-      context.emit("change", select.value.value);
+    function executeChange(): void {
+      context.emit("change", (select.value as HTMLInputElement).value);
     }
-    function executeClear() {
+    function executeClear(): void {
       context.emit("clear");
     }
-    function executeBlur() {
+    function executeBlur(): void {
       context.emit("blur", select.value);
     }
-    function executeFocus() {
+    function executeFocus(): void {
       context.emit("focus", select.value);
     }
-    function setmodelValue() {
-      context.emit("update:modelValue", select.value.value);
+    function setmodelValue(): void {
+      context.emit(
+        "update:modelValue",
+        (select.value as HTMLInputElement).value
+      );
     }
     // 设置大小
-    let heightData = ref();
-    let widthData = ref();
+    let heightData = ref<number>();
+    let widthData = ref<number>();
     setSize();
-    function setSize() {
+    function setSize(): void {
       if (props.height >= 24) {
         heightData.value = props.height;
       } else {
@@ -140,9 +145,9 @@ export default defineComponent({
       }
     }
     // 是不是处于focus状态
-    let isFocus = ref();
-    let isShow = ref(false);
-    window.addEventListener("mousedown", () => {
+    let isFocus = ref<boolean>();
+    let isShow = ref<boolean>(false);
+    window.addEventListener("mousedown", (): void => {
       if (isFocus.value == true) {
         isFocus.value = false;
         setTimeout(() => {
@@ -150,7 +155,7 @@ export default defineComponent({
         }, 180);
       }
     });
-    function onMousedown(e: any) {
+    function onMousedown(): void {
       if (props.disabled) {
         return;
       }
@@ -160,33 +165,33 @@ export default defineComponent({
           isShow.value = false;
         }, 180);
         if (props.filterable) {
-          select.value.blur();
+          (select.value as HTMLInputElement).blur();
         }
       } else {
         isFocus.value = true;
         isShow.value = true;
         if (props.filterable) {
-          select.value.focus();
+          (select.value as HTMLInputElement).focus();
         }
       }
     }
     // 搜索功能
-    let filterableSelectData = ref("");
-    function onInput() {
-      filterableSelectData.value = select.value.value;
+    let filterableSelectData = ref<string>("");
+    function onInput(): void {
+      filterableSelectData.value = (select.value as HTMLInputElement).value;
     }
-    function onFocus() {
-      select.value.value = "";
+    function onFocus(): void {
+      (select.value as HTMLInputElement).value = "";
     }
-    function onBlur() {
+    function onBlur(): void {
       setTimeout(() => {
         filterableSelectData.value = "";
       }, 180);
-      select.value.value = lastSelectData.value;
+      (select.value as HTMLInputElement).value = lastSelectData.value as string;
     }
     // 选择选项
 
-    function onSelect(data: any, disabled: any, e: any) {
+    function onSelect(data: string, disabled: boolean, e: Event) {
       if (props.filterable) {
         placeholderData.value = data;
       }
@@ -194,19 +199,19 @@ export default defineComponent({
         e.stopPropagation();
         return;
       } else {
-        select.value.value = data;
+        (select.value as HTMLInputElement).value = data;
         lastSelectData.value = data;
         executeChange();
         setmodelValue();
       }
     }
     // 显示不显示清除按钮
-    let isClearShow = ref(false);
-    function setClear(parameter: number) {
+    let isClearShow = ref<boolean>(false);
+    function setClear(parameter: number): void {
       if (props.clearable == false) {
         return;
       } else {
-        if (parameter == 1 && select.value.value != "") {
+        if (parameter == 1 && (select.value as HTMLInputElement).value != "") {
           isClearShow.value = true;
         } else if (parameter == 0) {
           isClearShow.value = false;
@@ -214,20 +219,20 @@ export default defineComponent({
       }
     }
     // 触发清除事件
-    function clearSelectData(e: any) {
+    function clearSelectData(e: Event): void {
       if (isClearShow.value) {
         e.stopPropagation();
       }
       if (props.clearable == false) {
         return;
       } else {
-        select.value.value = "";
+        (select.value as HTMLInputElement).value = "";
         lastSelectData.value = "";
         isClearShow.value = false;
         executeClear();
       }
     }
-    watch(isFocus, (newval, oldval) => {
+    watch(isFocus, (newval, oldval): void => {
       if (newval) {
         executeFocus();
       } else {

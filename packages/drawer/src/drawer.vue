@@ -79,7 +79,7 @@ export default defineComponent({
     let leftData = ref<number>();
     let rightData = ref<number>();
     setSize();
-    function setSize() {
+    function setSize(): void {
       if (props.direction == "top") {
         widthData.value = 100;
         heightData.value = props.size;
@@ -103,10 +103,10 @@ export default defineComponent({
       }
     }
     let isHover = ref<boolean>(false);
-    function onMouseenter() {
+    function onMouseenter(): void {
       isHover.value = true;
     }
-    function onMouseleave() {
+    function onMouseleave(): void {
       isHover.value = false;
     }
     let isShow = ref<boolean>();
@@ -115,7 +115,7 @@ export default defineComponent({
       () => {
         return props.modelValue;
       },
-      (newval: boolean, oldval: boolean | undefined) => {
+      (newval: boolean, oldval: boolean | undefined): void => {
         if (newval) {
           isAnimation.value = true;
           isShow.value = newval;
@@ -132,7 +132,7 @@ export default defineComponent({
         immediate: true,
       }
     );
-    function onClose() {
+    function onClose(): void {
       context.emit("update:modelValue", false);
     }
     return {

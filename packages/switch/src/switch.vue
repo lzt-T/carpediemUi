@@ -92,10 +92,10 @@ export default defineComponent({
   },
   setup(props, context) {
     //   设置大小
-    let heightData = ref();
-    let widthData = ref();
+    let heightData = ref<number>();
+    let widthData = ref<number>();
     setSize();
-    function setSize() {
+    function setSize(): void {
       if (props.height >= 20) {
         heightData.value = props.height;
       } else {
@@ -107,17 +107,17 @@ export default defineComponent({
         widthData.value = 40;
       }
     }
-    let isTrue = ref();
+    let isTrue = ref<boolean>();
     watch(
       () => {
         return props.modelValue;
       },
-      (newval, oldval) => {
+      (newval: boolean, oldval) => {
         isTrue.value = newval;
       },
       { immediate: true }
     );
-    function setIsTrue() {
+    function setIsTrue(): void {
       if (props.disabled) {
         return;
       }
@@ -126,13 +126,13 @@ export default defineComponent({
       setModelValue();
       executeChange();
     }
-    function executeChange() {
+    function executeChange(): void {
       context.emit("change", isTrue.value);
     }
-    function setModelValue() {
+    function setModelValue(): void {
       context.emit("update:modelValue", isTrue.value);
     }
-    let isMove = ref(false);
+    let isMove = ref<boolean>(false);
     return {
       heightData,
       widthData,

@@ -95,15 +95,15 @@ export default defineComponent({
     },
   },
   setup(props, context) {
-    let rate: any = ref([]);
-    const setRate = (el: any) => {
+    let rate = ref<object[]>([]);
+    const setRate = (el: object) => {
       rate.value.push(el);
     };
-    let hoverScore = ref();
-    let confirmScore = ref();
+    let hoverScore = ref<number>();
+    let confirmScore = ref<number>();
     // 初始化确定的分数
     initializeConfirmScore();
-    function initializeConfirmScore() {
+    function initializeConfirmScore(): void {
       confirmScore.value = Math.floor(props.modelValue);
       if (confirmScore.value <= 0) {
         confirmScore.value = 0;
@@ -114,29 +114,29 @@ export default defineComponent({
     }
 
     // 鼠标经过的icon的时候
-    let hoverDate = ref();
-    let hoverColor = ref();
-    function onMouseover(ind: number) {
+    let hoverDate = ref<number>();
+    let hoverColor = ref<string>();
+    function onMouseover(ind: number): void {
       if (props.disabled) {
         return;
       }
       hoverDate.value = ind + 1;
       hoverScore.value = hoverDate.value;
       if (hoverDate.value <= props.lowThreshold) {
-        hoverColor.value = props.colors[0];
+        hoverColor.value = props.colors[0] as string;
       } else if (
         hoverDate.value > props.lowThreshold &&
         hoverDate.value < props.highThreshold
       ) {
-        hoverColor.value = props.colors[1];
+        hoverColor.value = props.colors[1] as string;
       } else if (hoverDate.value >= props.highThreshold) {
-        hoverColor.value = props.colors[2];
+        hoverColor.value = props.colors[2] as string;
       }
     }
     // 设置大小
-    let heightDate = ref();
+    let heightDate = ref<number>();
     setSize();
-    function setSize() {
+    function setSize(): void {
       if (props.height >= 24) {
         heightDate.value = props.height;
       } else {
@@ -144,28 +144,28 @@ export default defineComponent({
       }
     }
     // 是否触发hover
-    let isHover = ref(false);
-    let confirmData = ref(0);
+    let isHover = ref<boolean>(false);
+    let confirmData = ref<number>(0);
     confirmData.value = props.modelValue;
-    function setIsHover(parameter: number) {
+    function setIsHover(parameter: number): void {
       if (parameter == 1 && props.disabled == false) {
         isHover.value = true;
       } else if (parameter == 0) {
         if (confirmData.value <= props.lowThreshold) {
-          hoverColor.value = props.colors[0];
+          hoverColor.value = props.colors[0] as string;
         } else if (
           confirmData.value > props.lowThreshold &&
           confirmData.value < props.highThreshold
         ) {
-          hoverColor.value = props.colors[1];
+          hoverColor.value = props.colors[1] as string;
         } else if (confirmData.value >= props.highThreshold) {
-          hoverColor.value = props.colors[2];
+          hoverColor.value = props.colors[2] as string;
         }
         isHover.value = false;
       }
     }
     // 设置确定的得分
-    function getConfirmData(ind: number) {
+    function getConfirmData(ind: number): void {
       if (props.disabled) {
         return;
       }

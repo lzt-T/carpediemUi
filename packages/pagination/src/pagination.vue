@@ -177,7 +177,7 @@ export default defineComponent({
     let isRightHover = ref<boolean>(false);
     let isLeftArrowHover = ref<boolean>(false);
     let isRightArrowHover = ref<boolean>(false);
-    function onMouseover(data: number) {
+    function onMouseover(data: number): void {
       if (data == 0) {
         isLeftHover.value = true;
       } else if (data == 1) {
@@ -188,7 +188,7 @@ export default defineComponent({
         isRightArrowHover.value = true;
       }
     }
-    function onMouseout(data: number) {
+    function onMouseout(data: number): void {
       if (data == 0) {
         isLeftHover.value = false;
       } else if (data == 1) {
@@ -202,7 +202,7 @@ export default defineComponent({
     let currentPage = ref<number>(1);
     let currentPageList = ref<number[]>([]);
     // 切换页码
-    function selectPage(ind: number) {
+    function selectPage(ind: number): void {
       if (ind >= 1 && ind <= pageAmount.value) {
         currentPage.value = ind;
       } else if (ind <= 0) {
@@ -211,18 +211,18 @@ export default defineComponent({
         currentPage.value = pageAmount.value;
       }
     }
-    let input = ref();
+    let input = ref<object>();
     onMounted(() => {
       if (props.goTo) {
-        input.value.value = currentPage.value;
+        (input.value as HTMLInputElement).value = String(currentPage.value);
       }
     });
     watch(
       currentPage,
-      (newval, oldval) => {
+      (newval: number, oldval) => {
         context.emit("currentChange", newval);
         if (props.goTo == true && input.value !== undefined) {
-          input.value.value = newval;
+          (input.value as HTMLInputElement).value = String(newval);
         }
         if (isPageCount.value == false) {
           return;
@@ -266,14 +266,14 @@ export default defineComponent({
     );
 
     // 初始化下拉框
-    let selectData = ref("");
+    let selectData = ref<string>("");
     let selectList = ref<selectObject[]>([]);
     interface selectObject {
       value: string;
       label: string;
     }
     initSelect();
-    function initSelect() {
+    function initSelect(): void {
       if (props.pageSizes === undefined || props.pageSizes.length == 0) {
         return;
       }
@@ -294,7 +294,7 @@ export default defineComponent({
     }
     watch(
       selectData,
-      (newval, oldval) => {
+      (newval: string, oldval) => {
         if (newval != "") {
           let data: string[] = newval.split("/");
           pageAmount.value = Math.ceil(props.total / Number(data[0]));
@@ -313,27 +313,29 @@ export default defineComponent({
     );
     // 操作goto框
     let isFocus = ref<boolean>(false);
-    function pressEnter(e: any) {
+    function pressEnter(e: { keyCode: number }) {
       if (e.keyCode == 13) {
-        input.value.blur();
+        (input.value as HTMLInputElement).blur();
       }
     }
-    function onFocus() {
+    function onFocus(): void {
       isFocus.value = true;
       window.addEventListener("keydown", pressEnter);
     }
-    function onBlur() {
+    function onBlur(): void {
       isFocus.value = false;
       window.removeEventListener("keydown", pressEnter);
       if (
-        Number(input.value.value) >= 1 &&
-        Number(input.value.value) <= pageAmount.value
+        Number((input.value as HTMLInputElement).value) >= 1 &&
+        Number((input.value as HTMLInputElement).value) <= pageAmount.value
       ) {
-        currentPage.value = Number(input.value.value);
-      } else if (Number(input.value.value) == 0) {
+        currentPage.value = Number((input.value as HTMLInputElement).value);
+      } else if (Number((input.value as HTMLInputElement).value) == 0) {
         currentPage.value = 1;
-        input.value.value = 1;
-      } else if (Number(input.value.value) > pageAmount.value) {
+        (input.value as HTMLInputElement).value = 1 + "";
+      } else if (
+        Number((input.value as HTMLInputElement).value) > pageAmount.value
+      ) {
         currentPage.value = pageAmount.value;
       }
     }

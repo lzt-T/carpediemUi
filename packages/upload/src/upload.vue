@@ -210,10 +210,10 @@ export default defineComponent({
   },
   setup(props, context) {
     // 设置大小
-    let heightData = ref();
-    let widthData = ref();
+    let heightData = ref<number>();
+    let widthData = ref<number>();
     setSize();
-    function setSize() {
+    function setSize(): void {
       if (props.height >= 24) {
         heightData.value = props.height;
       } else {
@@ -226,16 +226,16 @@ export default defineComponent({
       }
     }
     // 文件触摸
-    let hoverInd = ref();
-    function onMouseover(ind: number) {
+    let hoverInd = ref<number>();
+    function onMouseover(ind: number): void {
       hoverInd.value = ind;
     }
-    function onMouseout() {
+    function onMouseout(): void {
       hoverInd.value = undefined;
     }
     // 删除文件
-    let deleInd = ref();
-    function deleDocument(ind: number) {
+    let deleInd = ref<number>();
+    function deleDocument(ind: number): void {
       if (props.onRemove !== undefined) {
         props.onRemove(sumFile.value[ind], sumFile.value);
       }
@@ -262,7 +262,7 @@ export default defineComponent({
       }, 200);
     }
 
-    let file = ref();
+    let file = ref<object>();
     //每次上传file对象，有size和name属性
     let dataArray: any = ref([]);
     // 列表的全部file对象
@@ -270,17 +270,18 @@ export default defineComponent({
     // 列表图片资源
     let imgArray: any = ref([]);
     // 列表资源名字
-    let fileName: any = ref([]);
+    let fileName = ref<string[]>([]);
     // 列表文件的状态
-    let fileState: any = ref([]);
+    let fileState = ref<number[]>([]);
     // 列表文件进度
-    let fileProgress: any = ref([]);
+    let fileProgress = ref<number[]>([]);
     // 手动上传
     function onUpload() {
       uploadServer(sumFile);
+      console.log(typeof sumFile.value);
     }
     // 上传服务器
-    function uploadServer(data: any) {
+    function uploadServer(data: any): void {
       let formDataArray: any = ref([]);
       for (let i = 0; i < data.value.length; i++) {
         let formData = new FormData();
@@ -324,8 +325,10 @@ export default defineComponent({
       }
     }
     // 自动上传
-    function UpFile(e: any) {
-      dataArray.value = file.value.files;
+    function UpFile(): void {
+      dataArray.value = (file.value as HTMLInputElement).files;
+      console.log(typeof (file.value as HTMLInputElement).files);
+
       if (
         props.limit !== undefined &&
         sumFile.value.length + dataArray.value.length > props.limit
@@ -358,18 +361,18 @@ export default defineComponent({
       uploadServer(dataArray);
     }
 
-    let isHover = ref();
-    function onPictureMouseover() {
+    let isHover = ref<boolean>();
+    function onPictureMouseover(): void {
       isHover.value = true;
     }
-    function onPictureMouseout() {
+    function onPictureMouseout(): void {
       isHover.value = false;
     }
-    let iscoveeInd = ref();
-    function onImgMouseover(ind: number) {
+    let iscoveeInd = ref<number>();
+    function onImgMouseover(ind: number): void {
       iscoveeInd.value = ind;
     }
-    function onImgMouseout() {
+    function onImgMouseout(): void {
       iscoveeInd.value = undefined;
     }
     return {

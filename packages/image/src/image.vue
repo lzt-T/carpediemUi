@@ -142,63 +142,65 @@ export default defineComponent({
     if (props.lazy == false) {
       srcData.value = props.src;
     }
-    let isParent = ref(false);
-    let parent = ref();
-    let image = ref();
-    let isError = ref(false);
+    let isParent = ref<boolean>(false);
+    let parent = ref<object>();
+    let image = ref<object>();
+    let isError = ref<boolean>(false);
     function onError() {
       isError.value = true;
     }
     // 获取最近一个可以滚动的DOM，都没有最终为body
-    function getParent(e: any) {
+    function getParent(e: HTMLElement): HTMLElement {
       let T = e.parentNode;
       while (true) {
         if (T == document.body) {
           break;
         }
-        if (T.offsetHeight == T.scrollHeight) {
-          T = getParent(T);
+        if (
+          (T as HTMLElement).offsetHeight == (T as HTMLElement).scrollHeight
+        ) {
+          T = getParent(T as HTMLElement);
         } else {
           break;
         }
       }
-      return T;
+      return T as HTMLElement;
     }
     // 得到距离页面最上方的距离
-    function getoffsetTop(e: HTMLElement) {
+    function getoffsetTop(e: HTMLElement): number {
       let offset = e.offsetTop;
       if (e.offsetParent != null) {
         offset += getoffsetTop(e.offsetParent as HTMLElement);
       }
       return offset;
     }
-    watch(isParent, (newval, oldval) => {
+    watch(isParent, (newval, oldval): void => {
       if (newval) {
-        onScroll(parent.value);
+        onScroll();
         if (document.body == parent.value) {
           window.addEventListener("scroll", onScroll);
         } else {
-          parent.value.addEventListener("scroll", onScroll);
+          (parent.value as HTMLElement).addEventListener("scroll", onScroll);
         }
       }
     });
     // 当滚动时
-    function onScroll(e: any) {
-      let distance = 0;
-      let scrollDistance = 0;
+    function onScroll(): void {
+      let distance: number = 0;
+      let scrollDistance: number = 0;
       if (document.body == parent.value) {
         distance = document.documentElement.clientHeight;
       } else {
-        distance = parent.value.clientHeight;
+        distance = (parent.value as HTMLElement).clientHeight;
       }
       if (document.body == parent.value) {
         scrollDistance = document.documentElement.scrollTop;
       } else {
-        scrollDistance = parent.value.scrollTop;
+        scrollDistance = (parent.value as HTMLElement).scrollTop;
       }
       if (
-        getoffsetTop(image.value) -
-          getoffsetTop(parent.value) -
+        getoffsetTop(image.value as HTMLDivElement) -
+          getoffsetTop(parent.value as HTMLElement) -
           scrollDistance <=
         distance
       ) {
@@ -207,7 +209,7 @@ export default defineComponent({
     }
     onMounted(() => {
       if (props.lazy) {
-        parent.value = getParent(image.value);
+        parent.value = getParent(image.value as HTMLElement);
         isParent.value = true;
       }
     });
@@ -216,13 +218,13 @@ export default defineComponent({
     let browseImgUrl: string;
     let browseImgHeight = ref<number>();
     let browseImgWidth = ref<number>();
-    let isBrowse = ref(false);
-    let initialIndexData = ref();
+    let isBrowse = ref<boolean>(false);
+    let initialIndexData = ref<number>(0);
     let multiple = ref<number>(1);
     let lessenAnimation = ref<Boolean>(false);
     let magnifyAnimation = ref<Boolean>(false);
     // 设置图片信息
-    function setBrowseImg() {
+    function setBrowseImg(): void {
       if (
         props.previewSrcList === undefined ||
         props.previewSrcList.length == 0
@@ -235,7 +237,7 @@ export default defineComponent({
       browseImgWidth.value = browseImg.width;
     }
     // 打开图片弹窗
-    function onClick() {
+    function onClick(): void {
       if (
         props.previewSrcList === undefined ||
         props.previewSrcList.length == 0
@@ -258,7 +260,7 @@ export default defineComponent({
       }
     }
     // 上一张
-    function clickLeft() {
+    function clickLeft(): void {
       multiple.value = 1;
       imgRotate.value = 0;
       dragInitialize();
@@ -272,7 +274,7 @@ export default defineComponent({
       setBrowseImg();
     }
     // 下一张
-    function clickRight() {
+    function clickRight(): void {
       multiple.value = 1;
       imgRotate.value = 0;
       dragInitialize();
@@ -286,11 +288,11 @@ export default defineComponent({
       setBrowseImg();
     }
     // 关闭图片弹窗
-    function closeBrowse() {
+    function closeBrowse(): void {
       isBrowse.value = false;
     }
     // 缩小
-    function onLessen() {
+    function onLessen(): void {
       if (multiple.value < 0.2 || lessenAnimation.value) {
         return;
       }
@@ -301,7 +303,7 @@ export default defineComponent({
       multiple.value = multiple.value * 0.8;
     }
     // 放大
-    function onMagnify() {
+    function onMagnify(): void {
       if (multiple.value > 6 || magnifyAnimation.value) {
         return;
       }
@@ -314,7 +316,7 @@ export default defineComponent({
     let isRightRotate = ref<boolean>();
     let isLeftRotate = ref<boolean>();
     // 向左旋转
-    function onLeftRotate() {
+    function onLeftRotate(): void {
       if (isLeftRotate.value) {
         return;
       }
@@ -328,7 +330,7 @@ export default defineComponent({
       }
     }
     // 向右旋转90度
-    function onRightRotate() {
+    function onRightRotate(): void {
       if (isRightRotate.value) {
         return;
       }
@@ -352,7 +354,7 @@ export default defineComponent({
     let moveX = ref<number>(0);
     let moveY = ref<number>(0);
     let imgRotate = ref<number>(0);
-    function dragInitialize() {
+    function dragInitialize(): void {
       startX.value = 0;
       startY.value = 0;
       moveXLoading.value = 0;
@@ -362,12 +364,12 @@ export default defineComponent({
       moveX.value = 0;
       moveY.value = 0;
     }
-    function onMousedown(e: any) {
+    function onMousedown(e: { clientX: number; clientY: number }): void {
       isDrag.value = true;
       startX.value = e.clientX;
       startY.value = e.clientY;
     }
-    function onMousemove(e: any) {
+    function onMousemove(e: { clientX: number; clientY: number }): void {
       if (isDrag.value == false) {
         return;
       }
@@ -376,12 +378,12 @@ export default defineComponent({
       moveX.value = lastX.value + moveXLoading.value;
       moveY.value = lastY.value + moveYLoading.value;
     }
-    function onMouseup(e: any) {
+    function onMouseup(e: { clientX: number; clientY: number }): void {
       isDrag.value = false;
       lastX.value = lastX.value + e.clientX - startX.value;
       lastY.value = lastY.value + e.clientY - startY.value;
     }
-    function rollerRolling(e: any) {
+    function rollerRolling(e: { deltaY: number }): void {
       if (e.deltaY > 0) {
         if (multiple.value < 0.2) {
           return;

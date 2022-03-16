@@ -1,10 +1,6 @@
 <template>
   <div class="su">
-    asd\
-    <button @click="onSizeChange">Button</button>
-    <div class="suu">
-      <cd-date-picker v-model="data"> asdas</cd-date-picker>
-    </div>
+    <div class="suu"></div>
   </div>
   <form method="post" action="http://127.0.0.1:3000/su">
     <input type="submit" />
@@ -17,7 +13,7 @@ import { ref, onMounted, getCurrentInstance, watch, reactive } from "vue";
 export default {
   name: "App",
   setup() {
-    let data = ref("");
+    let data = ref(12);
     watch(data, (newval, oldval) => {
       console.log(newval);
     });

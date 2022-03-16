@@ -70,10 +70,10 @@ export default defineComponent({
   },
   setup(props, context) {
     //   设置大小
-    let heightData = ref();
-    let widthData = ref();
+    let heightData = ref<number>(0);
+    let widthData = ref<number>(0);
     setSize();
-    function setSize() {
+    function setSize(): void {
       if (props.height >= 24) {
         heightData.value = props.height;
       } else {
@@ -86,8 +86,8 @@ export default defineComponent({
       }
     }
     // 是否选择
-    let isChecked = ref(false);
-    function checkSelect() {
+    let isChecked = ref<boolean>(false);
+    function checkSelect(): void {
       if (props.label == props.modelValue) {
         isChecked.value = true;
       } else {
@@ -95,33 +95,33 @@ export default defineComponent({
       }
     }
     // 当选择的情况发生变化时
-    function onChange() {
+    function onChange(): void {
       context.emit("change", props.label);
       changeModelValue();
     }
     // 改变绑定的值
-    function changeModelValue() {
+    function changeModelValue(): void {
       context.emit("update:modelValue", props.label);
     }
     // 设置单选框的大小
-    let zoomData = ref();
+    let zoomData = ref<number>();
     setZoom();
-    function setZoom() {
+    function setZoom(): void {
       zoomData.value = Math.floor((heightData.value / 2.1 / 14) * 100);
     }
     // 当点击单选框的字时
-    function changeSelect() {
+    function changeSelect(): void {
       if (props.disabled) {
         return;
       }
       onChange();
     }
     // 鼠标是否经单选框
-    let isHoverRadio = ref(false);
-    function onMouseover() {
+    let isHoverRadio = ref<boolean>(false);
+    function onMouseover(): void {
       isHoverRadio.value = true;
     }
-    function onMouseout() {
+    function onMouseout(): void {
       isHoverRadio.value = false;
     }
     watch(

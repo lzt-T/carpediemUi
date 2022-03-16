@@ -78,12 +78,13 @@ export default defineComponent({
       () => {
         return props.modelValue;
       },
-      (newval, oldval) => {
+      (newval, oldval): void => {
         if (newval) {
           isShow.value = true;
           timekeeping = setTimeout(() => {
             context.emit("update:modelValue", false);
           }, time.value);
+          console.log(typeof timekeeping);
         } else {
           window.clearTimeout(timekeeping);
           timekeeping = null;
@@ -95,7 +96,7 @@ export default defineComponent({
       },
       { immediate: true }
     );
-    function onClose() {
+    function onClose(): void {
       context.emit("update:modelValue", false);
       window.clearTimeout(timekeeping);
     }

@@ -65,9 +65,9 @@ export default defineComponent({
   },
   setup(props, context) {
     let isTextSlot = ref<boolean>(true);
-    let textSlot = ref();
+    let textSlot = ref<object>();
     onMounted(() => {
-      if (textSlot.value.clientHeight > 0) {
+      if ((textSlot.value as HTMLDivElement).clientHeight > 0) {
         isTextSlot.value = false;
       }
     });
@@ -75,7 +75,7 @@ export default defineComponent({
       () => {
         return props.modelValue;
       },
-      (newval: boolean, oldval) => {
+      (newval: boolean, oldval): void => {
         if (newval) {
           context.emit("open");
         } else {
@@ -85,13 +85,13 @@ export default defineComponent({
     );
     // 关闭键的hover
     let isHover = ref<boolean>(false);
-    function onMouseenter() {
+    function onMouseenter(): void {
       isHover.value = true;
     }
-    function onMouseleave() {
+    function onMouseleave(): void {
       isHover.value = false;
     }
-    function onClose() {
+    function onClose(): void {
       context.emit("update:modelValue", false);
     }
     return {

@@ -190,22 +190,22 @@ export default defineComponent({
     },
   },
   setup(props, context) {
-    let info = ref();
-    let wordLimit = ref();
-    let clearIcon = ref();
-    let textarea = ref();
+    let info = ref<object>();
+    let wordLimit = ref<object>();
+    let clearIcon = ref<object>();
+    let textarea = ref<object>();
     //textarea的字体大小
-    let fontSizeData = ref();
+    let fontSizeData = ref<number>(0);
     if (props.fontSize >= 12) {
       fontSizeData.value = props.fontSize;
     } else {
       fontSizeData.value = 12;
     }
     //   宽度和长度
-    let heightData = ref();
-    let widthData = ref();
+    let heightData = ref<number>(0);
+    let widthData = ref<number>(0);
     setSzie();
-    function setSzie() {
+    function setSzie(): void {
       if (props.height >= 24) {
         heightData.value = props.height;
       } else {
@@ -218,62 +218,62 @@ export default defineComponent({
       }
     }
     // 执行自定义事件
-    function executeBlur() {
+    function executeBlur(): void {
       if (props.type != "textarea") {
         context.emit("blur", info.value);
       } else {
         context.emit("blur", textarea.value);
       }
     }
-    function executeChange(data: any) {
+    function executeChange(data: string): void {
       context.emit("change", data);
     }
-    function executeFocus() {
+    function executeFocus(): void {
       if (props.type != "textarea") {
         context.emit("focus", info.value);
       } else {
         context.emit("focus", textarea.value);
       }
     }
-    function executeInput() {
+    function executeInput(): void {
       if (props.type != "textarea") {
-        context.emit("input", info.value.value);
+        context.emit("input", (info.value as HTMLInputElement).value);
       } else {
-        context.emit("input", textarea.value.value);
+        context.emit("input", (textarea.value as HTMLTextAreaElement).value);
       }
     }
-    function executeClear() {
+    function executeClear(): void {
       context.emit("clear");
     }
     // 按下清空按钮
-    function clearInput() {
+    function clearInput(): void {
       executeClear();
       context.emit("update:modelValue", "");
       if (props.type != "textarea") {
-        info.value.value = "";
+        (info.value as HTMLInputElement).value = "";
       } else {
-        textarea.value.value = "";
+        (textarea.value as HTMLTextAreaElement).value = "";
       }
     }
 
-    let isFocus = ref(false);
-    function pressEnter(e: any) {
+    let isFocus = ref<boolean>(false);
+    function pressEnter(e: { keyCode: number }): void {
       if (e.keyCode == 13) {
-        executeChange(info.value.value);
-        info.value.blur();
+        executeChange((info.value as HTMLInputElement).value);
+        (info.value as HTMLInputElement).blur();
       }
     }
-    function onFocus() {
+    function onFocus(): void {
       executeFocus();
       document.addEventListener("keyup", pressEnter);
       isFocus.value = true;
       isInputDownShow.value = true;
     }
-    function onTextareaFocus() {
+    function onTextareaFocus(): void {
       executeFocus();
       isFocus.value = true;
     }
-    function onBlur() {
+    function onBlur(): void {
       executeBlur();
       setTimeout(() => {
         document.removeEventListener("keyup", pressEnter);
@@ -283,22 +283,22 @@ export default defineComponent({
         isInputDownShow.value = false;
       }, 180);
     }
-    function onTextareaFocusBlur() {
+    function onTextareaFocusBlur(): void {
       isFocus.value = false;
       executeBlur();
     }
     // input清空按钮的宽度
-    let clearIconWidth = ref(0);
+    let clearIconWidth = ref<number>(0);
     if (props.clearable) {
       clearIconWidth.value = heightData.value / 2;
     }
     // input内容的长度
-    let inputLength = ref(0);
+    let inputLength = ref<number>(0);
     // 显示字数显示的长度
-    let limitWordWidth = ref(0);
+    let limitWordWidth = ref<number>(0);
     // textarea的autosize开启时
-    let lastAutoHeightRows = ref(0);
-    let autoHeight = ref();
+    let lastAutoHeightRows = ref<number>(0);
+    let autoHeight = ref<number>();
     if (props.autosize !== undefined) {
       autoHeight.value = (fontSizeData.value + 2) * props.autosize.minRows + 6;
       lastAutoHeightRows.value = props.autosize.minRows;
@@ -307,18 +307,23 @@ export default defineComponent({
       () => {
         return props.modelValue;
       },
-      (newval, oldval) => {
+      (newval, oldval): void => {
         if (props.type != "textarea") {
-          limitWordWidth.value = wordLimit.value.clientWidth;
-          inputLength.value = info.value.value.length;
+          limitWordWidth.value = (
+            wordLimit.value as HTMLSpanElement
+          ).clientWidth;
+          inputLength.value = (info.value as HTMLInputElement).value.length;
           executeInput();
         } else {
-          inputLength.value = textarea.value.value.length;
+          inputLength.value = (
+            textarea.value as HTMLTextAreaElement
+          ).value.length;
           if (props.autosize !== undefined) {
             if (
               // 自己变大
               Math.floor(
-                textarea.value.scrollHeight / (fontSizeData.value + 2)
+                (textarea.value as HTMLTextAreaElement).scrollHeight /
+                  (fontSizeData.value + 2)
               ) > lastAutoHeightRows.value &&
               lastAutoHeightRows.value + 1 <= props.autosize.maxRows
             ) {
@@ -341,17 +346,20 @@ export default defineComponent({
         }
       }
     );
-    let isInputDownShow = ref();
-    function onSelelct(data: any) {
+    let isInputDownShow = ref<boolean>();
+    function onSelelct(data: string): void {
       setTimeout(() => {
         isInputDownShow.value = false;
       }, 180);
       if (props.maxLength !== undefined) {
         context.emit("update:modelValue", data.substr(0, props.maxLength));
-        info.value.value = data.substr(0, props.maxLength);
+        (info.value as HTMLInputElement).value = data.substr(
+          0,
+          props.maxLength
+        );
       } else {
         context.emit("update:modelValue", data);
-        info.value.value = data;
+        (info.value as HTMLInputElement).value = data;
       }
       executeInput();
     }

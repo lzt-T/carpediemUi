@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 export default defineComponent({
   name: "cd-row",
   //占父亲的几份（当父亲有宽度时），没有宽度时就是屏幕大小
@@ -38,22 +38,22 @@ export default defineComponent({
   },
   setup(props) {
     //主轴上的排列方式
-    let justifyData;
+    let justifyData = ref<string>();
     if (props.justify == "start") {
-      justifyData = "flex-start";
+      justifyData.value = "flex-start";
     } else if (props.justify == "end") {
-      justifyData = "flex-end";
+      justifyData.value = "flex-end";
     } else {
-      justifyData = props.justify;
+      justifyData.value = props.justify;
     }
     //侧轴上的排列方式
-    let alignData;
+    let alignData = ref<string>();
     if (props.align == "start") {
-      alignData = "flex-start";
+      alignData.value = "flex-start";
     } else if (props.align == "end") {
-      alignData = "flex-end";
+      alignData.value = "flex-end";
     } else {
-      alignData = props.align;
+      alignData.value = props.align;
     }
     return {
       justifyData,

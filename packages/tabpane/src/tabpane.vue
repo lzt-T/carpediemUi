@@ -26,11 +26,11 @@ export default defineComponent({
     },
   },
   setup(props, context) {
-    let tabpane = ref();
+    let tabpane = ref<object>();
     let parentCurrentInd: any = ref();
     let currentInd = ref<number>();
-    function initCurrentInd() {
-      let node = tabpane.value;
+    function initCurrentInd(): number {
+      let node: Element = tabpane.value as Element;
       let ind = 0;
       while (true) {
         if (node.previousElementSibling == null) {

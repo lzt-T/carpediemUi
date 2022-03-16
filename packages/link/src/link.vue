@@ -10,7 +10,7 @@
 <script lang="ts">
 // 使用icon是只要把字体大小和图标大小调味一样的就行
 import cdIcon from "./../../icon/src/icon.vue";
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 export default defineComponent({
   name: "cd-link",
   components: {
@@ -39,9 +39,10 @@ export default defineComponent({
     },
   },
   setup(props) {
-    let hrefData = props.href;
-    let underlineData = "";
-    underlineData = props.underline == true ? "underline" : "none";
+    let hrefData = ref<string>();
+    hrefData.value = props.href;
+    let underlineData = ref<string>("");
+    underlineData.value = props.underline == true ? "underline" : "none";
     return {
       underlineData,
       hrefData,

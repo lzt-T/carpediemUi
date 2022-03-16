@@ -52,6 +52,7 @@
 <script lang="ts">
 import cdIcon from "./../../icon/src/icon.vue";
 import { defineComponent, ref, watch, onMounted } from "vue";
+import { BlockList } from "net";
 export default defineComponent({
   name: "cd-input-number",
   components: {
@@ -60,6 +61,7 @@ export default defineComponent({
   emits: ["update:modelValue", "focus", "blur", "change"],
   props: {
     modelValue: {
+      type: Number || String,
       required: true,
     },
     height: {
@@ -99,9 +101,9 @@ export default defineComponent({
     // 保留几位小数
     let keepFigures: number;
     getKeepFigures();
-    function getKeepFigures() {
-      let sum = 0;
-      let totalBit = 1 / props.precision;
+    function getKeepFigures(): void {
+      let sum: number = 0;
+      let totalBit: number = 1 / props.precision;
       while (true) {
         if (totalBit == 1 || totalBit < 1) {
           keepFigures = sum;
@@ -112,8 +114,8 @@ export default defineComponent({
       }
     }
 
-    let input = ref();
-    let inputData = ref();
+    let input = ref<object>();
+    let inputData = ref<number | string>(0);
     onMounted(() => {
       inputData.value = props.modelValue;
       if (props.modelValue !== undefined) {
@@ -142,10 +144,10 @@ export default defineComponent({
     });
 
     // 设置大小
-    let heightData = ref();
-    let widthData = ref();
+    let heightData = ref<number>();
+    let widthData = ref<number>();
     setSize();
-    function setSize() {
+    function setSize(): void {
       if (props.height >= 24) {
         heightData.value = props.height;
       } else {
@@ -158,20 +160,20 @@ export default defineComponent({
       }
     }
     // 触发事件
-    function executeFocus() {
+    function executeFocus(): void {
       context.emit("focus", input.value);
     }
-    function executeBlur() {
+    function executeBlur(): void {
       context.emit("blur", input.value);
     }
-    function executeChange() {
+    function executeChange(): void {
       context.emit("change", Number(inputData.value));
     }
-    function changeModelValue() {
+    function changeModelValue(): void {
       context.emit("update:modelValue", Number(inputData.value));
     }
     // 按下删除键
-    function onKeydown(e: any) {
+    function onKeydown(e: { keyCode: number }): void {
       if (e.keyCode == 8 && Number(inputData.value) != 0) {
         setTimeout(() => {
           executeChange();
@@ -180,13 +182,13 @@ export default defineComponent({
       }
     }
     // 得到焦点
-    let isFocus = ref(false);
-    function onFocus() {
+    let isFocus = ref<boolean>(false);
+    function onFocus(): void {
       isFocus.value = true;
       executeFocus();
     }
     // 失去焦点
-    function onBlur() {
+    function onBlur(): void {
       isFocus.value = false;
       if (inputData.value === undefined) {
         inputData.value = "";
@@ -195,8 +197,8 @@ export default defineComponent({
       executeBlur();
     }
     // 经过按钮时
-    let isLeftHover = ref(false);
-    let isRightHover = ref(false);
+    let isLeftHover = ref<boolean>(false);
+    let isRightHover = ref<boolean>(false);
     function onMouseenter(parameter: number) {
       if (parameter == 0) {
         isLeftHover.value = true;
@@ -204,7 +206,7 @@ export default defineComponent({
         isRightHover.value = true;
       }
     }
-    function onMouseleave(parameter: number) {
+    function onMouseleave(parameter: number): void {
       if (parameter == 0) {
         isLeftHover.value = false;
       } else {
@@ -212,23 +214,24 @@ export default defineComponent({
       }
     }
     // 点击减号按钮、加号按钮
-    function onMousedown(parameter: number) {
+    function onMousedown(parameter: number): void {
       if (props.disabled) {
         return;
       }
-      let isTrue = true;
+      let isTrue: boolean = true;
       if (parameter == 0) {
         if (inputData.value === undefined) {
           inputData.value = -(props.step * props.precision);
           inputData.value = Number(inputData.value).toFixed(keepFigures);
         } else {
-          inputData.value = inputData.value - props.step * props.precision;
+          inputData.value =
+            Number(inputData.value) - props.step * props.precision;
           inputData.value = Number(inputData.value).toFixed(keepFigures);
         }
         // 低于最小值
         if (
           props.min !== undefined &&
-          inputData.value < props.min &&
+          Number(inputData.value) < props.min &&
           Number(inputData.value) + props.step * props.precision != props.min
         ) {
           inputData.value = props.min;
@@ -257,7 +260,7 @@ export default defineComponent({
         // 高于最大值
         if (
           props.max !== undefined &&
-          inputData.value > props.max &&
+          Number(inputData.value) > props.max &&
           Number(inputData.value) - props.step * props.precision != props.max
         ) {
           inputData.value = props.max;
@@ -277,7 +280,7 @@ export default defineComponent({
       }
     }
     // 监听输入的变化
-    watch(inputData, (newval, oldval) => {
+    watch(inputData, (newval, oldval): void => {
       // 输入的时候inputData改变
       if (
         (oldval === undefined ||
@@ -302,9 +305,9 @@ export default defineComponent({
             changeModelValue();
           }, 2);
         } else {
-          inputData.value = inputData.value.substr(
+          inputData.value = (inputData.value as string).substr(
             0,
-            inputData.value.length - 1
+            (inputData.value as string).length - 1
           );
         }
       }

@@ -44,26 +44,28 @@ export default defineComponent({
     },
   },
   setup(props, context) {
-    let pageHeaderFrame = ref();
-    let titleSlot = ref();
-    let contentSlot = ref();
+    let pageHeaderFrame = ref<object>();
+    let titleSlot = ref<object>();
+    let contentSlot = ref<object>();
     let pageheaderHeight = ref<number>();
     let isTitleSlot = ref<boolean>(true);
     let isContentSlot = ref<boolean>(true);
     onMounted(() => {
-      pageheaderHeight.value = pageHeaderFrame.value.clientHeight;
-      if (titleSlot.value.clientHeight == 0) {
+      pageheaderHeight.value = (
+        pageHeaderFrame.value as HTMLDivElement
+      ).clientHeight;
+      if ((titleSlot.value as HTMLDivElement).clientHeight == 0) {
         isTitleSlot.value = false;
       } else {
         isTitleSlot.value = true;
       }
-      if (contentSlot.value.clientHeight == 0) {
+      if ((contentSlot.value as HTMLDivElement).clientHeight == 0) {
         isContentSlot.value = false;
       } else {
         isContentSlot.value = true;
       }
     });
-    function onBack() {
+    function onBack(): void {
       context.emit("back");
     }
     return {
