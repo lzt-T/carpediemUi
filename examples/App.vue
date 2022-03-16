@@ -3,9 +3,7 @@
     asd\
     <button @click="onSizeChange">Button</button>
     <div class="suu">
-      <cd-badge>
-        <div>asdasd</div>
-      </cd-badge>
+      <cd-button :color="data" :round="true"> asdas</cd-button>
     </div>
   </div>
   <form method="post" action="http://127.0.0.1:3000/su">
@@ -19,13 +17,12 @@ import { ref, onMounted, getCurrentInstance, watch, reactive } from "vue";
 export default {
   name: "App",
   setup() {
-    let data = ref(false);
+    let data = ref("red");
     watch(data, (newval, oldval) => {
       console.log(newval);
     });
     function onSizeChange(aa: any) {
-      data.value = true;
-      console.log("asd");
+      data.value = "balck";
     }
     function onCurrentChange(e: any) {
       console.log("pppp");
