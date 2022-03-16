@@ -84,10 +84,10 @@ export default defineComponent({
   },
   setup(props, context) {
     // 设置大小
-    let heightData = ref();
-    let widthData = ref();
+    let heightData = ref<number>();
+    let widthData = ref<number>();
     setSize();
-    function setSize() {
+    function setSize(): void {
       if (props.height >= 24) {
         heightData.value = props.height;
       } else {
@@ -99,11 +99,11 @@ export default defineComponent({
         widthData.value = 200;
       }
     }
-    let info = ref();
-    let isFocus = ref(false);
-    let isShow = ref(false);
+    let info = ref<object>();
+    let isFocus = ref<boolean>(false);
+    let isShow = ref<boolean>(false);
     //设置isFocus的值
-    function setIsFocus() {
+    function setIsFocus(): void {
       if (isFocus.value) {
         isFocus.value = false;
         setTimeout(() => {
@@ -114,7 +114,7 @@ export default defineComponent({
         isShow.value = true;
       }
     }
-    window.addEventListener("mousedown", () => {
+    window.addEventListener("mousedown", (): void => {
       if (isFocus.value == true) {
         isFocus.value = false;
         setTimeout(() => {
@@ -123,16 +123,17 @@ export default defineComponent({
       }
     });
     // 获得多级选项的数据
-    function getCascaderData(data: any) {
+    function getCascaderData(data: string): void {
       if (props.showAllLevels == true) {
-        info.value.value = data;
+        (info.value as HTMLInputElement).value = data;
         setInputValue(data);
       } else {
-        info.value.value = data.split("/")[data.split("/").length - 1];
+        (info.value as HTMLInputElement).value =
+          data.split("/")[data.split("/").length - 1];
         setInputValue(data.split("/")[data.split("/").length - 1]);
       }
     }
-    function setInputValue(data: any) {
+    function setInputValue(data: string): void {
       context.emit("change", data);
       context.emit("update:modelValue", data);
     }

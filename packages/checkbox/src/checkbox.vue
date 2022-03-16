@@ -30,7 +30,7 @@
 
 <script lang="ts">
 // 只能单个使用，要多个配合使用时要使用el-checkbox-group组件
-import { computed, ref, watch } from "vue";
+import { ref, watch } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "cd-checkbox",
@@ -64,7 +64,7 @@ export default defineComponent({
   },
   setup(props, context) {
     //   设置大小
-    let sizeData = ref();
+    let sizeData = ref<number>();
     if (props.size <= 50) {
       sizeData.value = 50;
     } else {
@@ -72,11 +72,11 @@ export default defineComponent({
     }
 
     // 选中还是没有选中
-    let checkData = ref(false);
+    let checkData = ref<boolean>(false);
     checkData.value = props.modelValue;
     // 设置图标的颜色
-    let selectIconColor = ref();
-    function setSelectIconColor() {
+    let selectIconColor = ref<string>();
+    function setSelectIconColor(): void {
       if (props.disabled) {
         selectIconColor.value = "#cdd2d8";
       } else {
@@ -84,8 +84,8 @@ export default defineComponent({
       }
     }
     // 设置图标的背景颜色
-    let selectIconBackground = ref();
-    function setSelectIconBackground() {
+    let selectIconBackground = ref<string>();
+    function setSelectIconBackground(): void {
       if (props.disabled) {
         selectIconBackground.value = "#edf2fc";
       } else {
@@ -93,8 +93,8 @@ export default defineComponent({
       }
     }
     // 设置字体内容的颜色
-    let contextColor = ref("");
-    function setContextColor() {
+    let contextColor = ref<string>("");
+    function setContextColor(): void {
       if (checkData.value == true) {
         contextColor.value = "#409eff";
       } else {
@@ -105,20 +105,20 @@ export default defineComponent({
       }
     }
     // 设置选中还是不选中(点击字的时候)
-    function setCheckData() {
+    function setCheckData(): void {
       if (props.disabled == false) {
         checkData.value = !checkData.value;
         setContextColor();
       }
     }
-    function onChange(data: any) {
+    function onChange(data: boolean): void {
       context.emit("onChange", data);
     }
     // 防止双击选中
-    function onSelectstart(event: any) {
+    function onSelectstart(event: Event): void {
       event.preventDefault();
     }
-    function setModelValue(data: any) {
+    function setModelValue(data: boolean): void {
       context.emit("update:modelValue", data);
     }
 
@@ -126,7 +126,7 @@ export default defineComponent({
       () => {
         return props.disabled;
       },
-      (newval, oldval) => {
+      (): void => {
         setSelectIconColor();
         setSelectIconBackground();
         setContextColor();
@@ -136,7 +136,7 @@ export default defineComponent({
     //点击框的时候
     watch(
       checkData,
-      (newval, oldval) => {
+      (newval: boolean, oldval): void => {
         setModelValue(newval);
         setContextColor();
         onChange(checkData.value);

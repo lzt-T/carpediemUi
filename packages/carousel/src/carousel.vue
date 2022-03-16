@@ -89,13 +89,13 @@ export default defineComponent({
     },
   },
   setup(props, context) {
-    let presentInd = ref();
-    let presentImg: any = ref([]);
-    let triggerHoverInd = ref();
-    let isHoverMove = ref(false);
+    let presentInd = ref<number>(0);
+    let presentImg = ref<string[]>([]);
+    let triggerHoverInd = ref<number>();
+    let isHoverMove = ref<boolean>(false);
     // 初始化img数组
     initializeImg();
-    function initializeImg() {
+    function initializeImg(): void {
       if (props.initialIndex >= 0 && props.initialIndex < props.src.length) {
         presentInd.value = props.initialIndex;
       } else {
@@ -107,40 +107,43 @@ export default defineComponent({
         }
       }
       triggerHoverInd.value = presentInd.value;
-      presentImg.value[0] =
-        props.src[
-          presentInd.value - 1 < 0
-            ? props.src.length - 1
-            : (presentInd.value - 1) % props.src.length
-        ];
-      presentImg.value[1] = props.src[presentInd.value % props.src.length];
-      presentImg.value[2] =
-        props.src[(presentInd.value + 1) % props.src.length];
+      presentImg.value[0] = props.src[
+        presentInd.value - 1 < 0
+          ? props.src.length - 1
+          : (presentInd.value - 1) % props.src.length
+      ] as string;
+      presentImg.value[1] = props.src[
+        presentInd.value % props.src.length
+      ] as string;
+      presentImg.value[2] = props.src[
+        (presentInd.value + 1) % props.src.length
+      ] as string;
     }
     // 监听下标的变化
-    watch(presentInd, (newval, oldval) => {
+    watch(presentInd, (newval: number, oldval): void => {
       if (isHoverMove.value) {
         return;
       }
       context.emit("change", newval);
-      setTimeout(() => {
+      setTimeout((): void => {
         triggerHoverInd.value = newval % props.src.length;
         isLeftMove.value = false;
         isRightMove.value = false;
-        presentImg.value[0] =
-          props.src[
-            newval - 1 < 0
-              ? props.src.length - 1
-              : (newval - 1) % props.src.length
-          ];
-        presentImg.value[1] = props.src[newval % props.src.length];
-        presentImg.value[2] = props.src[(newval + 1) % props.src.length];
+        presentImg.value[0] = props.src[
+          newval - 1 < 0
+            ? props.src.length - 1
+            : (newval - 1) % props.src.length
+        ] as string;
+        presentImg.value[1] = props.src[newval % props.src.length] as string;
+        presentImg.value[2] = props.src[
+          (newval + 1) % props.src.length
+        ] as string;
       }, 680);
     });
     // 循环滚动
-    let isLeftMove = ref(false);
+    let isLeftMove = ref<boolean>(false);
     let cycleTimer = setInterval(recoveryTime, props.interval);
-    function recoveryTime() {
+    function recoveryTime(): void {
       if (props.src.length == 1) {
         return;
       }
@@ -163,9 +166,9 @@ export default defineComponent({
       }
     }
     // 初始化箭头的显示
-    let isArrowShow = ref();
+    let isArrowShow = ref<boolean>();
     initializeArrow();
-    function initializeArrow() {
+    function initializeArrow(): void {
       if (props.arrow == "never") {
         isArrowShow.value = false;
       } else if (props.arrow == "always") {
@@ -173,21 +176,21 @@ export default defineComponent({
       }
     }
     // 停止滚动和继续滚动
-    function onMouseover() {
+    function onMouseover(): void {
       window.clearInterval(cycleTimer);
       if (props.arrow == "hover") {
         isArrowShow.value = true;
       }
     }
-    function onMouseout() {
+    function onMouseout(): void {
       cycleTimer = setInterval(recoveryTime, props.interval);
       if (props.arrow == "hover") {
         isArrowShow.value = false;
       }
     }
     // 上一张
-    let isRightMove = ref(false);
-    function lastPage() {
+    let isRightMove = ref<boolean>(false);
+    function lastPage(): void {
       if (isRightMove.value == true) {
         return;
       }
@@ -198,7 +201,7 @@ export default defineComponent({
       }
     }
     // 下一张
-    function nextPage() {
+    function nextPage(): void {
       if (isLeftMove.value == true) {
         return;
       }
@@ -209,35 +212,35 @@ export default defineComponent({
       }
     }
     //关于trigger是click切换还是hover切换
-    function triggerMove(ind: number) {
+    function triggerMove(ind: number): void {
       if (ind > presentInd.value && isLeftMove.value == false) {
         isLeftMove.value = true;
         isHoverMove.value = true;
-        presentImg.value[1] = props.src[presentInd.value];
-        presentImg.value[2] = props.src[ind];
+        presentImg.value[1] = props.src[presentInd.value] as string;
+        presentImg.value[2] = props.src[ind] as string;
         presentInd.value = ind;
         isHoverMove.value = false;
       } else if (ind < presentInd.value && isRightMove.value == false) {
         isRightMove.value = true;
         isHoverMove.value = true;
-        presentImg.value[1] = props.src[presentInd.value];
-        presentImg.value[0] = props.src[ind];
+        presentImg.value[1] = props.src[presentInd.value] as string;
+        presentImg.value[0] = props.src[ind] as string;
         presentInd.value = ind;
         isHoverMove.value = false;
       }
     }
-    function triggerClick(ind: number) {
+    function triggerClick(ind: number): void {
       if (props.trigger == "click") {
         triggerMove(ind);
       }
     }
-    function triggerMouseover(ind: number) {
+    function triggerMouseover(ind: number): void {
       if (props.trigger == "hover") {
         triggerMove(ind);
       }
       triggerHoverInd.value = ind;
     }
-    function triggerMouseout() {
+    function triggerMouseout(): void {
       if (props.trigger == "hover") {
       } else {
         triggerHoverInd.value = presentInd.value;

@@ -3,7 +3,7 @@
     asd\
     <button @click="onSizeChange">Button</button>
     <div class="suu">
-      <cd-button :color="data" :round="true"> asdas</cd-button>
+      <cd-cascader :option="data" @change="onpPrevClick"> asdas</cd-cascader>
     </div>
   </div>
   <form method="post" action="http://127.0.0.1:3000/su">
@@ -17,13 +17,29 @@ import { ref, onMounted, getCurrentInstance, watch, reactive } from "vue";
 export default {
   name: "App",
   setup() {
-    let data = ref("red");
+    let data = ref([
+      {
+        value: "1",
+      },
+      {
+        value: "2",
+        children: [
+          { value: "21" },
+          { value: "22" },
+          {
+            value: "23",
+            children: [
+              { value: "31" },
+              { value: "32", children: [{ value: "41" }] },
+            ],
+          },
+        ],
+      },
+    ]);
     watch(data, (newval, oldval) => {
       console.log(newval);
     });
-    function onSizeChange(aa: any) {
-      data.value = "balck";
-    }
+    function onSizeChange(aa: any) {}
     function onCurrentChange(e: any) {
       console.log("pppp");
     }

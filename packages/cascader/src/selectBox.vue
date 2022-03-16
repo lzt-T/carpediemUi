@@ -114,7 +114,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import cdIcon from "./../../icon/src/icon.vue";
 import { watch, ref } from "vue";
 export default {
@@ -140,11 +140,15 @@ export default {
   setup(props, context) {
     // 是否返回数据
     let isReturn = ref(false);
-    let returnData = ref("");
+    let returnData = ref<string>("");
     //第一层
-    let firstSubscript = ref();
-    let firstData = ref([]);
-    function setFirstSubscript(ind, event, isUndefined) {
+    let firstSubscript = ref<number>();
+    let firstData = ref<string[]>([]);
+    function setFirstSubscript(
+      ind: number,
+      event: Event,
+      isUndefined: boolean | undefined
+    ): void {
       firstSubscript.value = ind;
       if (isUndefined !== undefined) {
         event.stopPropagation();
@@ -154,108 +158,177 @@ export default {
       }
     }
     // 第二层
-    let secondSubscript = ref();
-    let secondData = ref([]);
-    function setSecondSubscript(ind, event, isUndefined) {
+    let secondSubscript = ref<number>();
+    let secondData = ref<string[]>([]);
+    function setSecondSubscript(
+      ind: number,
+      event: Event,
+      isUndefined: boolean | undefined
+    ): void {
       secondSubscript.value = ind;
       if (isUndefined !== undefined) {
         event.stopPropagation();
       } else {
-        returnData.value = `${firstData.value[firstSubscript.value]}/${
-          secondData.value[ind]
-        }`;
-        isReturn.value = true;
+        if (firstSubscript.value !== undefined) {
+          returnData.value = `${firstData.value[firstSubscript.value]}/${
+            secondData.value[ind]
+          }`;
+          isReturn.value = true;
+        }
       }
     }
     // 第三层
-    let thirdlySubscript = ref();
-    let thirdlyData = ref([]);
-    function setThirdlySubscript(ind, event, isUndefined) {
+    let thirdlySubscript = ref<number>();
+    let thirdlyData = ref<string[]>([]);
+    function setThirdlySubscript(
+      ind: number,
+      event: Event,
+      isUndefined: boolean | undefined
+    ): void {
       thirdlySubscript.value = ind;
       if (isUndefined !== undefined) {
         event.stopPropagation();
       } else {
-        returnData.value = `${firstData.value[firstSubscript.value]}/${
-          secondData.value[secondSubscript.value]
-        }/${thirdlyData.value[ind]}
-        `;
-        isReturn.value = true;
+        if (
+          firstSubscript.value !== undefined &&
+          secondSubscript.value !== undefined
+        ) {
+          returnData.value = `${firstData.value[firstSubscript.value]}/${
+            secondData.value[secondSubscript.value]
+          }/${thirdlyData.value[ind]}`;
+          isReturn.value = true;
+        }
       }
     }
     // 第四层
-    let fourthlySubscript = ref();
-    let fourthlyData = ref([]);
-    function setFourthlySubscript(ind, event, isUndefined) {
+    let fourthlySubscript = ref<number>();
+    let fourthlyData = ref<string[]>([]);
+    function setFourthlySubscript(
+      ind: number,
+      event: Event,
+      isUndefined: boolean | undefined
+    ): void {
       fourthlySubscript.value = ind;
       if (isUndefined !== undefined) {
         event.stopPropagation();
       } else {
-        returnData.value = `${firstData.value[firstSubscript.value]}/${
-          secondData.value[secondSubscript.value]
-        }/${thirdlyData.value[thirdlySubscript.value]}/${
-          fourthlyData.value[ind]
+        if (
+          firstSubscript.value !== undefined &&
+          secondSubscript.value !== undefined &&
+          thirdlySubscript.value !== undefined
+        ) {
+          returnData.value = `${firstData.value[firstSubscript.value]}/${
+            secondData.value[secondSubscript.value]
+          }/${thirdlyData.value[thirdlySubscript.value]}/${
+            fourthlyData.value[ind]
+          }`;
+          isReturn.value = true;
         }
-        `;
-        isReturn.value = true;
       }
     }
     //初始化第一层数据
-    props.selectData.forEach((val, ind) => {
-      firstData.value.push(val.value);
-    });
+    interface IVal {
+      value: string;
+      children: Array<IVal>;
+    }
+    for (let i: number = 0; i < props.selectData.length; i++) {
+      firstData.value.push((props.selectData as Array<IVal>)[i].value);
+    }
     // 监听第一层标记的变化
-    watch(firstSubscript, (newval, oldval) => {
-      if (props.selectData[newval].children === undefined) {
-        secondData.value = [];
-      } else {
-        props.selectData[newval].children.forEach((val, ind) => {
-          secondData.value.push(val.value);
-        });
+    watch(
+      firstSubscript,
+      (newval: number | undefined, oldval: number | undefined): void => {
+        if (newval !== undefined) {
+          if (
+            (props.selectData as Array<IVal>)[newval].children === undefined
+          ) {
+            secondData.value = [];
+          } else {
+            for (
+              let i: number = 0;
+              i < (props.selectData as Array<IVal>)[newval].children.length;
+              i++
+            ) {
+              secondData.value.push(
+                (props.selectData as Array<IVal>)[newval].children[i].value
+              );
+            }
+          }
+          secondSubscript.value = undefined;
+          thirdlySubscript.value = undefined;
+        }
       }
-      secondSubscript.value = undefined;
-      thirdlySubscript.value = undefined;
-    });
+    );
     // 监听第二层标记的变化
-    watch(secondSubscript, (newval, oldval) => {
-      if (newval === undefined) {
-        thirdlyData.value = [];
-      } else {
-        if (
-          props.selectData[firstSubscript.value].children[newval].children ===
-          undefined
-        ) {
+    watch(
+      secondSubscript,
+      (newval: number | undefined, oldval: number | undefined): void => {
+        if (newval === undefined) {
           thirdlyData.value = [];
         } else {
-          props.selectData[firstSubscript.value].children[
-            newval
-          ].children.forEach((val, ind) => {
-            thirdlyData.value.push(val.value);
-          });
+          if (firstSubscript.value !== undefined) {
+            if (
+              (props.selectData as Array<IVal>)[firstSubscript.value].children[
+                newval
+              ].children === undefined
+            ) {
+              thirdlyData.value = [];
+            } else {
+              for (
+                let i: number = 0;
+                i <
+                (props.selectData as Array<IVal>)[firstSubscript.value]
+                  .children[newval].children.length;
+                i++
+              ) {
+                thirdlyData.value.push(
+                  (props.selectData as Array<IVal>)[firstSubscript.value]
+                    .children[newval].children[i].value
+                );
+              }
+            }
+          }
         }
+        thirdlySubscript.value = undefined;
       }
-      thirdlySubscript.value = undefined;
-    });
+    );
     // 监听第三层标记的变化
-    watch(thirdlySubscript, (newval, oldval) => {
-      if (newval === undefined || secondSubscript.value === undefined) {
-        fourthlyData.value = [];
-      } else {
-        if (
-          props.selectData[firstSubscript.value].children[secondSubscript.value]
-            .children[newval].children === undefined
-        ) {
+    watch(
+      thirdlySubscript,
+      (newval: number | undefined, oldval: number | undefined): void => {
+        if (newval === undefined || secondSubscript.value === undefined) {
           fourthlyData.value = [];
         } else {
-          props.selectData[firstSubscript.value].children[
-            secondSubscript.value
-          ].children[newval].children.forEach((val, ind) => {
-            fourthlyData.value.push(val.value);
-          });
+          if (firstSubscript.value !== undefined) {
+            if (
+              (props.selectData as Array<IVal>)[firstSubscript.value].children[
+                secondSubscript.value
+              ].children[newval].children === undefined
+            ) {
+              fourthlyData.value = [];
+            } else {
+              for (
+                let i: number = 0;
+                i <
+                (props.selectData as Array<IVal>)[firstSubscript.value]
+                  .children[secondSubscript.value].children[newval].children
+                  .length;
+                i++
+              ) {
+                fourthlyData.value.push(
+                  (props.selectData as Array<IVal>)[firstSubscript.value]
+                    .children[secondSubscript.value].children[newval].children[
+                    i
+                  ].value
+                );
+              }
+            }
+          }
         }
       }
-    });
+    );
     // 返回多级选项的数据
-    watch(isReturn, (newval, oldval) => {
+    watch(isReturn, (newval: boolean, oldval: boolean): void => {
       if (newval == true) {
         context.emit("getCascaderData", returnData.value);
         isReturn.value = false;
