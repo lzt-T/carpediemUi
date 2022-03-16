@@ -116,8 +116,8 @@
 
 <script lang="ts">
 import cdIcon from "./../../icon/src/icon.vue";
-import { watch, ref } from "vue";
-export default {
+import { watch, ref, defineComponent } from "vue";
+export default defineComponent({
   components: {
     cdIcon,
   },
@@ -349,7 +349,7 @@ export default {
       setFourthlySubscript,
     };
   },
-};
+});
 </script>
 
 <style scoped>

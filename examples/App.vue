@@ -3,7 +3,7 @@
     asd\
     <button @click="onSizeChange">Button</button>
     <div class="suu">
-      <cd-date-picker> asdas</cd-date-picker>
+      <cd-date-picker v-model="data"> asdas</cd-date-picker>
     </div>
   </div>
   <form method="post" action="http://127.0.0.1:3000/su">
@@ -17,25 +17,7 @@ import { ref, onMounted, getCurrentInstance, watch, reactive } from "vue";
 export default {
   name: "App",
   setup() {
-    let data = ref([
-      {
-        value: "1",
-      },
-      {
-        value: "2",
-        children: [
-          { value: "21" },
-          { value: "22" },
-          {
-            value: "23",
-            children: [
-              { value: "31" },
-              { value: "32", children: [{ value: "41" }] },
-            ],
-          },
-        ],
-      },
-    ]);
+    let data = ref("");
     watch(data, (newval, oldval) => {
       console.log(newval);
     });
@@ -81,6 +63,6 @@ export default {
 .ppp {
   /* margin: 20px; */
   background-color: aquamarine;
-  padding: 20px;
+  /* padding: 20px; */
 }
 </style>

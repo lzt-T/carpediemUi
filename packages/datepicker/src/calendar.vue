@@ -74,10 +74,9 @@
   </div>
 </template>
 
-<script>
-import { ref, watch } from "vue";
-import { emit } from "process";
-export default {
+<script lang="ts">
+import { ref, watch, defineComponent } from "vue";
+export default defineComponent({
   emits: ["onSelectDate"],
   props: {
     height: {
@@ -110,8 +109,16 @@ export default {
     },
   },
   setup(props, context) {
-    let weekArray = ref(["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]);
-    let monthArray = ref([
+    let weekArray = ref<string[]>([
+      "Sun",
+      "Mon",
+      "Tue",
+      "Wed",
+      "Thu",
+      "Fri",
+      "Sat",
+    ]);
+    let monthArray = ref<string[]>([
       "January",
       "February",
       "March",
@@ -125,24 +132,24 @@ export default {
       "November",
       "December",
     ]);
-    let selectDate = ref([]);
-    let yearData = ref();
-    let monthData = ref();
-    let dayData = ref();
+    let selectDate = ref<number[]>([]);
+    let yearData = ref<number>(0);
+    let monthData = ref<number>(0);
+    let dayData = ref<number>(0);
 
     // 获取当前日期
-    function getCurrentDate() {
+    function getCurrentDate(): void {
       let currentDate = new Date();
       yearData.value = currentDate.getFullYear();
       monthData.value = currentDate.getMonth() + 1;
       dayData.value = currentDate.getDate();
       selectDate.value = [yearData.value, monthData.value];
     }
-    function changeYear(num) {
+    function changeYear(num: number): void {
       yearData.value += num;
       getCalendar();
     }
-    function changeMonth(num) {
+    function changeMonth(num: number): void {
       if (monthData.value + num > 12) {
         yearData.value += 1;
         monthData.value = 1;
@@ -154,22 +161,22 @@ export default {
       }
       getCalendar();
     }
-    function changeData(num) {
+    function changeData(num: number): void {
       dayData.value = num;
     }
     //获取日期的数据
-    let lastMonthDays = ref([]);
-    let currentMonthhDays = ref([]);
-    let nextMonthDays = ref([]);
+    let lastMonthDays = ref<number[]>([]);
+    let currentMonthhDays = ref<number[]>([]);
+    let nextMonthDays = ref<number[]>([]);
     // 得到当前日历的界面数据
-    function getCalendar() {
+    function getCalendar(): void {
       lastMonthDays.value.length = 0;
       currentMonthhDays.value.length = 0;
       nextMonthDays.value.length = 0;
-      let monthFristWeek;
-      let nextmonth;
-      let lastmonth;
-      let currentmonth = +new Date(
+      let monthFristWeek: number;
+      let nextmonth: number;
+      let lastmonth: number;
+      let currentmonth: number = +new Date(
         yearData.value + "-" + monthData.value + "-1"
       );
       if (monthData.value == 12) {
@@ -191,8 +198,9 @@ export default {
       ).getDay();
 
       for (
-        let i = (currentmonth - lastmonth) / (1000 * 60 * 60 * 24), j = 0;
-        i >= 0, j < monthFristWeek;
+        let i: number = (currentmonth - lastmonth) / (1000 * 60 * 60 * 24),
+          j = 0;
+        i >= 0 && j < monthFristWeek;
         i--, j++
       ) {
         lastMonthDays.value.unshift(i);
@@ -217,11 +225,11 @@ export default {
     }
     watch(
       () => props.isChange,
-      (newval, oldval) => {
+      (newval: boolean, oldval): void => {
         if (newval == true && props.year != 0) {
-          yearData.value = props.year;
-          monthData.value = props.month;
-          dayData.value = props.day;
+          yearData.value = props.year as number;
+          monthData.value = props.month as number;
+          dayData.value = props.day as number;
           selectDate.value = [yearData.value, monthData.value];
           getCalendar();
         } else if (newval == false && props.year == 0) {
@@ -232,7 +240,7 @@ export default {
       { immediate: true }
     );
     // 改变输入框中的字
-    function onSelectDate() {
+    function onSelectDate(): void {
       context.emit("onSelectDate", {
         year: yearData.value,
         month: monthData.value,
@@ -240,7 +248,7 @@ export default {
       });
     }
     // 点击上一个月的日期
-    function selectLastMonth(data) {
+    function selectLastMonth(data: number): void {
       if (monthData.value == 1) {
         yearData.value -= 1;
         monthData.value = 12;
@@ -254,12 +262,12 @@ export default {
       onSelectDate();
       getCalendar();
     }
-    function selectCurrentDay(data) {
+    function selectCurrentDay(data: number): void {
       dayData.value = data;
       selectDate.value = [yearData.value, monthData.value];
       onSelectDate();
     }
-    function selectNextMonth(data) {
+    function selectNextMonth(data: number): void {
       if (monthData.value == 12) {
         yearData.value += 1;
         monthData.value = 1;
@@ -273,7 +281,7 @@ export default {
       getCalendar();
       onSelectDate();
     }
-    function onSelectstart(e) {
+    function onSelectstart(e: Event): void {
       e.preventDefault();
     }
     return {
@@ -295,7 +303,7 @@ export default {
       onSelectstart,
     };
   },
-};
+});
 </script>
 
 <style scoped>

@@ -146,7 +146,7 @@ export default defineComponent({
     let dayData = ref<string>("");
     let isFocus = ref<boolean>(false);
     //输入时
-    function onFocus(stageData: any) {
+    function onFocus(stageData: string): void {
       stage.value = stageData;
       if (stage.value == "middle" && isDateTrue.value == true) {
         yearData.value = dateData.value.split("-")[0];
@@ -171,7 +171,7 @@ export default defineComponent({
       window.addEventListener("keydown", pressBlank);
     }
     //输入结束时
-    function onBlur(stageData: string) {
+    function onBlur(stageData: string): void {
       isFocus.value = false;
       window.removeEventListener("keydown", pressBlank);
       if (dateData.value == "" && stage.value == "middle") {
@@ -192,8 +192,8 @@ export default defineComponent({
         onBourcheck(stageData);
       }
     }
-    function onBourcheck(stageData: string) {
-      let checkData = [];
+    function onBourcheck(stageData: string): void {
+      let checkData: [boolean, string[]] = [false, []];
       if (stageData == "middle") {
         checkData = checkDate(dateData.value);
       } else if (stageData == "start") {
@@ -240,7 +240,7 @@ export default defineComponent({
         }
       }
     }
-    function setModelValue() {
+    function setModelValue(): void {
       if (stage.value == "middle") {
         context.emit("update:modelValue", dateData.value);
       } else {
@@ -250,38 +250,45 @@ export default defineComponent({
         );
       }
     }
-    let isShow = ref(false);
-    let isShowCopy = ref(false);
-    let isChange = ref(false);
-    let dateData = ref("");
-    let startDate = ref("");
-    let endDate = ref("");
-    let isDateTrue = ref();
-    let isStartDate = ref(true);
-    let isEndtDate = ref(true);
+    let isShow = ref<boolean>(false);
+    let isShowCopy = ref<boolean>(false);
+    let isChange = ref<boolean>(false);
+    let dateData = ref<string>("");
+    let startDate = ref<string>("");
+    let endDate = ref<string>("");
+    let isDateTrue = ref<boolean>();
+    let isStartDate = ref<boolean>(true);
+    let isEndtDate = ref<boolean>(true);
     // 手动输入日期，并判断正确，再设置日期
-    function checkDate(dateData: any) {
-      let isSure = false;
-      let bissextilDay = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-      let nobissextilDay = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-      let dateDataArray = dateData.split("-");
+    function checkDate(dateData: string): [boolean, string[]] {
+      let isSure: boolean = false;
+      let bissextilDay: number[] = [
+        31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31,
+      ];
+      let nobissextilDay: number[] = [
+        31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31,
+      ];
+      let dateDataArray: string[] = dateData.split("-");
       if (
-        dateDataArray[0] % 400 == 0 ||
-        (dateDataArray[0] % 4 == 0 && dateDataArray[0] % 100 != 0)
+        Number(dateDataArray[0]) % 400 == 0 ||
+        (Number(dateDataArray[0]) % 4 == 0 &&
+          Number(dateDataArray[0]) % 100 != 0)
       ) {
-        if (dateDataArray[1] >= 1 && dateDataArray[1] <= 12) {
+        if (Number(dateDataArray[1]) >= 1 && Number(dateDataArray[1]) <= 12) {
           if (
-            dateDataArray[2] >= 1 &&
-            dateDataArray[2] <= bissextilDay[dateDataArray[1] - 1]
+            Number(dateDataArray[2]) >= 1 &&
+            Number(dateDataArray[2]) <=
+              bissextilDay[Number(dateDataArray[1]) - 1]
           ) {
             isSure = true;
           }
         }
       } else {
-        if (dateDataArray[1] >= 1 && dateDataArray[1] <= 12) {
+        if (Number(dateDataArray[1]) >= 1 && Number(dateDataArray[1]) <= 12) {
           if (
-            dateDataArray[2] >= 1 &&
-            dateDataArray[2] <= nobissextilDay[dateDataArray[1] - 1]
+            Number(dateDataArray[2]) >= 1 &&
+            Number(dateDataArray[2]) <=
+              nobissextilDay[Number(dateDataArray[1]) - 1]
           ) {
             isSure = true;
           }
@@ -289,59 +296,72 @@ export default defineComponent({
       }
       return [isSure, dateDataArray];
     }
-    function pressBlank(e: any) {
+    function pressBlank(e: { keyCode: number }): void {
       if (e.keyCode == 13) {
         checkDateSecond();
       }
     }
     // 日期正确和错误的做法
-    function checkDateSecond() {
-      if (true) {
-        let checkData = [];
+    function checkDateSecond(): void {
+      let checkData: [boolean, string[]] = [false, []];
+      if (stage.value == "middle") {
+        checkData = checkDate(dateData.value);
+      } else if (stage.value == "start") {
+        checkData = checkDate(startDate.value);
+      } else if (stage.value == "end") {
+        checkData = checkDate(endDate.value);
+      }
+      if (checkData[0]) {
+        yearData.value = checkData[1][0];
+        monthData.value = checkData[1][1];
+        dayData.value = checkData[1][2];
         if (stage.value == "middle") {
-          checkData = checkDate(dateData.value);
+          isDateTrue.value = true;
         } else if (stage.value == "start") {
-          checkData = checkDate(startDate.value);
+          isStartDate.value = true;
         } else if (stage.value == "end") {
-          checkData = checkDate(endDate.value);
+          isEndtDate.value = true;
         }
-        if (checkData[0]) {
-          yearData.value = checkData[1][0];
-          monthData.value = checkData[1][1];
-          dayData.value = checkData[1][2];
-          if (stage.value == "middle") {
-            isDateTrue.value = true;
-          } else if (stage.value == "start") {
-            isStartDate.value = true;
-          } else if (stage.value == "end") {
-            isEndtDate.value = true;
+        isChange.value = true;
+        setTimeout(() => {
+          isChange.value = false;
+        }, 1);
+        isShow.value = false;
+        setTimeout(() => {
+          isShowCopy.value = false;
+        }, 280);
+
+        if (startDate.value != "" && endDate.value != "") {
+          let startTimeMs = +new Date(startDate.value);
+          let endTimeMs = +new Date(endDate.value);
+          if (startTimeMs > endTimeMs) {
+            [startDate.value, endDate.value] = [endDate.value, startDate.value];
           }
-          isChange.value = true;
-          setTimeout(() => {
-            isChange.value = false;
-          }, 1);
+        }
+        if (stage.value == "middle") {
+          setModelValue();
+        } else {
+          if (isStartDate.value == true && isEndtDate.value == true) {
+            setModelValue();
+          }
+        }
+        if (stage.value == "middle") {
+          (info.value as HTMLInputElement).blur();
+        } else if (stage.value == "start") {
+          (startinfo.value as HTMLInputElement).blur();
+        } else if (stage.value == "end") {
+          (endinfo.value as HTMLInputElement).blur();
+        }
+      } else {
+        if (
+          (dateData.value == "" && stage.value == "middle") ||
+          (startDate.value == "" && stage.value == "start") ||
+          (endDate.value == "" && stage.value == "end")
+        ) {
           isShow.value = false;
           setTimeout(() => {
             isShowCopy.value = false;
           }, 280);
-
-          if (startDate.value != "" && endDate.value != "") {
-            let startTimeMs = +new Date(startDate.value);
-            let endTimeMs = +new Date(endDate.value);
-            if (startTimeMs > endTimeMs) {
-              [startDate.value, endDate.value] = [
-                endDate.value,
-                startDate.value,
-              ];
-            }
-          }
-          if (stage.value == "middle") {
-            setModelValue();
-          } else {
-            if (isStartDate.value == true && isEndtDate.value == true) {
-              setModelValue();
-            }
-          }
           if (stage.value == "middle") {
             (info.value as HTMLInputElement).blur();
           } else if (stage.value == "start") {
@@ -350,43 +370,29 @@ export default defineComponent({
             (endinfo.value as HTMLInputElement).blur();
           }
         } else {
-          if (
-            (dateData.value == "" && stage.value == "middle") ||
-            (startDate.value == "" && stage.value == "start") ||
-            (endDate.value == "" && stage.value == "end")
-          ) {
-            isShow.value = false;
-            setTimeout(() => {
-              isShowCopy.value = false;
-            }, 280);
-            if (stage.value == "middle") {
-              (info.value as HTMLInputElement).blur();
-            } else if (stage.value == "start") {
-              (startinfo.value as HTMLInputElement).blur();
-            } else if (stage.value == "end") {
-              (endinfo.value as HTMLInputElement).blur();
-            }
-          } else {
-            if (stage.value == "middle") {
-              isDateTrue.value = false;
-            } else if (stage.value == "start") {
-              isStartDate.value = false;
-            } else if (stage.value == "end") {
-              isEndtDate.value = false;
-            }
+          if (stage.value == "middle") {
+            isDateTrue.value = false;
+          } else if (stage.value == "start") {
+            isStartDate.value = false;
+          } else if (stage.value == "end") {
+            isEndtDate.value = false;
           }
         }
       }
     }
-    window.addEventListener("click", (e) => {
+    window.addEventListener("click", (e: Event): void => {
       e.stopPropagation();
       isShow.value = false;
-      setTimeout(() => {
+      setTimeout((): void => {
         isShowCopy.value = false;
       }, 280);
     });
     // 使用日历选择日期
-    function onSelectDate(data: any) {
+    function onSelectDate(data: {
+      year: number;
+      month: number;
+      day: number;
+    }): void {
       if (stage.value == "middle") {
         dateData.value = data.year + "-" + data.month + "-" + data.day;
       } else if (stage.value == "start") {
@@ -402,9 +408,9 @@ export default defineComponent({
           [startDate.value, endDate.value] = [endDate.value, startDate.value];
         }
       }
-      yearData.value = data.year;
-      monthData.value = data.month;
-      dayData.value = data.day;
+      yearData.value = `${data.year}`;
+      monthData.value = `${data.month}`;
+      dayData.value = `${data.day}`;
 
       if (stage.value == "middle") {
         isDateTrue.value = true;
@@ -456,6 +462,7 @@ export default defineComponent({
 <style scoped>
 .cd-datepicker-frame {
   display: flex;
+  align-items: center;
   position: relative;
   box-sizing: border-box;
   border: 1px solid #e7e9ee;
@@ -463,6 +470,8 @@ export default defineComponent({
   height: v-bind(heightData + "px");
   width: v-bind("type=='day'?widthData+'px':widthData*1.8+'px'");
   line-height: v-bind(heightData + "px");
+
+  font-size: v-bind(heightData/2 + "px");
 }
 .cd-datepicker-frame-border {
   border: 0.1px solid #e7e9ee;
@@ -491,6 +500,7 @@ export default defineComponent({
 }
 .cd-datepicker-input-frame {
   flex: 99999;
+  margin-right: 5px;
 }
 .cd-datepicker-input {
   border-radius: 2px;
