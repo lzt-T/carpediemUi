@@ -1,6 +1,11 @@
 <template>
   <div class="su">
-    <div class="suu"></div>
+    <cd-table
+      :data="attributesFormData"
+      :fieldName="['property', 'explain', 'type', 'optional', 'default']"
+      :listName="['属性', '说明', '类型', '可选值', '默认值']"
+      :width="36"
+    ></cd-table>
   </div>
   <form method="post" action="http://127.0.0.1:3000/su">
     <input type="submit" />
@@ -13,6 +18,23 @@ import { ref, onMounted, getCurrentInstance, watch, reactive } from "vue";
 export default {
   name: "App",
   setup() {
+    interface attributesfrom {
+      property: string;
+      explain: string;
+      type: string;
+      optional: string;
+      default: string;
+    }
+    let attributesFormData = ref<attributesfrom[]>([
+      {
+        property: "size",
+        explain:
+          "尺uashjfgagsfhjasfghjkgahjsfkasgjkfhasgdhasjdkjashdgashkajskhdgjasgkasjdgkj寸",
+        type: "number",
+        optional: "--",
+        default: "38",
+      },
+    ]);
     let data = ref(12);
     watch(data, (newval, oldval) => {
       console.log(newval);
@@ -32,6 +54,7 @@ export default {
     }
 
     return {
+      attributesFormData,
       data,
       onSizeChange,
       onCurrentChange,
@@ -46,7 +69,7 @@ export default {
 <style >
 .su {
   margin-left: 20px;
-  width: 900px;
+  /* width: 500px; */
   height: 2000px;
   font-size: 150px;
   line-height: 200px;
