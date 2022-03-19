@@ -35,6 +35,10 @@ export default defineComponent({
       type: String,
       default: "center",
     },
+    flexWrap: {
+      type: String,
+      default: "nowrap",
+    },
   },
   setup(props) {
     //主轴上的排列方式
@@ -73,5 +77,6 @@ export default defineComponent({
   word-break: break-all;
   box-sizing: border-box;
   text-align: v-bind(textAlign);
+  flex-wrap: v-bind(flexWrap);
 }
 </style>

@@ -27,7 +27,7 @@
           }"
         ></cd-icon>
       </div>
-      <div ref="text" class="cd-collapse-text">
+      <div ref="text">
         <slot></slot>
       </div>
     </div>
@@ -182,8 +182,5 @@ export default defineComponent({
   100% {
     transform: rotate(0deg);
   }
-}
-.cd-collapse-text {
-  display: inline-block;
 }
 </style>

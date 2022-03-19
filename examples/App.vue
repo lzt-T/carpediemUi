@@ -1,12 +1,5 @@
 <template>
-  <div class="su">
-    <cd-table
-      :data="attributesFormData"
-      :fieldName="['property', 'explain', 'type', 'optional', 'default']"
-      :listName="['属性', '说明', '类型', '可选值', '默认值']"
-      :width="36"
-    ></cd-table>
-  </div>
+  <div class="su"></div>
   <form method="post" action="http://127.0.0.1:3000/su">
     <input type="submit" />
   </form>
