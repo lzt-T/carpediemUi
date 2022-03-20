@@ -56,7 +56,7 @@ export default defineComponent({
 <style scoped>
 .cd-scrollbar {
   white-space: v-bind("crosswise?'nowrap':''");
-  overflow-x: auto;
+  overflow: auto;
   height: v-bind(height);
   max-height: v-bind(maxHeight);
 }

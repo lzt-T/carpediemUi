@@ -244,6 +244,7 @@ export default defineComponent({
           ) {
             secondData.value = [];
           } else {
+            secondData.value = [];
             for (
               let i: number = 0;
               i < (props.selectData as Array<IVal>)[newval].children.length;
@@ -274,6 +275,7 @@ export default defineComponent({
             ) {
               thirdlyData.value = [];
             } else {
+              thirdlyData.value = [];
               for (
                 let i: number = 0;
                 i <
@@ -307,6 +309,7 @@ export default defineComponent({
             ) {
               fourthlyData.value = [];
             } else {
+              fourthlyData.value = [];
               for (
                 let i: number = 0;
                 i <
@@ -394,6 +397,8 @@ export default defineComponent({
   border-bottom-right-radius: v-bind("firstSubscript===undefined?'5px':'0px'");
 }
 .cd-selectBox-span-tow {
+  overflow: auto;
+  height: v-bind(height * 6 + "px");
   border-right: 0.1px solid #dde0e7;
   border-top-right-radius: v-bind(
     "firstSubscript!==undefined&&secondSubscript===undefined?'5px':'0px'"
@@ -403,6 +408,8 @@ export default defineComponent({
   );
 }
 .cd-selectBox-span-three {
+  overflow: auto;
+  height: v-bind(height * 6 + "px");
   border-right: 0.1px solid #dde0e7;
   border-top-right-radius: v-bind(
     "secondSubscript!==undefined&&thirdlySubscript==undefined?'5px':'0px'"
@@ -412,6 +419,8 @@ export default defineComponent({
   );
 }
 .cd-selectBox-span-four {
+  overflow: auto;
+  height: v-bind(height * 6 + "px");
   border-right: 0.1px solid #dde0e7;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
