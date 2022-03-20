@@ -76,6 +76,7 @@ export default defineComponent({
   overflow: auto;
 }
 .cd-table-frame-div::-webkit-scrollbar {
+  height: 6px;
   width: 6px;
 }
 /* 滑块 */

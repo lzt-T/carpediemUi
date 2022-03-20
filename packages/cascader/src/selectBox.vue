@@ -444,6 +444,7 @@ export default defineComponent({
 }
 
 span::-webkit-scrollbar {
+  height: 6px;
   width: 6px;
 }
 /* 滑块 */

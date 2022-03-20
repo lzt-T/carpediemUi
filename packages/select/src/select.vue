@@ -373,6 +373,7 @@ export default defineComponent({
   width: 0px;
 }
 .cd-select-downbox:hover::-webkit-scrollbar {
+  height: 6px;
   width: 6px;
 }
 .cd-select-everybox {

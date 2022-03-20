@@ -463,6 +463,7 @@ export default defineComponent({
 }
 
 .cd-input-downbox::-webkit-scrollbar {
+  height: 6px;
   width: 6px;
 }
 /* 滑块 */
@@ -579,7 +580,8 @@ export default defineComponent({
   opacity: 0.7;
 }
 .cd-textarea::-webkit-scrollbar {
-  width: 5px;
+  height: 6px;
+  width: 6px;
 }
 /* 滚动槽 */
 .cd-textarea::-webkit-scrollbar-track {

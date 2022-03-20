@@ -231,6 +231,7 @@ export default defineComponent({
   padding-bottom: 20px;
 }
 .cd-drawer-text::-webkit-scrollbar {
+  height: 6px;
   width: 6px;
 }
 /* 滑块 */

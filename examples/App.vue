@@ -1,5 +1,17 @@
 <template>
-  <div class="su"></div>
+  <!-- <div class="su"></div> -->
+  <div class="pppppp">
+    <cd-scrollbar height="200px" crosswise>
+      <div
+        v-for="(data, ind) in 10"
+        :key="ind"
+        class="cd-website-scroll-everyspan"
+      >
+        {{ ind }}
+      </div>
+    </cd-scrollbar>
+  </div>
+
   <form method="post" action="http://127.0.0.1:3000/su">
     <input type="submit" />
   </form>
@@ -11,23 +23,6 @@ import { ref, onMounted, getCurrentInstance, watch, reactive } from "vue";
 export default {
   name: "App",
   setup() {
-    interface attributesfrom {
-      property: string;
-      explain: string;
-      type: string;
-      optional: string;
-      default: string;
-    }
-    let attributesFormData = ref<attributesfrom[]>([
-      {
-        property: "size",
-        explain:
-          "尺uashjfgagsfhjasfghjkgahjsfkasgjkfhasgdhasjdkjashdgashkajskhdgjasgkasjdgkj寸",
-        type: "number",
-        optional: "--",
-        default: "38",
-      },
-    ]);
     let data = ref(true);
     watch(data, (newval, oldval) => {
       console.log(newval);
@@ -47,7 +42,6 @@ export default {
     }
 
     return {
-      attributesFormData,
       data,
       onSizeChange,
       onCurrentChange,
@@ -72,9 +66,16 @@ export default {
   height: 600px;
   width: 100px;
 }
-.ppp {
-  /* margin: 20px; */
-  background-color: aquamarine;
-  /* padding: 20px; */
+.pppppp {
+  width: 400px;
+}
+.cd-website-scroll-everyspan {
+  display: inline-block;
+  width: 200px;
+  height: 50px;
+  margin: 10px;
+  text-align: center;
+  color: #409eff;
+  background-color: #ecf5ff;
 }
 </style>

@@ -36,6 +36,10 @@ export default defineComponent({
     maxHeight: {
       type: String,
     },
+    crosswise: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props, context) {
     //滚动时触发的事件
@@ -51,12 +55,14 @@ export default defineComponent({
 
 <style scoped>
 .cd-scrollbar {
-  overflow: auto;
+  white-space: v-bind("crosswise?'nowrap':''");
+  overflow-x: auto;
   height: v-bind(height);
   max-height: v-bind(maxHeight);
 }
 .cd-scrollbar-native::-webkit-scrollbar {
-  width: 8px;
+  height: 6px;
+  width: 6px;
 }
 /* 滑块 */
 .cd-scrollbar-native:hover::-webkit-scrollbar-thumb {
