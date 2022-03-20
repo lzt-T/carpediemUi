@@ -7,6 +7,7 @@
         'cd-drawer-cover-notshow': isAnimation == false,
       }"
       @click="onClose"
+      @wheel.stop.prevent
     ></div>
     <div
       :class="{
@@ -120,7 +121,9 @@ export default defineComponent({
           isAnimation.value = true;
           isShow.value = newval;
           context.emit("open");
+          document.body.style.overflow = "hidden";
         } else {
+          document.body.style.overflow = "auto";
           isAnimation.value = false;
           context.emit("close");
           setTimeout(() => {
@@ -165,6 +168,7 @@ export default defineComponent({
 }
 .cd-drawer-cover {
   position: absolute;
+  z-index: 1;
   top: 0;
   left: 0;
   height: 100vh;
@@ -196,6 +200,7 @@ export default defineComponent({
 }
 .cd-drawer-div {
   position: absolute;
+  z-index: 1;
   top: v-bind(topData + "px");
   bottom: v-bind(bottomData + "px");
   left: v-bind(leftData + "px");

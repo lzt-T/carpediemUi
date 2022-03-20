@@ -28,7 +28,7 @@ export default {
         default: "38",
       },
     ]);
-    let data = ref(12);
+    let data = ref(true);
     watch(data, (newval, oldval) => {
       console.log(newval);
     });
