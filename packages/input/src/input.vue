@@ -11,7 +11,7 @@
     <cd-icon
       v-if="prefixIcon !== undefined"
       class="cd-input-frame-prefix-icon"
-      name="fit"
+      :name="prefixIcon"
       color="#c8cbd2"
       :size="heightData / 2"
     ></cd-icon>
@@ -20,7 +20,7 @@
       <div class="cd-input-div-insert">
         <input
           ref="info"
-          :class="{ 'cd-input': true }"
+          :class="{ 'cd-input': true, 'cd-input-disabled': disabled }"
           :type="type"
           :placeholder="placeholder"
           :value="modelValue"
@@ -56,7 +56,7 @@
       v-if="suffixIcon !== undefined"
       class="cd-input-frame-suffix-icon"
       @selectstart.prevent
-      name="fit"
+      :name="suffixIcon"
       color="#c8cbd2"
       :size="heightData / 2"
     ></cd-icon>
@@ -87,7 +87,13 @@
     </div>
   </div>
 
-  <div :class="{ 'cd-textarea-frame': true }" v-if="type == 'textarea'">
+  <div
+    :class="{
+      'cd-textarea-frame': true,
+      'cd-textarea-frame-disabled': disabled,
+    }"
+    v-if="type == 'textarea'"
+  >
     <textarea
       ref="textarea"
       :value="modelValue"
@@ -95,7 +101,11 @@
       :rows="rows"
       :maxlength="maxLength"
       :minlength="minLength"
-      :class="{ 'cd-textarea': true, 'cd-textarea-focus': isFocus }"
+      :class="{
+        'cd-textarea': true,
+        'cd-textarea-focus': isFocus,
+        'cd-textarea-disabled': disabled,
+      }"
       :disabled="disabled"
       :placeholder="placeholder"
       @focus="onTextareaFocus"
@@ -435,6 +445,7 @@ export default defineComponent({
 }
 .cd-input-frame-disabled {
   background-color: #f5f7fa;
+  cursor: not-allowed;
 }
 .cd-cd-input-frame-focus {
   border: 1px solid #a8d3ff;
@@ -460,12 +471,17 @@ export default defineComponent({
   background-color: transparent;
   padding-left: 5px;
 }
+.cd-input-disabled {
+  cursor: not-allowed;
+}
 .cd-input-downbox-frame {
   position: absolute;
+  z-index: 1;
   top: v-bind(heightData + 14+ "px");
   left: 15px;
   height: v-bind(heightData * 6+ "px");
   width: v-bind(widthData/1.2 + "px");
+  background-color: white;
 }
 .cd-input-downbox-frame::before {
   content: "";
@@ -573,6 +589,9 @@ export default defineComponent({
   line-height: v-bind("fontSizeData+3 + 'px'");
   height: v-bind(autoHeight + "px");
 }
+.cd-textarea-frame-disabled {
+  cursor: not-allowed;
+}
 .cd-textarea-frame .cd-textarea-focus {
   border: 1px solid #a8d3ff;
 }
@@ -588,7 +607,9 @@ export default defineComponent({
   border-radius: 5px;
   border: 1px solid #dcdfe6;
 }
-
+.cd-textarea-disabled {
+  cursor: not-allowed;
+}
 .cd-textarea-Limitclear-frame {
   position: absolute;
   bottom: 0px;

@@ -2,7 +2,7 @@
   <div class="su">
     <cd-input
       type="text"
-      prefixIcon="fit"
+      prefixIcon="searchTow"
       :showWordLinit="true"
       :maxLength="200"
       :clearable="true"
@@ -14,6 +14,7 @@
       suffixIcon="fit"
       v-model="checkboxGroup"
     ></cd-input>
+    dasghid
   </div>
 
   <form method="post" action="http://127.0.0.1:3000/su">
