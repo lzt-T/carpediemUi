@@ -65,8 +65,8 @@ export default defineComponent({
   setup(props, context) {
     //   设置大小
     let sizeData = ref<number>();
-    if (props.size <= 50) {
-      sizeData.value = 50;
+    if (props.size <= 40) {
+      sizeData.value = 40;
     } else {
       sizeData.value = props.size;
     }

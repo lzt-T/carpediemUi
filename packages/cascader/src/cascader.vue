@@ -58,9 +58,12 @@ export default defineComponent({
   },
   emits: ["update:modelValue", "change"],
   props: {
+    modelValue: {
+      type: String,
+    },
     placeholder: {
       type: String,
-      default: "请选择",
+      default: "Select",
     },
     height: {
       type: Number,
