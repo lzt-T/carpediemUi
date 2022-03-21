@@ -60,7 +60,8 @@ export default defineComponent({
 .cd {
   font-family: "cd" !important;
   font-style: normal;
-  font-size: v-bind(0 + "px");
+  font-size: v-bind(size + "px");
+  line-height: v-bind(size + "px");
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: transparent;

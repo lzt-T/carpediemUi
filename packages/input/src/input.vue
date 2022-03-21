@@ -17,27 +17,30 @@
     ></cd-icon>
     <!-- 输入框 -->
     <div class="cd-input-div cd" @click.stop>
-      <input
-        ref="info"
-        :class="{ 'cd-input': true }"
-        :type="type"
-        :placeholder="placeholder"
-        :value="modelValue"
-        @input="$emit('update:modelValue', $event.target.value)"
-        :maxlength="maxLength"
-        :minlength="minLength"
-        @focus="onFocus"
-        @blur="onBlur"
-        :disabled="disabled"
-        :name="name"
-      />
-      <span
+      <div class="cd-input-div-insert">
+        <input
+          ref="info"
+          :class="{ 'cd-input': true }"
+          :type="type"
+          :placeholder="placeholder"
+          :value="modelValue"
+          @input="$emit('update:modelValue', $event.target.value)"
+          :maxlength="maxLength"
+          :minlength="minLength"
+          @focus="onFocus"
+          @blur="onBlur"
+          :disabled="disabled"
+          :name="name"
+        />
+      </div>
+      <div
         v-show="showWordLinit == true && maxLength !== undefined"
         ref="wordLimit"
         class="cd-input-wordLimit"
         @selectstart.prevent
-        >{{ inputLength }} / {{ maxLength }}</span
       >
+        {{ inputLength }}/{{ maxLength }}
+      </div>
       <cd-icon
         class="cd-input-clear"
         ref="clearIcon"
@@ -59,7 +62,7 @@
     ></cd-icon>
     <!-- 下拉选择框 -->
     <div
-      v-show="isInputDownShow"
+      v-show="isInputDownShow && isInputDownExist"
       :class="{
         'cd-input-downbox-frame': true,
       }"
@@ -73,7 +76,7 @@
         }"
       >
         <div
-          v-for="data in selectData"
+          v-for="data in selectInformation"
           :key="data"
           class="cd-input-everySelect"
           @mousedown="onSelelct(data)"
@@ -99,21 +102,23 @@
       @blur="onTextareaFocusBlur"
       :name="name"
     ></textarea>
-    <span
-      v-show="showWordLinit == true && maxLength !== undefined"
-      class="cd-textarea-wordLimit"
-      @selectstart.prevent
-      >{{ inputLength }} / {{ maxLength }}</span
-    >
-    <cd-icon
-      class="cd-textarea-clear"
-      ref="textareaClearIcon"
-      v-show="clearable == true && isFocus == true"
-      name="delete"
-      color="#c8cbd2"
-      :size="heightData / 2"
-      @mousedown.prevent="clearInput"
-    ></cd-icon>
+    <div class="cd-textarea-Limitclear-frame">
+      <span
+        v-show="showWordLinit == true && maxLength !== undefined"
+        class="cd-textarea-wordLimit"
+        @selectstart.prevent
+        >{{ inputLength }} / {{ maxLength }}</span
+      >
+      <cd-icon
+        class="cd-textarea-clear"
+        ref="textareaClearIcon"
+        v-show="clearable == true && isFocus == true"
+        name="delete"
+        color="#c8cbd2"
+        :size="16"
+        @mousedown.prevent="clearInput"
+      ></cd-icon>
+    </div>
   </div>
 </template>
 
@@ -127,14 +132,16 @@ export default defineComponent({
   },
   emits: ["update:modelValue", "focus", "blur", "change", "input", "clear"],
   props: {
-    modelValue: {},
+    modelValue: {
+      type: String,
+    },
     type: {
       type: String,
-      defaule: "text",
+      default: "text",
     },
     placeholder: {
       type: String,
-      defaulr: "Please input",
+      default: "Please input",
     },
     height: {
       type: Number,
@@ -294,8 +301,6 @@ export default defineComponent({
     }
     // input内容的长度
     let inputLength = ref<number>(0);
-    // 显示字数显示的长度
-    let limitWordWidth = ref<number>(0);
     // textarea的autosize开启时
     let lastAutoHeightRows = ref<number>(0);
     let autoHeight = ref<number>();
@@ -303,15 +308,21 @@ export default defineComponent({
       autoHeight.value = (fontSizeData.value + 2) * props.autosize.minRows + 6;
       lastAutoHeightRows.value = props.autosize.minRows;
     }
+
     watch(
       () => {
         return props.modelValue;
       },
       (newval, oldval): void => {
         if (props.type != "textarea") {
-          limitWordWidth.value = (
-            wordLimit.value as HTMLSpanElement
-          ).clientWidth;
+          if (props.selectData !== undefined && newval !== undefined) {
+            selectInformation.value = [];
+            props.selectData.forEach((val, ind: number) => {
+              if ((val as string).includes(newval)) {
+                selectInformation.value.push(val as string);
+              }
+            });
+          }
           inputLength.value = (info.value as HTMLInputElement).value.length;
           executeInput();
         } else {
@@ -320,7 +331,7 @@ export default defineComponent({
           ).value.length;
           if (props.autosize !== undefined) {
             if (
-              // 自己变大
+              // 自己输入框自动变大
               Math.floor(
                 (textarea.value as HTMLTextAreaElement).scrollHeight /
                   (fontSizeData.value + 2)
@@ -347,6 +358,26 @@ export default defineComponent({
       }
     );
     let isInputDownShow = ref<boolean>();
+    let selectInformation = ref<string[]>([]);
+    let isInputDownExist = ref<boolean>(false);
+    watch(
+      () => {
+        return props.selectData;
+      },
+      (newval, oldval) => {
+        if (newval === undefined) {
+          isInputDownExist.value = false;
+        } else {
+          if (newval.length > 0) {
+            isInputDownExist.value = true;
+            selectInformation.value = newval as string[];
+          } else {
+            isInputDownExist.value = false;
+          }
+        }
+      },
+      { immediate: true }
+    );
     function onSelelct(data: string): void {
       setTimeout(() => {
         isInputDownShow.value = false;
@@ -374,7 +405,6 @@ export default defineComponent({
       inputLength,
       wordLimit,
       clearIcon,
-      limitWordWidth,
       clearIconWidth,
       textarea,
       onTextareaFocus,
@@ -383,6 +413,8 @@ export default defineComponent({
       fontSizeData,
       onSelelct,
       isInputDownShow,
+      isInputDownExist,
+      selectInformation,
     };
   },
 });
@@ -392,8 +424,11 @@ export default defineComponent({
 .cd-input-frame {
   position: relative;
   display: flex;
+  align-items: center;
   height: v-bind(heightData + "px");
   width: v-bind(widthData + "px");
+  font-size: v-bind(heightData/2 + "px");
+  line-height: v-bind(heightData + "px");
   background-color: white;
   border: 1px solid #dcdfe6;
   border-radius: 5px;
@@ -405,29 +440,25 @@ export default defineComponent({
   border: 1px solid #a8d3ff;
 }
 .cd-input-frame-prefix-icon {
-  text-align: center;
-  line-height: v-bind(heightData + "px");
   flex: 2;
   margin-left: 5px;
 }
 .cd-input-div {
-  position: relative;
   flex: 99999;
   border: 0;
+  display: flex;
+  align-items: center;
 }
-
+.cd-input-div-insert {
+  flex: 8;
+}
 .cd-input {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
   height: v-bind(heightData + "px");
-  font-size: v-bind(heightData/2 + "px");
   outline: none;
   border: 0;
   background-color: transparent;
   padding-left: 5px;
-  padding-right: v-bind("limitWordWidth+clearIconWidth+5+'px'");
 }
 .cd-input-downbox-frame {
   position: absolute;
@@ -481,8 +512,7 @@ export default defineComponent({
 }
 
 .cd-input-everySelect {
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 0px 10px;
   margin-top: 5px;
   height: v-bind(heightData + "px");
   font-size: v-bind(heightData/2 + "px");
@@ -520,21 +550,18 @@ export default defineComponent({
   }
 }
 .cd-input-wordLimit {
-  position: absolute;
-  right: v-bind("isFocus?clearIconWidth+2 + 'px':2+'px'");
-  color: #c8cbd2;
+  flex: 2;
+  white-space: nowrap;
+  text-align: center;
   font-size: v-bind(heightData/2.5 + "px");
-  line-height: v-bind(heightData + "px");
+  color: #c8cbd2;
+  margin: 0px 5px;
 }
 .cd-input-clear {
-  position: absolute;
-  right: 2px;
-  text-align: center;
-  line-height: v-bind(heightData + "px");
+  flex: 1;
+  margin: 0px 2px 0px 0px;
 }
 .cd-input-frame-suffix-icon {
-  text-align: center;
-  line-height: v-bind(heightData + "px");
   flex: 2;
   margin-right: 5px;
 }
@@ -542,21 +569,18 @@ export default defineComponent({
 .cd-textarea-frame {
   position: relative;
   display: inline-block;
-  width: v-bind(widthData + "px");
+  font-size: v-bind(fontSizeData + "px");
+  line-height: v-bind("fontSizeData+3 + 'px'");
   height: v-bind(autoHeight + "px");
 }
 .cd-textarea-frame .cd-textarea-focus {
   border: 1px solid #a8d3ff;
 }
 .cd-textarea {
-  position: absolute;
-  top: 0;
   width: v-bind(widthData + "px");
   height: v-bind(autoHeight + "px");
   overflow: auto;
-  padding: 2px;
-  padding-left: 4px;
-  padding-right: 4px;
+  padding: 2px 4px;
   outline: none;
   resize: v-bind("autosize===undefined?resize:none");
   font-size: v-bind(fontSizeData + "px");
@@ -564,19 +588,22 @@ export default defineComponent({
   border-radius: 5px;
   border: 1px solid #dcdfe6;
 }
-.cd-textarea-wordLimit {
+
+.cd-textarea-Limitclear-frame {
   position: absolute;
   bottom: 0px;
-  right: v-bind("isFocus&&clearable?25+'px':6+'px'");
+  right: 10px;
+  display: flex;
+  gap: 3px;
+  align-items: center;
+  font-size: 14px;
+  line-height: 36px;
+}
+.cd-textarea-wordLimit {
   color: #c8cbd2;
-  font-size: v-bind(heightData/2.5 + "px");
-  line-height: v-bind(heightData + "px");
   opacity: 0.7;
 }
 .cd-textarea-clear {
-  position: absolute;
-  bottom: 50px;
-  right: 6px;
   opacity: 0.7;
 }
 .cd-textarea::-webkit-scrollbar {

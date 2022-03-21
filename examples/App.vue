@@ -1,8 +1,19 @@
 <template>
   <div class="su">
-    <cd-checkbox :size="60" border>asdsad</cd-checkbox>
-    <cd-checkbox :size="50" border>asdsad</cd-checkbox>
-    <cd-checkbox :size="40" border>asdsad</cd-checkbox>
+    <cd-input
+      type="text"
+      prefixIcon="fit"
+      :showWordLinit="true"
+      :maxLength="200"
+      :clearable="true"
+      :width="300"
+      :height="32"
+      :rows="5"
+      :autosize="{ minRows: 3, maxRows: 5 }"
+      :selectData="['asdasd', 'oisauio']"
+      suffixIcon="fit"
+      v-model="checkboxGroup"
+    ></cd-input>
   </div>
 
   <form method="post" action="http://127.0.0.1:3000/su">
@@ -17,7 +28,7 @@ export default {
   name: "App",
   setup() {
     //   测试的数据
-    let checkboxGroup = ref<string[]>(["Option1"]);
+    let checkboxGroup = ref<string>("");
     return {
       checkboxGroup,
     };
@@ -27,6 +38,7 @@ export default {
 
 <style >
 .su {
+  padding: 40px;
   font-size: 100px;
   line-height: 100px;
 }
