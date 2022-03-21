@@ -31,6 +31,7 @@ export default defineComponent({
     // 字符串数组
     modelValue: {
       type: Array,
+      required: true,
     },
     // 字符串数组
     option: {
@@ -63,6 +64,7 @@ export default defineComponent({
     },
     value: {
       type: Array,
+      required: true,
     },
   },
   setup(props, context) {
@@ -100,8 +102,8 @@ export default defineComponent({
 
     // 设置大小
     let sizeData = ref<number>();
-    if (props.size <= 50) {
-      sizeData.value = 50;
+    if (props.size <= 40) {
+      sizeData.value = 40;
     } else {
       sizeData.value = props.size;
     }

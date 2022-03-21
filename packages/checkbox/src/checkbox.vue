@@ -7,24 +7,26 @@
         checkData && border == true && disabled == false,
     }"
   >
-    <input
-      :class="{
-        'cd-checkbox cd': true,
-        'cd-checkbox-background-color': disabled,
-      }"
-      type="checkbox"
-      v-model="checkData"
-      :disabled="disabled"
-      :name="name"
-      :value="value"
-    />
-    <span
-      :class="{ 'cd-checkbox-context': true }"
-      @click="setCheckData"
-      @selectstart="onSelectstart($event)"
-    >
-      {{ label }}<slot></slot>
-    </span>
+    <div class="cd-checkbox-flexframe">
+      <input
+        :class="{
+          'cd-checkbox cd': true,
+          'cd-checkbox-background-color': disabled,
+        }"
+        type="checkbox"
+        v-model="checkData"
+        :disabled="disabled"
+        :name="name"
+        :value="value"
+      />
+      <span
+        :class="{ 'cd-checkbox-context': true }"
+        @click="setCheckData"
+        @selectstart="onSelectstart($event)"
+      >
+        {{ label }}<slot></slot>
+      </span>
+    </div>
   </span>
 </template>
 
@@ -158,13 +160,12 @@ export default defineComponent({
 
 <style scoped>
 .cd-checkbox-frame {
-  height: v-bind(sizeData / 2+ "px");
-  line-height: v-bind(sizeData / 2+ "px");
-  box-sizing: border-box;
+  font-size: v-bind(sizeData/3 + "px");
+  line-height: v-bind(sizeData / 1.5+ "px");
   display: inline-block;
   cursor: v-bind("disabled==true?'not-allowed':'pointer'");
-  padding-left: 5px;
-  padding-right: 5px;
+  padding-left: 8px;
+  padding-right: 8px;
 }
 .cd-checkbox-frame-border {
   border: 1px solid #c0c4cc;
@@ -174,16 +175,17 @@ export default defineComponent({
   border: 1px solid #409eff;
   border-radius: 2px;
 }
+.cd-checkbox-flexframe {
+  display: flex;
+  align-items: center;
+}
 .cd-checkbox {
   -webkit-appearance: none;
-  box-sizing: border-box;
   height: v-bind(sizeData/3 + "px");
   width: v-bind(sizeData/3 + "px");
-  margin: 0px;
   border: 1px solid #c0c4cc;
   border-radius: 2px;
   cursor: v-bind("disabled==true?'not-allowed':'pointer'");
-  margin-top: v-bind(sizeData/2.1/2-sizeData/3/2 + "px");
 }
 .cd-checkbox-background-color {
   background-color: #edf2fc;
@@ -191,7 +193,6 @@ export default defineComponent({
 .cd-checkbox:checked::before {
   cursor: v-bind("disabled==true?'not-allowed':'pointer'");
   -webkit-appearance: none;
-  box-sizing: border-box;
   position: absolute;
   content: "\e657";
   background-color: v-bind(selectIconBackground);
@@ -199,17 +200,10 @@ export default defineComponent({
   height: v-bind(sizeData/3 + "px");
   width: v-bind(sizeData/3 + "px");
   text-align: center;
-  font-size: v-bind(sizeData/3 + "px");
   color: v-bind(selectIconColor);
 }
 .cd-checkbox-context {
-  box-sizing: border-box;
-  display: inline-block;
-  height: v-bind(sizeData/3 + "px");
-  margin-top: v-bind(sizeData/2.1/2-sizeData/3/2 + "px");
   padding-left: 3px;
-  font-size: v-bind(sizeData/3 + "px");
-  line-height: v-bind(sizeData/3 + "px");
   vertical-align: top;
   color: v-bind(contextColor);
 }

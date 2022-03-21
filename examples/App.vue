@@ -1,5 +1,10 @@
 <template>
-  <cd-checkbox :size="40">asdsad</cd-checkbox>
+  <div class="su">
+    <cd-checkbox :size="60" border>asdsad</cd-checkbox>
+    <cd-checkbox :size="50" border>asdsad</cd-checkbox>
+    <cd-checkbox :size="40" border>asdsad</cd-checkbox>
+  </div>
+
   <form method="post" action="http://127.0.0.1:3000/su">
     <input type="submit" />
   </form>
@@ -12,13 +17,19 @@ export default {
   name: "App",
   setup() {
     //   测试的数据
-
-    return {};
+    let checkboxGroup = ref<string[]>(["Option1"]);
+    return {
+      checkboxGroup,
+    };
   },
 };
 </script>
 
 <style >
+.su {
+  font-size: 100px;
+  line-height: 100px;
+}
 .cd-website-scroll-everyspan {
   display: inline-block;
   width: 200px;
