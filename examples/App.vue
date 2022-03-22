@@ -1,20 +1,10 @@
 <template>
   <div class="su">
-    <cd-input
-      type="text"
-      prefixIcon="searchTow"
-      :showWordLinit="true"
-      :maxLength="200"
-      :clearable="true"
-      :width="300"
-      :height="32"
-      :rows="5"
-      :autosize="{ minRows: 3, maxRows: 5 }"
-      :selectData="['asdasd', 'oisauio']"
-      suffixIcon="fit"
+    <cd-input-number
+      :min="-8"
+      :max="100"
       v-model="checkboxGroup"
-    ></cd-input>
-    dasghid
+    ></cd-input-number>
   </div>
 
   <form method="post" action="http://127.0.0.1:3000/su">
@@ -29,7 +19,7 @@ export default {
   name: "App",
   setup() {
     //   测试的数据
-    let checkboxGroup = ref<string>("");
+    let checkboxGroup = ref<number>(200);
     return {
       checkboxGroup,
     };

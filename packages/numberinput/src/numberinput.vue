@@ -11,6 +11,7 @@
       :class="{
         'cd-inputnumber-minus': true,
         'cd-inputnumber-minus-hover': isLeftHover && disabled != true,
+        'cd-inputnumber-minus-min': isMin,
       }"
       name="minus"
       :size="heightData / 2.5"
@@ -38,6 +39,7 @@
       :class="{
         'cd-inputnumber-add': true,
         'cd-inputnumber-add-hover': isRightHover && disabled != true,
+        'cd-inputnumber-add-max': isMax,
       }"
       name="add"
       :size="heightData / 2.5"
@@ -52,7 +54,6 @@
 <script lang="ts">
 import cdIcon from "./../../icon/src/icon.vue";
 import { defineComponent, ref, watch, onMounted } from "vue";
-import { BlockList } from "net";
 export default defineComponent({
   name: "cd-input-number",
   components: {
@@ -61,7 +62,7 @@ export default defineComponent({
   emits: ["update:modelValue", "focus", "blur", "change"],
   props: {
     modelValue: {
-      type: Number || String,
+      type: Number,
       required: true,
     },
     height: {
@@ -193,7 +194,15 @@ export default defineComponent({
       if (inputData.value === undefined) {
         inputData.value = "";
       }
-      inputData.value = Number(inputData.value).toFixed(keepFigures);
+      if (isNaN(Number(inputData.value))) {
+        if (props.min === undefined) {
+          inputData.value = Number(1).toFixed(keepFigures);
+        } else {
+          inputData.value = Number(props.min).toFixed(keepFigures);
+        }
+      } else {
+        inputData.value = Number(inputData.value).toFixed(keepFigures);
+      }
       executeBlur();
     }
     // 经过按钮时
@@ -213,6 +222,8 @@ export default defineComponent({
         isRightHover.value = false;
       }
     }
+    let isMin = ref<boolean>(false);
+    let isMax = ref<boolean>(false);
     // 点击减号按钮、加号按钮
     function onMousedown(parameter: number): void {
       if (props.disabled) {
@@ -290,13 +301,13 @@ export default defineComponent({
         if (
           (String(newval)[String(newval).length - 1] >= "0" &&
             String(newval)[String(newval).length - 1] <= "9") ||
-          String(newval)[String(newval).length - 1] == "."
+          String(newval)[String(newval).length - 1] == "." ||
+          String(newval)[String(newval).length - 1] == "-"
         ) {
-          if (props.min !== undefined && Number(newval) < props.min) {
+          if (props.min !== undefined && Number(newval) <= props.min) {
             inputData.value = props.min;
             inputData.value = Number(inputData.value).toFixed(keepFigures);
-          }
-          if (props.max !== undefined && Number(newval) > props.max) {
+          } else if (props.max !== undefined && Number(newval) >= props.max) {
             inputData.value = props.max;
             inputData.value = Number(inputData.value).toFixed(keepFigures);
           }
@@ -312,6 +323,24 @@ export default defineComponent({
         }
       }
     });
+    watch(
+      () => {
+        return props.modelValue;
+      },
+      (newval, indval) => {
+        if (props.min !== undefined && props.max !== undefined) {
+          if (newval > props.min && newval < props.max) {
+            isMin.value = false;
+            isMax.value = false;
+          } else if (newval <= props.min) {
+            isMin.value = true;
+          } else if (newval >= props.max) {
+            isMax.value = true;
+          }
+        }
+      },
+      { immediate: true }
+    );
 
     return {
       heightData,
@@ -327,6 +356,8 @@ export default defineComponent({
       isLeftHover,
       isRightHover,
       onMousedown,
+      isMin,
+      isMax,
     };
   },
 });
@@ -357,6 +388,11 @@ export default defineComponent({
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
 }
+.cd-inputnumber-minus-min {
+  position: relative;
+  z-index: 1;
+  cursor: not-allowed;
+}
 .cd-inputnumber-minus-hover {
   border-right: 1px solid #86c1fe;
 }
@@ -381,6 +417,11 @@ export default defineComponent({
   border-left: 1px solid #dcdfe6;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
+}
+.cd-inputnumber-add-max {
+  position: relative;
+  z-index: 1;
+  cursor: not-allowed;
 }
 .cd-inputnumber-add-hover {
   border-left: 1px solid #86c1fe;
