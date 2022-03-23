@@ -1,10 +1,11 @@
 <template>
   <div class="su">
-    <cd-select
-      v-model="selectDisabled1"
-      :options="selectDisabledData1"
-      filterable
-    ></cd-select>
+    <cd-input
+      v-model="inputSearch"
+      :selectData="searchData"
+      prefixIcon="searchTow"
+    >
+    </cd-input>
   </div>
 
   <form method="post" action="http://127.0.0.1:3000/su">
@@ -19,13 +20,19 @@ export default {
   name: "App",
   setup() {
     //   测试的数据
-    let checkboxGroup = ref<number>(200);
-    let selectDisabled1 = ref("Option1");
-    let selectDisabledData1 = ref([{ label: "Option1" }, { label: "Option2" }]);
+    let inputSearch = ref<string>("");
+    let searchData = ref<string[]>([
+      "Vue",
+      "React",
+      "Js",
+      "Axios",
+      "WebSocket",
+      "asdas",
+      "asdasds",
+    ]);
     return {
-      selectDisabled1,
-      checkboxGroup,
-      selectDisabledData1,
+      inputSearch,
+      searchData,
     };
   },
 };

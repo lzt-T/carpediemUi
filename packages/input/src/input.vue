@@ -74,6 +74,7 @@
           'cd-input-downbox-popup': isFocus,
           'cd-input-downbox-pickup': isFocus == false,
         }"
+        ref="downFrame"
       >
         <div
           v-for="data in selectInformation"
@@ -82,6 +83,12 @@
           @mousedown="onSelelct(data)"
         >
           {{ data }}
+        </div>
+        <div
+          v-show="selectInformation.length == 0"
+          class="cd-input-downbox-empty"
+        >
+          No matching data
         </div>
       </div>
     </div>
@@ -134,7 +141,7 @@
 
 <script lang="ts">
 import cdIcon from "./../../icon/src/icon.vue";
-import { defineComponent, ref, watch } from "vue";
+import { defineComponent, onMounted, ref, watch } from "vue";
 export default defineComponent({
   name: "cd-input",
   components: {
@@ -479,7 +486,7 @@ export default defineComponent({
   z-index: 1;
   top: v-bind(heightData + 14+ "px");
   left: 15px;
-  height: v-bind(heightData * 6+ "px");
+  max-height: v-bind(heightData * 6+ "px");
   width: v-bind(widthData/1.2 + "px");
   background-color: white;
 }
@@ -497,7 +504,7 @@ export default defineComponent({
 }
 .cd-input-downbox {
   position: absolute;
-  height: v-bind(heightData * 6+ "px");
+  max-height: v-bind(heightData * 6+ "px");
   width: v-bind(widthData/1.2 + "px");
   overflow: auto;
   background-color: white;
@@ -537,6 +544,16 @@ export default defineComponent({
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.cd-input-downbox-empty {
+  text-align: center;
+  color: #909399;
+  width: v-bind(widthData/1.2 + "px");
+  font-size: 14px;
+  line-height: 38px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .cd-input-everySelect:hover {
   background-color: #f5f7fa;
 }
@@ -550,7 +567,9 @@ export default defineComponent({
     height: 0px;
   }
   100% {
-    height: v-bind(heightData * 6+ "px");
+    height: v-bind(
+      "selectInformation.length==0?'38px':(heightData * selectInformation.length)+'px'"
+    );
   }
 }
 .cd-input-downbox-pickup {
@@ -559,7 +578,9 @@ export default defineComponent({
 }
 @keyframes pickup {
   0% {
-    height: v-bind(heightData * 6+ "px");
+    height: v-bind(
+      "selectInformation.length==0?'38px':(heightData * selectInformation.length)+'px'"
+    );
   }
   100% {
     height: 0px;
