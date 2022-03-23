@@ -51,6 +51,9 @@
         >
           {{ data.label }}
         </div>
+        <div v-show="isMpty" class="cd-select-downbox-empty">
+          No matching data
+        </div>
       </div>
     </div>
   </div>
@@ -176,11 +179,23 @@ export default defineComponent({
       }
     }
     // 搜索功能
+    let isMpty = ref<boolean>(false);
     let filterableSelectData = ref<string>("");
     function onInput(): void {
       filterableSelectData.value = (select.value as HTMLInputElement).value;
+      isMpty.value = true;
+      for (let i: number = 0; i < props.options.length; i++) {
+        if (
+          (props.options[i] as { label: string }).label.includes(
+            filterableSelectData.value
+          )
+        ) {
+          isMpty.value = false;
+        }
+      }
     }
     function onFocus(): void {
+      isMpty.value = false;
       (select.value as HTMLInputElement).value = "";
     }
     function onBlur(): void {
@@ -256,6 +271,7 @@ export default defineComponent({
       setClear,
       isClearShow,
       clearSelectData,
+      isMpty,
     };
   },
 });
@@ -280,7 +296,6 @@ export default defineComponent({
 }
 .cd-select-frame-disabled {
   background-color: #f5f7fa;
-  color: #edf7fa;
   cursor: not-allowed;
 }
 .cd-slect-div {
@@ -349,7 +364,7 @@ export default defineComponent({
 }
 .cd-select-downbox {
   overflow: auto;
-  height: v-bind(heightData * 6 + "px");
+  max-height: v-bind(heightData * 6 + "px");
   width: v-bind(widthData + "px");
   background-color: white;
   border-radius: 5px;
@@ -381,6 +396,19 @@ export default defineComponent({
   margin-bottom: 2px;
   padding-left: 5px;
   padding-right: 5px;
+  font-size: v-bind(heightData/2 + "px");
+  line-height: v-bind(heightData + "px");
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cd-select-downbox-empty {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  text-align: center;
+  color: #909399;
   font-size: v-bind(heightData/2 + "px");
   line-height: v-bind(heightData + "px");
   white-space: nowrap;

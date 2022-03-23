@@ -1,10 +1,10 @@
 <template>
   <div class="su">
-    <cd-input-number
-      :min="-8"
-      :max="100"
-      v-model="checkboxGroup"
-    ></cd-input-number>
+    <cd-select
+      v-model="selectDisabled1"
+      :options="selectDisabledData1"
+      filterable
+    ></cd-select>
   </div>
 
   <form method="post" action="http://127.0.0.1:3000/su">
@@ -20,8 +20,12 @@ export default {
   setup() {
     //   测试的数据
     let checkboxGroup = ref<number>(200);
+    let selectDisabled1 = ref("Option1");
+    let selectDisabledData1 = ref([{ label: "Option1" }, { label: "Option2" }]);
     return {
+      selectDisabled1,
       checkboxGroup,
+      selectDisabledData1,
     };
   },
 };
