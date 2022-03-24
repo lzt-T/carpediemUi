@@ -3,11 +3,12 @@
     <cd-icon
       v-if="icon"
       :name="icon"
-      :size="size / 2"
+      :size="size / 1.5"
       color="white"
       :class="{ 'cd-avatar-img-icon': true }"
     ></cd-icon>
     <img
+      v-if="src || icon === undefined"
       :src="src"
       :alt="alt"
       :class="{ 'cd-avatar-img': true }"
@@ -83,6 +84,8 @@ export default defineComponent({
 }
 .cd-avatar-img-icon {
   position: absolute;
+  top: 0;
+  left: 0;
   height: v-bind(szieData + "px");
   width: v-bind(szieData + "px");
   line-height: v-bind(szieData/2 + "px");
@@ -97,6 +100,8 @@ export default defineComponent({
 }
 .cd-avatar-img {
   position: absolute;
+  top: 0;
+  left: 0;
   border-radius: v-bind("shape=='circle'?szieData/2+'px':5+'px'");
   height: 100%;
   width: 100%;

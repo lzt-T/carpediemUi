@@ -1,6 +1,12 @@
 <template>
   <div class="su">
-    <cd-upload type="picture" action="http://127.0.0.1:3300/upload"></cd-upload>
+    <cd-row :gap="45" flexWrap="wrap">
+      <cd-avatar
+        icon="man"
+        src="https://cdn.jsdelivr.net/gh/lztnb/img@master/4.jpg"
+      ></cd-avatar>
+      <cd-avatar icon="man"></cd-avatar>
+    </cd-row>
   </div>
 
   <form method="post" action="http://127.0.0.1:3000/su">
