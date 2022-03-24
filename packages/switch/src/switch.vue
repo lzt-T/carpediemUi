@@ -35,8 +35,8 @@
     >
     <cd-icon
       class="cd-switch-onIcon"
-      :name="inactiIcon"
-      v-if="inactiIcon"
+      :name="activeIcon"
+      v-if="activeIcon"
       :size="heightData / 1.2"
       :color="isTrue ? '#75b3ff' : ''"
     ></cd-icon>
@@ -59,7 +59,7 @@ export default defineComponent({
     },
     height: {
       type: Number,
-      default: 32,
+      default: 20,
     },
     width: {
       type: Number,
@@ -155,6 +155,7 @@ export default defineComponent({
 }
 .cd-switch-frame-disabled {
   cursor: not-allowed;
+  opacity: 0.7;
 }
 .cd-switch-offIcon {
   margin-left: 5px;

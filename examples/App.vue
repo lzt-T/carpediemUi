@@ -1,6 +1,6 @@
 <template>
   <div class="su">
-    <cd-slider v-model="slider8" :width="360" :marks="marks"></cd-slider>
+    <cd-switch v-model="switch1" activeText="fit" activeIcon="fit"></cd-switch>
   </div>
 
   <form method="post" action="http://127.0.0.1:3000/su">
@@ -15,6 +15,7 @@ export default {
   name: "App",
   setup() {
     //   测试的数据
+    let switch1 = ref<boolean>(true);
     let slider8 = ref<number>(0);
     let marks = reactive({
       1: "123",
@@ -24,6 +25,7 @@ export default {
     return {
       slider8,
       marks,
+      switch1,
     };
   },
 };
