@@ -2,7 +2,7 @@
   <div v-if="type == 'list'">
     <div :class="{ 'cd-upload-div': true }">
       <input
-        action="http://127.0.0.1:3000/su"
+        :action="action"
         type="file"
         :class="{ 'cd-upload': true }"
         @change="UpFile($event)"
@@ -52,8 +52,20 @@
           {{ fileName[ind] }}
         </div>
         <cd-icon
-          :name="hoverInd == ind ? 'delete' : fileState[ind] == 2 ? 'tick' : ''"
-          :color="hoverInd == ind ? '#a0a1a3' : '#abce95'"
+          :name="
+            hoverInd == ind
+              ? 'delete'
+              : fileState[ind] == 2
+              ? 'tick'
+              : 'warning'
+          "
+          :color="
+            hoverInd == ind
+              ? '#a0a1a3'
+              : fileState[ind] == 2
+              ? '#abce95'
+              : '#bf241b'
+          "
           :size="16"
           :class="{ 'cd-upload-list-afterIcon': true }"
           @click="deleDocument(ind)"
@@ -111,7 +123,7 @@
       @mouseout="onPictureMouseout"
     >
       <input
-        action="http://127.0.0.1:3000/su"
+        :action="action"
         type="file"
         :class="{ 'cd-upload-picture': true }"
         @change="UpFile($event)"
@@ -162,9 +174,6 @@ export default defineComponent({
     method: {
       type: String,
       default: "POST",
-    },
-    accept: {
-      type: String,
     },
     showFileList: {
       type: Boolean,
@@ -300,12 +309,14 @@ export default defineComponent({
         };
         // 上传完成时
         xhr.onload = () => {
-          if (props.onSuccess !== undefined) {
-            props.onSuccess(data.value, sumFile.value);
+          if (xhr.status == 200) {
+            if (props.onSuccess !== undefined) {
+              props.onSuccess(data.value, sumFile.value);
+            }
+            fileState.value[
+              fileProgress.value.length - data.value.length + j
+            ] = 2;
           }
-          fileState.value[
-            fileProgress.value.length - data.value.length + j
-          ] = 2;
         };
         // 上传发送错误时
         xhr.onerror = () => {
@@ -454,6 +465,7 @@ export default defineComponent({
 .cd-upload-list-every {
   position: relative;
   display: flex;
+  align-items: center;
   height: 35px;
   line-height: 35px;
   font-size: 15px;

@@ -1,6 +1,6 @@
 <template>
   <div class="su">
-    <cd-switch v-model="switch1" activeText="fit" activeIcon="fit"></cd-switch>
+    <cd-upload type="picture" action="http://127.0.0.1:3300/upload"></cd-upload>
   </div>
 
   <form method="post" action="http://127.0.0.1:3000/su">
