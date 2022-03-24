@@ -1,11 +1,6 @@
 <template>
   <div class="su">
-    <cd-input
-      v-model="inputSearch"
-      :selectData="searchData"
-      prefixIcon="searchTow"
-    >
-    </cd-input>
+    <cd-slider v-model="slider8" :width="360" :marks="marks"></cd-slider>
   </div>
 
   <form method="post" action="http://127.0.0.1:3000/su">
@@ -20,19 +15,15 @@ export default {
   name: "App",
   setup() {
     //   测试的数据
-    let inputSearch = ref<string>("");
-    let searchData = ref<string[]>([
-      "Vue",
-      "React",
-      "Js",
-      "Axios",
-      "WebSocket",
-      "asdas",
-      "asdasds",
-    ]);
+    let slider8 = ref<number>(0);
+    let marks = reactive({
+      1: "123",
+      37: "asdasd",
+      100: "423",
+    });
     return {
-      inputSearch,
-      searchData,
+      slider8,
+      marks,
     };
   },
 };

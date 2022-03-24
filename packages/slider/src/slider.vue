@@ -32,14 +32,14 @@
       class="node"
       :ref="everyNode"
     ></div>
-    <div v-show="showStops && marks !== undefined" class="cd-slider-mark-frame">
+    <div v-show="marks !== undefined" class="cd-slider-mark-frame">
       <div
         v-for="(data, ind) in Object.keys(Object(marks)).length"
         :key="ind"
         :ref="everySign"
         class="cd-slider-mark"
       >
-        {{ marks[data - 1] }}
+        {{ marks[Object.keys(marks)[ind]] }}
       </div>
     </div>
   </div>
@@ -167,9 +167,14 @@ export default defineComponent({
     // 设置标记的位置
     function setMarkLocation(): void {
       sign.value.forEach((val: object, ind: number) => {
-        if (Object(props.marks)[ind] !== undefined) {
+        if (
+          Object(props.marks)[Object.keys(props.marks as object)[ind]] !==
+          undefined
+        ) {
           (val as HTMLElement).style.left =
-            (ind + 1) * stepWidth.value + 3 + "px";
+            Number(Object.keys(props.marks as object)[ind]) * stepWidth.value +
+            3 +
+            "px";
         }
       });
     }
@@ -380,6 +385,7 @@ export default defineComponent({
 }
 .cd-slider-block {
   position: absolute;
+  z-index: 1;
   top: 50%;
   transform: translateY(-50%);
   height: v-bind(heightData * 0.6 + "px");
@@ -430,5 +436,7 @@ export default defineComponent({
   line-height: v-bind(heightData/3 + "px");
   font-size: 13px;
   color: #909399;
+  cursor: default;
+  white-space: nowrap;
 }
 </style>
