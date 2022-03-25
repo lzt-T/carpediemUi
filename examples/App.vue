@@ -1,9 +1,8 @@
 <template>
   <div class="su">
-    <cd-row :gap="20" class="cd-checkbox-row-margin" flexWrap="wrap">
-      <cd-checkbox v-model="option1" :size="60">Option1</cd-checkbox>
-      <cd-checkbox v-model="option2" :size="20">Option2</cd-checkbox>
-    </cd-row>
+    <cd-empty
+      img="https://cdn.jsdelivr.net/gh/lztnb/img@master/4.jpg"
+    ></cd-empty>
   </div>
 
   <form method="post" action="http://127.0.0.1:3000/su">

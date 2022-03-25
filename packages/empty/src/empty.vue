@@ -3,7 +3,7 @@
     <!-- 图片 -->
     <div class="cd-empty-img-frame">
       <div v-show="isImgDom == false" class="cd-empty-img">
-        <img :src="img" />
+        <img :src="img" class="cd-empty-img-fit" />
       </div>
       <div v-show="isImgDom" class="cd-empty-img-slot" ref="imgDom">
         <slot name="image"></slot>
@@ -106,7 +106,6 @@ export default defineComponent({
 .cd-empty-frame {
   position: relative;
   width: 100%;
-  background-color: aqua;
   padding-top: 40px;
   padding-bottom: 40px;
 }
@@ -119,6 +118,9 @@ export default defineComponent({
   transform: translateX(-50%);
   height: v-bind(imageSize + "px");
   width: v-bind(imageSize + "px");
+}
+.cd-empty-img-fit {
+  object-fit: cover;
 }
 img {
   height: v-bind(imageSize + "px");
