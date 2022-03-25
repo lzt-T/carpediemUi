@@ -20,7 +20,7 @@
           'cd-select-check': firstSubscript == ind,
         }"
       >
-        {{ data }}
+        <div class="cd-select-everyText">{{ data }}</div>
         <cd-icon
           :color="firstSubscript == ind ? '#3c9cff' : '#dde0e7'"
           class="cd-select-everyIcon"
@@ -50,7 +50,7 @@
           'cd-select-check': secondSubscript == ind,
         }"
       >
-        {{ data }}
+        <div class="cd-select-everyText">{{ data }}</div>
         <cd-icon
           :color="secondSubscript == ind ? '#3c9cff' : '#dde0e7'"
           name="rightArrowTow"
@@ -81,7 +81,7 @@
           'cd-select-check': thirdlySubscript == ind,
         }"
       >
-        {{ data }}
+        <div class="cd-select-everyText">{{ data }}</div>
         <cd-icon
           name="rightArrowTow"
           :color="thirdlySubscript == ind ? '#3c9cff' : '#dde0e7'"
@@ -108,7 +108,7 @@
           'cd-select-check': fourthlySubscript == ind,
         }"
       >
-        {{ data }}
+        <div class="cd-select-everyText">{{ data }}</div>
       </div>
     </span>
   </div>
@@ -427,16 +427,17 @@ export default defineComponent({
 }
 .cd-select-everyOption {
   position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
   height: v-bind(height + "px");
   line-height: v-bind(height + "px");
   background-color: white;
   font-size: v-bind(height/2 + "px");
   color: #626468;
-  padding-left: 10px;
-  padding-right: 20px;
+  padding: 0px 10px;
   width: v-bind(width * 0.78+"px");
-  margin-top: 2px;
-  margin-bottom: 2px;
+  margin: 3px 0px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -447,9 +448,12 @@ export default defineComponent({
 .cd-select-check {
   color: #3c9cff;
 }
+.cd-select-everyText {
+  flex: 9;
+}
 .cd-select-everyIcon {
-  position: absolute;
-  right: 5px;
+  flex: 1;
+  margin: 0px 0px 0px 3px;
 }
 
 span::-webkit-scrollbar {

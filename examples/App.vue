@@ -1,9 +1,8 @@
 <template>
   <div class="su">
-    <cd-row :gap="100" flexWrap="wrap">
-      <cd-badge isDot hidden>
-        <cd-button :width="120">Carpediem</cd-button>
-      </cd-badge>
+    <cd-row :gap="20" class="cd-checkbox-row-margin" flexWrap="wrap">
+      <cd-checkbox v-model="option1" :size="60">Option1</cd-checkbox>
+      <cd-checkbox v-model="option2" :size="20">Option2</cd-checkbox>
     </cd-row>
   </div>
 
@@ -19,17 +18,11 @@ export default {
   name: "App",
   setup() {
     //   测试的数据
-    let switch1 = ref<boolean>(true);
-    let slider8 = ref<number>(0);
-    let marks = reactive({
-      1: "123",
-      37: "asdasd",
-      100: "423",
-    });
+    let option1 = ref<boolean>(true);
+    let option2 = ref<boolean>(false);
     return {
-      slider8,
-      marks,
-      switch1,
+      option1,
+      option2,
     };
   },
 };

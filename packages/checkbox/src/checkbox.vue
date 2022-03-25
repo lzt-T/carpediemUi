@@ -180,6 +180,7 @@ export default defineComponent({
   align-items: center;
 }
 .cd-checkbox {
+  position: relative;
   -webkit-appearance: none;
   height: v-bind(sizeData/3 + "px");
   width: v-bind(sizeData/3 + "px");
@@ -194,12 +195,14 @@ export default defineComponent({
   cursor: v-bind("disabled==true?'not-allowed':'pointer'");
   -webkit-appearance: none;
   position: absolute;
+  top: -1px;
+  left: -1px;
   content: "\e657";
   background-color: v-bind(selectIconBackground);
   border-radius: 2px;
   height: v-bind(sizeData/3 + "px");
   width: v-bind(sizeData/3 + "px");
-  text-align: center;
+  line-height: v-bind(sizeData/3 + "px");
   color: v-bind(selectIconColor);
 }
 .cd-checkbox-context {

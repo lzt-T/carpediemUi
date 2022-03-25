@@ -61,7 +61,7 @@ export default defineComponent({
     },
     height: {
       type: Number,
-      default: 150,
+      default: 300,
     },
     initialIndex: {
       type: Number,
