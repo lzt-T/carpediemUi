@@ -1,11 +1,9 @@
 <template>
   <div class="su">
-    <cd-row :gap="45" flexWrap="wrap">
-      <cd-avatar
-        icon="man"
-        src="https://cdn.jsdelivr.net/gh/lztnb/img@master/4.jpg"
-      ></cd-avatar>
-      <cd-avatar icon="man"></cd-avatar>
+    <cd-row :gap="100" flexWrap="wrap">
+      <cd-badge isDot hidden>
+        <cd-button :width="120">Carpediem</cd-button>
+      </cd-badge>
     </cd-row>
   </div>
 
@@ -40,8 +38,8 @@ export default {
 <style >
 .su {
   padding: 40px;
-  font-size: 100px;
-  line-height: 100px;
+  font-size: 200px;
+  line-height: 200px;
 }
 .cd-website-scroll-everyspan {
   display: inline-block;

@@ -7,7 +7,10 @@
     >
       {{ valueData }}
     </div>
-    <div v-show="isDot" :class="{ 'cd-badge-dot': true }"></div>
+    <div
+      v-show="isDot && hidden == false"
+      :class="{ 'cd-badge-dot': true }"
+    ></div>
   </div>
 </template>
 
@@ -66,7 +69,6 @@ export default defineComponent({
 .cd-badge-frame {
   position: relative;
   display: inline-block;
-  background-color: aqua;
 }
 .cd-badge {
   position: absolute;
