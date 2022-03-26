@@ -1,10 +1,6 @@
 <template>
   <div class="su">
-    <cd-pagination :total="100" :pageSizes="[10, 20, 30]"></cd-pagination>
-    <br />
-    <cd-pagination :total="100"></cd-pagination>
-    <br />
-    <cd-pagination :total="100" :height="24"></cd-pagination>
+    <cd-progress :percentage="100" :format="format"></cd-progress>
   </div>
 
   <form method="post" action="http://127.0.0.1:3000/su">
@@ -21,9 +17,12 @@ export default {
     //   测试的数据
     let option1 = ref<boolean>(true);
     let option2 = ref<boolean>(false);
+    const format = (percentage: number) =>
+      percentage === 100 ? "Full" : `${percentage}%`;
     return {
       option1,
       option2,
+      format,
     };
   },
 };

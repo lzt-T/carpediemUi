@@ -127,7 +127,7 @@ export default defineComponent({
       if (props.format === undefined) {
         textData.value = percentageData.value + "%";
       } else {
-        textData.value = String(props.format());
+        textData.value = String(props.format(percentageData.value));
       }
     }
     return {
