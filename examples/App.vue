@@ -1,13 +1,10 @@
 <template>
   <div class="su">
-    <div class="cd-website-image-lazy">
-      <cd-image src="https://cdn.jsdelivr.net/gh/lztnb/img@master/1.jpg" lazy>
-      </cd-image>
-      <cd-image src="https://cdn.jsdelivr.net/gh/lztnb/img@master/3.jpg" lazy>
-      </cd-image>
-      <cd-image src="https://cdn.jsdelivr.net/gh/lztnb/img@master/4.jpg" lazy>
-      </cd-image>
-    </div>
+    <cd-pagination :total="100" :pageSizes="[10, 20, 30]"></cd-pagination>
+    <br />
+    <cd-pagination :total="100"></cd-pagination>
+    <br />
+    <cd-pagination :total="100" :height="24"></cd-pagination>
   </div>
 
   <form method="post" action="http://127.0.0.1:3000/su">
@@ -36,8 +33,8 @@ export default {
 .su {
   /* height: 200px; */
   padding: 40px;
-  font-size: 200px;
-  line-height: 200px;
+  /* font-size: 200px; */
+  /* line-height: 200px; */
 }
 .cd-website-image-lazy {
   height: 200px;

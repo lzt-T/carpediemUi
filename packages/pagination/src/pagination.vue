@@ -369,7 +369,6 @@ export default defineComponent({
 <style scoped>
 .cd-pagination-frame {
   position: relative;
-  z-index: 0;
   display: flex;
   gap: 10px;
   font-size: v-bind(heightData/2.2 + "px");
