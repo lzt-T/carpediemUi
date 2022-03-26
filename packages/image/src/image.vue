@@ -1,6 +1,7 @@
 <template>
   <div class="cd-image-frame">
     <img
+      v-show="isError == false"
       :src="srcData"
       :alt="alt"
       ref="image"
@@ -8,7 +9,12 @@
       @click="onClick"
     />
     <div v-if="isError" class="cd-image-error-frame">
-      <slot name="err"></slot>
+      <div v-if="isErrSlot == false" class="cd-image-error">
+        <div>FAILED</div>
+      </div>
+      <div class="cd-image-error-slot" ref="errslot">
+        <slot name="err"></slot>
+      </div>
     </div>
 
     <div
@@ -101,7 +107,14 @@
 
 <script lang="ts">
 import cdIcon from "./../../icon/src/icon.vue";
-import { defineComponent, onMounted, ref, watch, watchEffect } from "vue";
+import {
+  defineComponent,
+  onMounted,
+  ref,
+  watch,
+  watchEffect,
+  nextTick,
+} from "vue";
 export default defineComponent({
   name: "cd-image",
   components: {
@@ -136,6 +149,8 @@ export default defineComponent({
     },
   },
   setup(props, context) {
+    let errslot = ref<object>();
+    let isErrSlot = ref<boolean>(false);
     let srcData = ref<string>("");
     srcData.value =
       "https://acmphoto.oss-cn-beijing.aliyuncs.com/%E5%8A%A0%E8%BD%BD%E4%B8%AD4_3.png";
@@ -148,6 +163,13 @@ export default defineComponent({
     let isError = ref<boolean>(false);
     function onError() {
       isError.value = true;
+      nextTick(() => {
+        if ((errslot.value as HTMLDivElement).clientHeight > 0) {
+          isErrSlot.value = true;
+        } else {
+          isErrSlot.value = false;
+        }
+      });
     }
     // 获取最近一个可以滚动的DOM，都没有最终为body
     function getParent(e: HTMLElement): HTMLElement {
@@ -425,6 +447,8 @@ export default defineComponent({
       isRightRotate,
       isLeftRotate,
       rollerRolling,
+      errslot,
+      isErrSlot,
     };
   },
 });
@@ -449,12 +473,18 @@ img {
   object-fit: v-bind(fit);
 }
 .cd-image-error-frame {
-  position: absolute;
   height: 100%;
   width: 100%;
-  z-index: 1;
-  top: 0;
-  left: 0;
+}
+.cd-image-error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  min-height: 200px;
+  color: #a8abb2;
+  background-color: #f5f7fa;
 }
 
 .cd-image-browse-frame {

@@ -1,8 +1,13 @@
 <template>
   <div class="su">
-    <cd-empty
-      img="https://cdn.jsdelivr.net/gh/lztnb/img@master/4.jpg"
-    ></cd-empty>
+    <div class="cd-website-image-lazy">
+      <cd-image src="https://cdn.jsdelivr.net/gh/lztnb/img@master/1.jpg" lazy>
+      </cd-image>
+      <cd-image src="https://cdn.jsdelivr.net/gh/lztnb/img@master/3.jpg" lazy>
+      </cd-image>
+      <cd-image src="https://cdn.jsdelivr.net/gh/lztnb/img@master/4.jpg" lazy>
+      </cd-image>
+    </div>
   </div>
 
   <form method="post" action="http://127.0.0.1:3000/su">
@@ -29,33 +34,13 @@ export default {
 
 <style >
 .su {
+  /* height: 200px; */
   padding: 40px;
   font-size: 200px;
   line-height: 200px;
 }
-.cd-website-scroll-everyspan {
-  display: inline-block;
-  width: 200px;
-  height: 20px;
-  background-color: blueviolet;
-}
-.flex {
-  width: 100vw;
+.cd-website-image-lazy {
   height: 200px;
-  display: flex;
   overflow: auto;
-  /* white-space: nowrap; */
-  background-color: aqua;
-}
-.left {
-  flex: 4;
-  background-color: bisque;
-  width: 0px;
-}
-.right {
-  flex: 1;
-}
-.suuuuuu {
-  width: 400px;
 }
 </style>
