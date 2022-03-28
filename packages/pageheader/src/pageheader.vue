@@ -1,10 +1,10 @@
 <template>
   <div class="cd-pageheader-frame" ref="pageHeaderFrame">
-    <div @click="onBack">
-      <div class="cd-pageheader-icon">
-        <cd-icon :name="icon" :size="pageheaderHeight / 1.2"></cd-icon>
-      </div>
-    </div>
+    <cd-icon
+      :name="icon"
+      :size="pageheaderHeight / 1.2"
+      @click="onBack"
+    ></cd-icon>
     <div @click="onBack">
       <span v-if="isTitleSlot == false">{{ title }}</span>
       <div v-if="isTitleSlot" ref="titleSlot" class="cd-page-title-slot">
@@ -91,10 +91,6 @@ export default defineComponent({
   font-size: v-bind(pageheaderHeight/1.6 + "px");
   line-height: v-bind(pageheaderHeight + "px");
   background-color: white;
-}
-.cd-pageheader-icon {
-  height: v-bind(pageheaderHeight + "px");
-  line-height: v-bind(pageheaderHeight + "px");
 }
 .cd-pageheader-separate {
   width: 30px;

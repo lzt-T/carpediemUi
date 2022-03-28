@@ -18,7 +18,7 @@
         >
           <cd-icon
             :name="separatorIcon"
-            :size="heightData"
+            :size="heightData / 1.6"
             color="#d8d7d8"
           ></cd-icon>
         </div>
@@ -60,10 +60,10 @@ export default defineComponent({
     let heightData = ref<number>();
     setSize();
     function setSize(): void {
-      if (props.height >= 12) {
+      if (props.height >= 20) {
         heightData.value = props.height;
       } else {
-        heightData.value = 12;
+        heightData.value = 20;
       }
     }
     function onClick(to: string): void {
@@ -85,7 +85,7 @@ export default defineComponent({
 .cd-breadcrumb-frame {
   display: flex;
   align-items: center;
-  font-size: v-bind(heightData + "px");
+  font-size: v-bind(heightData/1.6 + "px");
   height: v-bind(heightData + 6+"px");
   line-height: v-bind(heightData + 6+"px");
 }
