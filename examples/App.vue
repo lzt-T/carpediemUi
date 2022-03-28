@@ -1,6 +1,9 @@
 <template>
   <div class="su">
-    <cd-pageheader></cd-pageheader>
+    <cd-alert title="success alert" type="success"></cd-alert>
+    <cd-alert title="info alert" type="info"></cd-alert>
+    <cd-alert title="warning alert" type="warning"></cd-alert>
+    <cd-alert title="error alert" type="error"></cd-alert>
   </div>
   <div v-for="data in 50" :key="data">sad</div>
 
@@ -8,7 +11,6 @@
     <input type="submit" />
   </form>
 </template>
-
 <script lang="ts">
 import axios from "axios";
 import { ref, onMounted, getCurrentInstance, watch, reactive } from "vue";

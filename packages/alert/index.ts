@@ -1,9 +1,9 @@
 import { App } from 'vue'
-import Alter from './src/alter.vue'
+import Alert from './src/alert.vue'
 
 // 定义 install 方法， App 作为参数
-Alter.install = (app: App): void => {
-    app.component(Alter.name, Alter)
+Alert.install = (app: App): void => {
+    app.component(Alert.name, Alert)
 }
 
-export default Alter
+export default Alert

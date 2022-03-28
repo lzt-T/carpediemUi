@@ -27,10 +27,10 @@
 </template>
 
 <script lang="ts">
-import cdIcon from "./../../icon/src/icon.vue";
+import cdIcon from "../../icon/src/icon.vue";
 import { defineComponent, ref } from "vue";
 export default defineComponent({
-  name: "cd-alter",
+  name: "cd-alert",
   components: {
     cdIcon,
   },

@@ -27,7 +27,7 @@
 
 <script lang="ts">
 import cdIcon from "./../../icon/src/icon.vue";
-import cdAlert from "./../../alert/src/alter.vue";
+import cdAlert from "../../alert/src/alert.vue";
 import { defineComponent, inject, onMounted, ref, watch } from "vue";
 export default defineComponent({
   name: "cd-message",

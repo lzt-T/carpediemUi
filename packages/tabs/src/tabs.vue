@@ -119,6 +119,7 @@ export default defineComponent({
 }
 .cd-tabs {
   display: flex;
+  align-items: center;
   padding-left: 20px;
   padding-right: 20px;
   gap: 4px;
