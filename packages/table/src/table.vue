@@ -104,6 +104,7 @@ export default defineComponent({
 }
 .cd-table-title-fixedHeader {
   position: sticky;
+  z-index: 1;
   top: 0;
 }
 .cd-table-title-row {

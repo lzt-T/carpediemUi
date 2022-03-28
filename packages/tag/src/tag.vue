@@ -8,6 +8,7 @@
       @click.stop="onClose"
     >
       <cd-icon
+        v-if="closable"
         name="delete"
         :size="heightData / 2.3"
         :color="isHover ? 'white' : color"
@@ -21,7 +22,7 @@
 
 <script lang="ts">
 import cdIcon from "./../../icon/src/icon.vue";
-import { defineComponent, onMounted, ref, watch, watchEffect } from "vue";
+import { defineComponent, onMounted, ref, watch } from "vue";
 export default defineComponent({
   name: "cd-tag",
   components: {
@@ -43,7 +44,7 @@ export default defineComponent({
     },
     color: {
       type: String,
-      default: "white",
+      default: "black",
     },
     backgroundColor: {
       type: String,
@@ -109,7 +110,6 @@ export default defineComponent({
   border: 1px solid #ededed;
   border-radius: 5px;
   color: v-bind(color);
-  background-color: v-bind(backgroundColor);
   background-color: v-bind(backgroundColor);
 }
 .cd-tag-slot {
