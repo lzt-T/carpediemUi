@@ -17,7 +17,7 @@
       >
         <span :class="{ 'cd-collapse-title-word': true }">{{ title }}</span>
         <cd-icon
-          name="rightArrowTow"
+          name="rightArrowTwo"
           :size="heightData / 3"
           :class="{
             'cd-collapse-title-icon': true,

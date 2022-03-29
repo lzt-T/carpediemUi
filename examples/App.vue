@@ -1,9 +1,13 @@
 <template>
   <div class="su">
-    <cd-button text color="#409eFF" @click="changeIsDrawer(true)" :width="200"
-      >click to open the Dialog</cd-button
-    >
-    <cd-drawer v-model="isDrawer" title="I am the title"></cd-drawer>
+    <cd-row :gap="20" flexWrap="wrap">
+      <cd-badge value="new">
+        <cd-button :width="120">Carpediem</cd-button>
+      </cd-badge>
+      <cd-badge value="hot">
+        <cd-button :width="120">Carpediem</cd-button>
+      </cd-badge>
+    </cd-row>
   </div>
   <div v-for="data in 50" :key="data">sad</div>
 

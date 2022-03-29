@@ -26,7 +26,7 @@
           class="cd-select-everyIcon"
           :size="height / 2"
           v-if="selectData[ind].children !== undefined"
-          name="rightArrowTow"
+          name="rightArrowTwo"
         ></cd-icon>
       </div>
     </span>
@@ -53,7 +53,7 @@
         <div class="cd-select-everyText">{{ data }}</div>
         <cd-icon
           :color="secondSubscript == ind ? '#3c9cff' : '#dde0e7'"
-          name="rightArrowTow"
+          name="rightArrowTwo"
           class="cd-select-everyIcon"
           :size="height / 2"
           v-if="selectData[firstSubscript].children[ind].children !== undefined"
@@ -83,7 +83,7 @@
       >
         <div class="cd-select-everyText">{{ data }}</div>
         <cd-icon
-          name="rightArrowTow"
+          name="rightArrowTwo"
           :color="thirdlySubscript == ind ? '#3c9cff' : '#dde0e7'"
           class="cd-select-everyIcon"
           :size="height / 2"

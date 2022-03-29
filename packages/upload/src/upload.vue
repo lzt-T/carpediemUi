@@ -38,7 +38,7 @@
         ></cdprogress>
 
         <cd-icon
-          name="documentTow"
+          name="documentTwo"
           :size="16"
           :class="{ 'cd-upload-list-beforeIcon': true }"
           color="rgba(0, 0, 0, 0.4)"

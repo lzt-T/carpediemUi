@@ -9,7 +9,7 @@
     <div class="cd-pagination-page-frame">
       <cd-icon
         :size="heightData / 2"
-        name="leftArrowTow"
+        name="leftArrowTwo"
         :color="isLeftArrowHover ? '#409efe' : ''"
         :class="{ 'cd-pagination-everyflexbox': true }"
         @click="selectPage(currentPage - 1)"
@@ -84,7 +84,7 @@
       <cd-icon
         :class="{ 'cd-pagination-everyflexbox': true }"
         :size="heightData / 2"
-        name="rightArrowTow"
+        name="rightArrowTwo"
         :color="isRightArrowHover ? '#409efe' : ''"
         @click="selectPage(currentPage + 1)"
         @mouseover="onMouseover(3)"

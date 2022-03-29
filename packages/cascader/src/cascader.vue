@@ -19,7 +19,7 @@
     </div>
 
     <cd-icon
-      name="downArrowTow"
+      name="downArrowTwo"
       color="#dde0e7"
       :class="{
         'cd-cascader-icon': true,

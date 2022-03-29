@@ -28,7 +28,7 @@
         'cd-select-Arrow-down': isFocus,
         'cd-select-Arrow-up': isFocus == false,
       }"
-      :name="isClearShow ? 'delete' : 'downArrowTow'"
+      :name="isClearShow ? 'delete' : 'downArrowTwo'"
       :size="heightData / 2"
       @mousedown.prevent="clearSelectData($event)"
       @mouseover="setClear(1)"

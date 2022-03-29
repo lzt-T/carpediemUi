@@ -45,7 +45,7 @@
 
       <div class="cd-image-browse-left-frame">
         <cd-icon
-          name="leftArrowTow"
+          name="leftArrowTwo"
           color="white"
           :size="24"
           class="cd-image-browse-left"
@@ -54,7 +54,7 @@
       </div>
       <div class="cd-image-browse-right-frame">
         <cd-icon
-          name="rightArrowTow"
+          name="rightArrowTwo"
           color="white"
           :size="24"
           class="cd-image-browse-right"

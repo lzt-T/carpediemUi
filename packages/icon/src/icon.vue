@@ -96,22 +96,22 @@ export default defineComponent({
   font-size: v-bind(size + "px");
 }
 /* 第二种上下左右箭头 */
-.icon-leftArrowTow:before {
+.icon-leftArrowTwo:before {
   content: "\e640";
   color: v-bind(color);
   font-size: v-bind(size + "px");
 }
-.icon-downArrowTow:before {
+.icon-downArrowTwo:before {
   content: "\e645";
   color: v-bind(color);
   font-size: v-bind(size + "px");
 }
-.icon-rightArrowTow:before {
+.icon-rightArrowTwo:before {
   content: "\e649";
   color: v-bind(color);
   font-size: v-bind(size + "px");
 }
-.icon-upArrowTow:before {
+.icon-upArrowTwo:before {
   content: "\e636";
   color: v-bind(color);
   font-size: v-bind(size + "px");
@@ -193,7 +193,7 @@ export default defineComponent({
   font-size: v-bind(size + "px");
 }
 /* wifi */
-.icon-wifiTow:before {
+.icon-wifiTwo:before {
   content: "\e661";
   color: v-bind(color);
   font-size: v-bind(size + "px");
@@ -259,7 +259,7 @@ export default defineComponent({
   font-size: v-bind(size + "px");
 }
 /* 搜索 */
-.icon-searchTow:before {
+.icon-searchTwo:before {
   content: "\e696";
   color: v-bind(color);
   font-size: v-bind(size + "px");
@@ -295,7 +295,7 @@ export default defineComponent({
   font-size: v-bind(size + "px");
 }
 /* 消息 */
-.icon-messageTow:before {
+.icon-messageTwo:before {
   content: "\e65f";
   color: v-bind(color);
   font-size: v-bind(size + "px");
@@ -475,13 +475,13 @@ export default defineComponent({
   font-size: v-bind(size + "px");
 }
 /* 编辑 */
-.icon-editTow:before {
+.icon-editTwo:before {
   content: "\e67f";
   color: v-bind(color);
   font-size: v-bind(size + "px");
 }
 /* 设置 */
-.icon-settingTow:before {
+.icon-settingTwo:before {
   content: "\e680";
   color: v-bind(color);
   font-size: v-bind(size + "px");
@@ -523,7 +523,7 @@ export default defineComponent({
   font-size: v-bind(size + "px");
 }
 /* 耳机 */
-.icon-headsetTow:before {
+.icon-headsetTwo:before {
   content: "\e687";
   color: v-bind(color);
   font-size: v-bind(size + "px");
@@ -547,7 +547,7 @@ export default defineComponent({
   font-size: v-bind(size + "px");
 }
 /* 用户 */
-.icon-usersTow:before {
+.icon-usersTwo:before {
   content: "\e68c";
   color: v-bind(color);
   font-size: v-bind(size + "px");
@@ -589,7 +589,7 @@ export default defineComponent({
   font-size: v-bind(size + "px");
 }
 /* 购物车 */
-.icon-shoppingTow:before {
+.icon-shoppingTwo:before {
   content: "\e693";
   color: v-bind(color);
   font-size: v-bind(size + "px");
@@ -601,13 +601,13 @@ export default defineComponent({
   font-size: v-bind(size + "px");
 }
 /* 路牌 */
-.icon-guideboardTow:before {
+.icon-guideboardTwo:before {
   content: "\e695";
   color: v-bind(color);
   font-size: v-bind(size + "px");
 }
 /* 图片 */
-.icon-pictureTow:before {
+.icon-pictureTwo:before {
   content: "\e697";
   color: v-bind(color);
   font-size: v-bind(size + "px");
@@ -637,13 +637,13 @@ export default defineComponent({
   font-size: v-bind(size + "px");
 }
 /* 块形图表 */
-.icon-blockDiagramTow:before {
+.icon-blockDiagramTwo:before {
   content: "\e69e";
   color: v-bind(color);
   font-size: v-bind(size + "px");
 }
 /* 发送 */
-.icon-sendTow:before {
+.icon-sendTwo:before {
   content: "\e60c";
   color: v-bind(color);
   font-size: v-bind(size + "px");
@@ -679,19 +679,19 @@ export default defineComponent({
   font-size: v-bind(size + "px");
 }
 /* 垃圾桶 */
-.icon-trashTow:before {
+.icon-trashTwo:before {
   content: "\e619";
   color: v-bind(color);
   font-size: v-bind(size + "px");
 }
 /* 音量 */
-.icon-volumeTow:before {
+.icon-volumeTwo:before {
   content: "\e61c";
   color: v-bind(color);
   font-size: v-bind(size + "px");
 }
 /* 放映机 */
-.icon-projectorTow:before {
+.icon-projectorTwo:before {
   content: "\e63e";
   color: v-bind(color);
   font-size: v-bind(size + "px");
@@ -727,7 +727,7 @@ export default defineComponent({
   font-size: v-bind(size + "px");
 }
 /* 保存 */
-.icon-saveTow:before {
+.icon-saveTwo:before {
   content: "\e62b";
   color: v-bind(color);
   font-size: v-bind(size + "px");
@@ -739,7 +739,7 @@ export default defineComponent({
   font-size: v-bind(size + "px");
 }
 /* 文档 */
-.icon-documentTow:before {
+.icon-documentTwo:before {
   content: "\e62d";
   color: v-bind(color);
   font-size: v-bind(size + "px");
@@ -757,7 +757,7 @@ export default defineComponent({
   font-size: v-bind(size + "px");
 }
 /* 配置 */
-.icon-configurationTow:before {
+.icon-configurationTwo:before {
   content: "\e630";
   color: v-bind(color);
   font-size: v-bind(size + "px");
@@ -805,7 +805,7 @@ export default defineComponent({
   font-size: v-bind(size + "px");
 }
 /* 定位 */
-.icon-locationTow:before {
+.icon-locationTwo:before {
   content: "\e6411";
   color: v-bind(color);
   font-size: v-bind(size + "px");
