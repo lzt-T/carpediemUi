@@ -64,6 +64,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    zIndex: {
+      type: Number,
+      default: 1,
+    },
   },
   setup(props, context) {
     let isShow = ref<boolean>();
@@ -84,7 +88,6 @@ export default defineComponent({
           timekeeping = setTimeout(() => {
             context.emit("update:modelValue", false);
           }, time.value);
-          console.log(typeof timekeeping);
         } else {
           window.clearTimeout(timekeeping);
           timekeeping = null;
@@ -111,6 +114,7 @@ export default defineComponent({
 <style scoped>
 .cd-message-frame {
   position: fixed;
+  z-index: v-bind(zIndex);
   top: v-bind(offset + "px");
   left: 50%;
   transform: translateX(-50%);
