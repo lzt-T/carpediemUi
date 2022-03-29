@@ -1,9 +1,9 @@
 <template>
   <div class="su">
-    <cd-alert title="success alert" type="success"></cd-alert>
-    <cd-alert title="info alert" type="info"></cd-alert>
-    <cd-alert title="warning alert" type="warning"></cd-alert>
-    <cd-alert title="error alert" type="error"></cd-alert>
+    <cd-button text color="#409eFF" @click="changeIsDrawer(true)" :width="200"
+      >click to open the Dialog</cd-button
+    >
+    <cd-drawer v-model="isDrawer" title="I am the title"></cd-drawer>
   </div>
   <div v-for="data in 50" :key="data">sad</div>
 
@@ -18,24 +18,16 @@ export default {
   name: "App",
   setup() {
     //   测试的数据
-    let options = ref([
-      {
-        value: "homepage",
-        to: "/",
-      },
-      {
-        value: "button",
-        to: "/button",
-      },
-      {
-        value: "asd",
-      },
-    ]);
+    let isDrawer = ref<boolean>(false);
+    const changeIsDrawer = (data: boolean) => {
+      isDrawer.value = data;
+    };
     const format = (percentage: number) =>
       percentage === 100 ? "Full" : `${percentage}%`;
     return {
-      options,
+      changeIsDrawer,
       format,
+      isDrawer,
     };
   },
 };

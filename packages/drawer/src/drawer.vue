@@ -71,6 +71,10 @@ export default defineComponent({
     title: {
       type: String,
     },
+    zIndex: {
+      type: Number,
+      default: 1,
+    },
   },
   setup(props, context) {
     let heightData = ref<number>();
@@ -159,6 +163,7 @@ export default defineComponent({
 <style scoped>
 .cd-drawer-frame {
   position: fixed;
+  z-index: v-bind(zIndex);
   top: 0;
   left: 0;
   height: 100vh;

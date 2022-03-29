@@ -109,6 +109,7 @@ export default defineComponent({
 <style scoped>
 .cd-dialog-frame {
   position: fixed;
+  z-index: 1;
   width: 100vw;
   height: 100vh;
   top: 0;
