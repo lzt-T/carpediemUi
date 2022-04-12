@@ -281,7 +281,7 @@ export default defineComponent({
   transform: translateX(-100%);
   width: 100%;
   height: v-bind(height + "px");
-  background-color: aqua;
+  color: white;
 }
 .cd-carousel-div-left {
   animation: left 0.7s linear;

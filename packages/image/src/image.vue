@@ -157,9 +157,8 @@ export default defineComponent({
     if (props.lazy == false) {
       srcData.value = props.src;
     }
-    let isParent = ref<boolean>(false);
-    let parent = ref<object>();
-    let image = ref<object>();
+    let parent = ref();
+    let image = ref();
     let isError = ref<boolean>(false);
     function onError() {
       isError.value = true;
@@ -172,67 +171,63 @@ export default defineComponent({
       });
     }
     // 获取最近一个可以滚动的DOM，都没有最终为body
-    function getParent(e: HTMLElement): HTMLElement {
-      let T = e.parentNode;
+    function getParent<T extends HTMLElement>(e: T): T {
+      let parentDom = e.parentNode;
       while (true) {
-        if (T == document.body) {
+        if (parentDom == document.body) {
           break;
         }
-        if (
-          (T as HTMLElement).offsetHeight == (T as HTMLElement).scrollHeight
-        ) {
-          T = getParent(T as HTMLElement);
+        if ((parentDom as T).clientHeight == (parentDom as T).scrollHeight) {
+          parentDom = getParent(parentDom as T);
         } else {
           break;
         }
       }
-      return T as HTMLElement;
+      return parentDom as T;
     }
-    // 得到距离页面最上方的距离
-    function getoffsetTop(e: HTMLElement): number {
+    function getoffsetTop<T extends HTMLElement>(e: T): number {
       let offset = e.offsetTop;
+      // 一直递归到最外层
       if (e.offsetParent != null) {
-        offset += getoffsetTop(e.offsetParent as HTMLElement);
+        offset += getoffsetTop(e.offsetParent as T);
       }
       return offset;
     }
-    watch(isParent, (newval, oldval): void => {
-      if (newval) {
-        onScroll();
-        if (document.body == parent.value) {
-          window.addEventListener("scroll", onScroll);
-        } else {
-          (parent.value as HTMLElement).addEventListener("scroll", onScroll);
-        }
+
+    // 节流
+    let time: any;
+    onScroll();
+    function onScroll() {
+      if (time == null) {
+        time = setTimeout(() => {
+          onShow();
+          time = null;
+        }, 500);
       }
-    });
+    }
     // 当滚动时
-    function onScroll(): void {
-      let distance: number = 0;
-      let scrollDistance: number = 0;
+    function onShow(): void {
+      let cHeight: number = 0;
+      let sTop: number = 0;
       if (document.body == parent.value) {
-        distance = document.documentElement.clientHeight;
+        cHeight = document.documentElement.clientHeight;
+        sTop = document.documentElement.scrollTop;
+        window.addEventListener("scroll", onScroll);
       } else {
-        distance = (parent.value as HTMLElement).clientHeight;
-      }
-      if (document.body == parent.value) {
-        scrollDistance = document.documentElement.scrollTop;
-      } else {
-        scrollDistance = (parent.value as HTMLElement).scrollTop;
+        cHeight = parent.value.clientHeight;
+        sTop = parent.value.scrollTop;
+        parent.value.addEventListener("scroll", onScroll);
       }
       if (
-        getoffsetTop(image.value as HTMLDivElement) -
-          getoffsetTop(parent.value as HTMLElement) -
-          scrollDistance <=
-        distance
+        getoffsetTop(image.value) - getoffsetTop(parent.value) - sTop <=
+        cHeight
       ) {
         srcData.value = props.src;
       }
     }
     onMounted(() => {
       if (props.lazy) {
-        parent.value = getParent(image.value as HTMLElement);
-        isParent.value = true;
+        parent.value = getParent(image.value);
       }
     });
     // 切换
@@ -471,6 +466,7 @@ img {
   height: 100%;
   width: 100%;
   object-fit: v-bind(fit);
+  display: block;
 }
 .cd-image-error-frame {
   height: 100%;
