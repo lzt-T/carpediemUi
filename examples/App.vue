@@ -1,27 +1,13 @@
 <template>
   <div class="su">
     <cd-image
-      src="https://cdn.jsdelivr.net/gh/lztnb/img@master/5.jpg"
-      lazy
+      src="https://cdn.jsdelivr.net/gh/lzt-T/img@master/Cee/carpediem.png"
+      :previewSrcList="[
+        'https://cdn.jsdelivr.net/gh/lzt-T/img@master/Cee/carpediem.png',
+      ]"
       fit="cover"
-    >
-    </cd-image>
-    <br />
-    <cd-image
-      src="https://cdn.jsdelivr.net/gh/lztnb/img@master/6.jpg"
-      lazy
-      fit="cover"
-    >
-    </cd-image>
-    <br />
-    <cd-image
-      src="https://cdn.jsdelivr.net/gh/lztnb/img@master/7.jpg"
-      lazy
-      fit="cover"
-    >
-    </cd-image>
+    ></cd-image>
   </div>
-  <div v-for="data in 50" :key="data">sad</div>
 
   <form method="post" action="http://127.0.0.1:3000/su">
     <input type="submit" />
@@ -51,12 +37,11 @@ export default {
 
 <style >
 .su {
-  padding: 40px;
   height: 200px;
-  overflow: auto;
+  width: 200px;
 }
-.cd-website-image-lazy {
-  height: 200px;
-  overflow: auto;
+image {
+  height: 100%;
+  width: 100%;
 }
 </style>

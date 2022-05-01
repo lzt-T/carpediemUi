@@ -196,7 +196,6 @@ export default defineComponent({
 
     // 节流
     let time: any;
-    onScroll();
     function onScroll() {
       if (time == null) {
         time = setTimeout(() => {
@@ -242,6 +241,7 @@ export default defineComponent({
     let magnifyAnimation = ref<Boolean>(false);
     // 设置图片信息
     function setBrowseImg(): void {
+      let PictureColumn: number = 1;
       if (
         props.previewSrcList === undefined ||
         props.previewSrcList.length == 0
@@ -250,8 +250,9 @@ export default defineComponent({
       }
       browseImgUrl = props.previewSrcList[initialIndexData.value] as string;
       browseImg.src = browseImgUrl;
-      browseImgHeight.value = browseImg.height;
-      browseImgWidth.value = browseImg.width;
+      PictureColumn = browseImg.height / browseImg.width;
+      browseImgWidth.value = document.documentElement.scrollWidth * 0.7;
+      browseImgHeight.value = browseImgWidth.value * PictureColumn;
     }
     // 打开图片弹窗
     function onClick(): void {
