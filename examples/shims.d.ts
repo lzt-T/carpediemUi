@@ -6,3 +6,5 @@
 // }
 
 declare module 'carpediem-ui'
+
+declare module '*.js'

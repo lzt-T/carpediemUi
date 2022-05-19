@@ -24,9 +24,7 @@
     </div>
     <div :class="{ 'cd-slider-right': true }"></div>
     <div
-      v-show="
-        (showStops && marks === undefined) || (marks && Object(marks)[ind])
-      "
+      v-show="(showStops && marks === undefined) || (marks && Object(marks)[ind])"
       v-for="(data, ind) in maxData / stepData - 1"
       :key="ind"
       class="node"
@@ -89,7 +87,7 @@ export default defineComponent({
   setup(props, context) {
     let sliderBox = ref<object>();
     let sliderBlock = ref<object>();
-    let stepData = ref<number>();
+    let stepData = ref<number>(1);
     let stepWidth = ref<number>(1);
     let maxData = ref<number>(0);
     let nodes = ref<object[]>([]);
@@ -167,14 +165,9 @@ export default defineComponent({
     // 设置标记的位置
     function setMarkLocation(): void {
       sign.value.forEach((val: object, ind: number) => {
-        if (
-          Object(props.marks)[Object.keys(props.marks as object)[ind]] !==
-          undefined
-        ) {
+        if (Object(props.marks)[Object.keys(props.marks as object)[ind]] !== undefined) {
           (val as HTMLElement).style.left =
-            Number(Object.keys(props.marks as object)[ind]) * stepWidth.value +
-            3 +
-            "px";
+            Number(Object.keys(props.marks as object)[ind]) * stepWidth.value + 3 + "px";
         }
       });
     }
@@ -183,7 +176,9 @@ export default defineComponent({
       setMarkLocation();
       pageLeftDistance.value = getLeft(sliderBox.value as HTMLElement);
     });
-
+    window.addEventListener("resize", function () {
+      pageLeftDistance.value = getLeft(sliderBox.value as HTMLElement);
+    });
     // 是否触摸
     let isHover = ref<boolean>(false);
     let isExceed = ref<boolean>(false);
@@ -206,8 +201,7 @@ export default defineComponent({
     // 求到页面最左边的距离
     function getLeft(e: HTMLElement): number {
       let offset: number = e.offsetLeft;
-      if (e.offsetParent != null)
-        offset += getLeft(e.offsetParent as HTMLElement);
+      if (e.offsetParent != null) offset += getLeft(e.offsetParent as HTMLElement);
       return offset;
     }
     // 鼠标在滑块上按下
@@ -280,8 +274,7 @@ export default defineComponent({
     watchEffect((): void => {
       score.value =
         Math.round(
-          (((initialPointDistance.value + movingDistance.value) /
-            widthData.value) *
+          (((initialPointDistance.value + movingDistance.value) / widthData.value) *
             maxData.value) /
             (stepData.value as number)
         ) * (stepData.value as number);
@@ -301,8 +294,7 @@ export default defineComponent({
             score.value = maxData.value;
           }
         }
-        initialPointDistance.value =
-          (score.value / maxData.value) * widthData.value;
+        initialPointDistance.value = (score.value / maxData.value) * widthData.value;
         movingDistance.value = 0;
       },
       { immediate: true }

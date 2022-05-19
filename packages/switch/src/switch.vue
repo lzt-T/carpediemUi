@@ -92,8 +92,8 @@ export default defineComponent({
   },
   setup(props, context) {
     //   设置大小
-    let heightData = ref<number>();
-    let widthData = ref<number>();
+    let heightData = ref<number>(0);
+    let widthData = ref<number>(0);
     setSize();
     function setSize(): void {
       if (props.height >= 20) {

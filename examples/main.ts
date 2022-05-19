@@ -1,6 +1,8 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 //测试
+// import NanditVue from './../lib/index.umd.min.js'
+// import './../lib/index.css'
 import NanditVue from '~/index'
 //全局使用
 // import NanditVue from 'carpediem-ui'
