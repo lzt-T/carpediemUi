@@ -13,5 +13,8 @@ export default {
 </script>
 
 <style>
-
+.cd-website-image-lazy {
+  height: 380px;
+  overflow: auto;
+}
 </style>

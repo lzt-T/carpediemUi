@@ -196,9 +196,10 @@ export default defineComponent({
 
     // 节流
     let time: any;
+    onScroll()
     function onScroll() {
       if (time == null) {
-        time = setTimeout(() => {
+        time = setTimeout(() => {          
           onShow();
           time = null;
         }, 500);
@@ -212,7 +213,7 @@ export default defineComponent({
         cHeight = document.documentElement.clientHeight;
         sTop = document.documentElement.scrollTop;
         window.addEventListener("scroll", onScroll);
-      } else {
+      } else {        
         cHeight = parent.value.clientHeight;
         sTop = parent.value.scrollTop;
         parent.value.addEventListener("scroll", onScroll);
@@ -226,14 +227,14 @@ export default defineComponent({
     }
     onMounted(() => {
       if (props.lazy) {
-        parent.value = getParent(image.value);
+        parent.value = getParent(image.value);        
       }
     });
     // 切换
     let browseImg = new Image();
     let browseImgUrl: string;
-    let browseImgHeight = ref<number>();
-    let browseImgWidth = ref<number>();
+    let browseImgHeight = ref<number>(0);
+    let browseImgWidth = ref<number>(0);
     let isBrowse = ref<boolean>(false);
     let initialIndexData = ref<number>(0);
     let multiple = ref<number>(1);
